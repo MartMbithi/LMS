@@ -11,6 +11,7 @@
       $i_number = $_POST['i_number'];
       $i_name = $_POST['i_name'];
       $i_email = $_POST['i_email'];
+      $i_phone = $_POST['i_phone'];
       $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
       
       //Upload students profile picture
@@ -18,9 +19,9 @@
           move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
       
       //sql to insert captured values
-      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
+      $query="INSERT INTO lms_instructor (i_number, i_name, i_phone, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
+      $rc=$stmt->bind_param('ssssss', $i_number, $i_name, $i_phone, $i_email, $i_pwd, $i_dpic);
       $stmt->execute();
 
       if($stmt)
@@ -163,14 +164,19 @@
                                                 ?>
                                             <input type="text" name="i_number" value="<?php echo $inumber;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-4">
                                             <label for="exampleInputEmail1">Instructor Full Name</label>
                                             <input type="text" name="i_name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
                                           
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-4">
                                             <label for="exampleInputEmail1">Email Address</label>
                                             <input type="email" name="i_email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputEmail1">Phone Number</label>
+                                            <input type="text" name="i_phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
 
                                     </div>

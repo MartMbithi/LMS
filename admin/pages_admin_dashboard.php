@@ -410,7 +410,7 @@
                                                 <td><?php echo $row->en_s_name;?></td>
                                                 <td><?php echo date("d-m-Y - h:m:s", strtotime($mysqlDateTime));?></td>
                                                 <td>
-                                                    <a class="badge bg-success" 
+                                                    <a class="badge badge-success" 
                                                          href="pages_admin_view_single_enrollment.php?en_id=<?php echo $row->en_id;?>&c_id=<?php echo $row->c_id;?>&cc_id=<?php echo $row->cc_id;?>&i_id=<?php echo $row->i_id;?>&s_id=<?php echo $row->s_id;?>">
                                                          <i class="fas fa-eye"></i> <i class=" fas fa-pallet"></i>
                                                          View Details
@@ -465,7 +465,7 @@
                                                 <td><?php echo $row->s_dob;?></td>
                                                 <td><?php echo $row->s_gender;?></td>
                                                 <td>
-                                                    <a class="badge bg-success" href="pages_admin_view_single_student.php?s_id=<?php echo $row->s_id;?>&s_regno=<?php echo $row->s_regno;?>">
+                                                    <a class="badge badge-success" href="pages_admin_view_single_student.php?s_id=<?php echo $row->s_id;?>&s_regno=<?php echo $row->s_regno;?>">
                                                     <i class="fas fa-eye"></i><i class="fas fa-user"></i> View Record
                                                     </a>
                                                 </td>
