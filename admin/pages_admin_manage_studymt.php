@@ -5,11 +5,13 @@
   check_login();
   $a_id=$_SESSION['a_id'];
 
-  /*delete Questions
+  /*delete Study material
+  */
+
   if(isset($_GET['delete']))
   {
         $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_questions WHERE q_id = ?";
+        $adn="DELETE FROM lms_study_material WHERE ls_id = ?";
         $stmt= $mysqli->prepare($adn);
         $stmt->bind_param('i',$id);
         $stmt->execute();
@@ -17,14 +19,14 @@
   
           if($stmt)
           {
-            $success = "Questions Deleted";
+            $success = "Study Material Deleted";
           }
             else
             {
                 $err = "Try Again Later";
             }
     }
-  */
+  
   
 ?>
 <!DOCTYPE html>
@@ -113,9 +115,9 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Answers</a>
+                                    <li class="breadcrumb-item"><a href="">Study Materials</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_ans.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_studymt.php">View</a>
                                     </li>
                                     
                                 </ol>
@@ -145,24 +147,23 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Units With Answered Questions. </h4>
+                                <h4 class="card-title">Select A Unit To Manage Its Study Materials And Course Work. </h4>
                                 <div class="table-responsive">
                                     <table id="multi_col_order" class="table table-striped table-bordered display "
                                         style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Qns Code</th>
-                                                <th>Ans Code</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
-                                                <th>Action</th>
+                                                <th>Study Material Code</th>
+                                                <th>Manage</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                         <?php
-                                            $ret="SELECT  * FROM  lms_answers  ";
+                                            $ret="SELECT  * FROM  lms_study_material ";
                                             $stmt= $mysqli->prepare($ret) ;
                                             //$stmt->bind_param('i',$c_id);
                                             $stmt->execute() ;//ok
@@ -174,20 +175,19 @@
 
                                             <tr>
                                                 <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->q_code;?></td>
-                                                <td><?php echo $row->an_code;?></td>
                                                 <td><?php echo $row->c_code;?></td>
                                                 <td><?php echo $row->c_name;?></td>
+                                                <td><?php echo $row->sm_number;?></td>
                                                 <td>
+
+                                                    <a class="badge badge-success" href="pages_admin_update_studymaterials.php?ls_id=<?php echo $row->ls_id;?>">
+                                                     <i class="fas fa-upload"></i> <i class="icon  icon-doc "></i> Update
+                                                    </a>
                                                     
-                                                    <a class="badge badge-success" href="pages_admin_view_specific_ans.php?an_id=<?php echo $row->an_id;?>">
-                                                     <i class="fas fa-eye"></i> <i class="icon  icon-doc "></i> View Answers
+                                                    <a class="badge badge-danger" href="pages_admin_manage_studymt.php?delete=<?php echo $row->ls_id;?>">
+                                                     <i class="fas fa-trash"></i> <i class="icon  icon-doc "></i> Delete 
                                                     </a>
-                                                    <!--
-                                                    <a class="badge badge-danger" href="pages_admin_manage_single_quizzes.php?delete=<?php echo $row->q_id;?>&c_id=<?php echo $row->c_id;?>">
-                                                     <i class="fas fa-trash"></i> <i class="icon  icon-doc "></i> Delete Quizzes
-                                                    </a>
-                                                   -->
+                                                   
                                                 </td>
                                             </tr>
 

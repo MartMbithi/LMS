@@ -113,9 +113,9 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Answers</a>
+                                    <li class="breadcrumb-item"><a href="">Study Materials</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_ans.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_add_studymt.php">Add</a>
                                     </li>
                                     
                                 </ol>
@@ -145,24 +145,23 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Units With Answered Questions. </h4>
+                                <h4 class="card-title">Select A Unit To Upload Its Exam </h4>
                                 <div class="table-responsive">
                                     <table id="multi_col_order" class="table table-striped table-bordered display "
                                         style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Qns Code</th>
-                                                <th>Ans Code</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
+                                                <th>Instructor Assaigned</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                         <?php
-                                            $ret="SELECT  * FROM  lms_answers  ";
+                                            $ret="SELECT  * FROM  lms_units_assaigns  ";
                                             $stmt= $mysqli->prepare($ret) ;
                                             //$stmt->bind_param('i',$c_id);
                                             $stmt->execute() ;//ok
@@ -174,14 +173,13 @@
 
                                             <tr>
                                                 <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->q_code;?></td>
-                                                <td><?php echo $row->an_code;?></td>
                                                 <td><?php echo $row->c_code;?></td>
                                                 <td><?php echo $row->c_name;?></td>
+                                                <td><?php echo $row->i_name;?></td>
                                                 <td>
                                                     
-                                                    <a class="badge badge-success" href="pages_admin_view_specific_ans.php?an_id=<?php echo $row->an_id;?>">
-                                                     <i class="fas fa-eye"></i> <i class="icon  icon-doc "></i> View Answers
+                                                    <a class="badge badge-success" href="pages_admin_upload_studymt.php?ua_id=<?php echo $row->ua_id;?>&c_code=<?php echo $row->c_code;?>&c_id=<?php echo $row->c_id;?>&cc_id=<?php echo $row->cc_id;?>&i_id=<?php echo $row->i_id;?>">
+                                                     <i class="fas fa-upload"></i> <i class="icon  icon-doc "></i> Upload 
                                                     </a>
                                                     <!--
                                                     <a class="badge badge-danger" href="pages_admin_manage_single_quizzes.php?delete=<?php echo $row->q_id;?>&c_id=<?php echo $row->c_id;?>">

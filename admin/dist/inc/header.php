@@ -21,7 +21,7 @@
                     <!-- ============================================================== -->
                     <div class="navbar-brand">
                         <!-- Logo icon -->
-                        <a href="pages_admin_index.php">
+                        <a href="pages_admin_dashboard.php">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
                                 <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" />

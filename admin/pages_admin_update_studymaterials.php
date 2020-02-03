@@ -4,28 +4,39 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
+  //upload a study material or noteds
 
-  /*delete Questions
-  if(isset($_GET['delete']))
+  if(isset($_POST['update_studymaterial']))
   {
-        $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_questions WHERE q_id = ?";
-        $stmt= $mysqli->prepare($adn);
-        $stmt->bind_param('i',$id);
-        $stmt->execute();
-        $stmt->close();	 
-  
-          if($stmt)
-          {
-            $success = "Questions Deleted";
-          }
-            else
-            {
-                $err = "Try Again Later";
-            }
-    }
-  */
-  
+      
+      $c_name = $_POST['c_name'];
+      $c_category = $_POST['c_category'];
+      $i_name = $_POST['i_name'];
+      $sm_number = $_POST['sm_number'];
+      $ls_id = $_GET['ls_id'];
+      
+      //Upload study materials.
+      $sm_materials = $_FILES["sm_materials"]["name"];
+          move_uploaded_file($_FILES["sm_materials"]["tmp_name"],"assets/Study_Materials/".$_FILES["sm_materials"]["name"]);//move uploaded image
+      
+      //sql to insert captured values
+      $query="UPDATE  lms_study_material SET  sm_number =?,   c_name = ?, c_category = ?, i_name = ?, sm_materials =? WHERE ls_id =?";
+      $stmt = $mysqli->prepare($query);
+      $rc=$stmt->bind_param('sssssi',  $sm_number, $c_name, $c_category,  $i_name, $sm_materials, $ls_id );
+      $stmt->execute();
+
+      if($stmt)
+      {
+                $success = "Study Materials Uploaded";
+                
+                //echo "<script>toastr.success('Have Fun')</script>";
+      }
+      else {
+        $err = "Please Try Again Or Try Later";
+      }
+      
+      
+  }
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -107,17 +118,15 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
-                        
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Answers</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_add_studymt.php">Study Materials</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_ans.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_add_studymt.php">Upload</a>
                                     </li>
-                                    
                                 </ol>
                             </nav>
                         </div>
@@ -138,65 +147,66 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            
+            <?php
+                $ls_id = $_GET['ls_id'];
+                $ret="SELECT  * FROM  lms_study_material  WHERE ls_id =? ";
+                $stmt= $mysqli->prepare($ret) ;
+                $stmt->bind_param('i',$ls_id);
+                $stmt->execute() ;//ok
+                $res=$stmt->get_result();
+                $cnt=1;
+                while($row=$res->fetch_object())
+                {
+            ?>
             <div class="container-fluid">
                 <div class="row">
 
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Units With Answered Questions. </h4>
-                                <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display "
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Qns Code</th>
-                                                <th>Ans Code</th>
-                                                <th>Unit Code</th>
-                                                <th>Unit Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                <h4 class="card-title">Update <?php echo $row->c_name;?> Study Materials</h4>
+                                <!--Add Student-->
+                                <form method ="post" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="form-group col-md-6" style="display:none">
+                                            <label for="exampleInputEmail1">Study Material Number</label>
+                                            <input type="text" name="sm_number" value="<?php echo $row->sm_number;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Instructor  Name</label>
+                                            <input type="text" name="i_name" readonly value="<?php echo $row->i_name;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                          
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Course</label>
+                                            <input type="email" name="c_category" readonly value="<?php echo $row->c_category;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
 
-                                        <?php
-                                            $ret="SELECT  * FROM  lms_answers  ";
-                                            $stmt= $mysqli->prepare($ret) ;
-                                            //$stmt->bind_param('i',$c_id);
-                                            $stmt->execute() ;//ok
-                                            $res=$stmt->get_result();
-                                            $cnt=1;
-                                            while($row=$res->fetch_object())
-                                            {
-                                        ?>
+                                    </div>
+                                    
+                                    <div class="row"> 
+                                        
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Unit Code</label>
+                                            <input type="email" name="c_code" readonly value="<?php echo $row->c_code;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
 
-                                            <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->q_code;?></td>
-                                                <td><?php echo $row->an_code;?></td>
-                                                <td><?php echo $row->c_code;?></td>
-                                                <td><?php echo $row->c_name;?></td>
-                                                <td>
-                                                    
-                                                    <a class="badge badge-success" href="pages_admin_view_specific_ans.php?an_id=<?php echo $row->an_id;?>">
-                                                     <i class="fas fa-eye"></i> <i class="icon  icon-doc "></i> View Answers
-                                                    </a>
-                                                    <!--
-                                                    <a class="badge badge-danger" href="pages_admin_manage_single_quizzes.php?delete=<?php echo $row->q_id;?>&c_id=<?php echo $row->c_id;?>">
-                                                     <i class="fas fa-trash"></i> <i class="icon  icon-doc "></i> Delete Quizzes
-                                                    </a>
-                                                   -->
-                                                </td>
-                                            </tr>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Unit Name</label>
+                                            <input type="email" name="c_name" readonly value="<?php echo $row->c_name;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
 
-                                            <?php $cnt = $cnt +1; }?>
+                                        <div class="form-group col-md-12">
+                                            <label for="exampleInputEmail1">Upload Study Materials Either in A (.pdf, .docx, .pptx) Formart</label>
+                                            <input type="file" name="sm_materials" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
+                                    </div>
+
+                                   <hr>
+
+                                    <button type="submit" name="update_studymaterial" class="btn btn-outline-primary">Update Course Study Materials</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -205,6 +215,7 @@
             
                 <!-- *************************************************************** -->
             </div>
+            <?php }?>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
@@ -246,7 +257,7 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    
+  
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>
