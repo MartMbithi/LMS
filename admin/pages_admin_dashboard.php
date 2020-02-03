@@ -272,16 +272,16 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                         <?php
-                                            //code for summing up number of exams added
-                                            $result ="SELECT count(*) FROM lms_exams";
+                                            //code for summing up number of study materials added
+                                            $result ="SELECT count(*) FROM lms_study_material";
                                             $stmt = $mysqli->prepare($result);
                                             $stmt->execute();
-                                            $stmt->bind_result($exams);
+                                            $stmt->bind_result($study_materials);
                                             $stmt->fetch();
                                             $stmt->close();
                                         ?>
-                                    <h2 class="text-dark mb-1 font-weight-medium"><?php echo $exams;?></h2>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Exams</h6>
+                                    <h2 class="text-dark mb-1 font-weight-medium"><?php echo $study_materials;?></h2>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Study Materials</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i class="icon  icon-docs "></i></span>

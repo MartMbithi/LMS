@@ -4,28 +4,42 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-
-  /*delete Questions
-  if(isset($_GET['delete']))
+  /*
+  //register a new student
+  if(isset($_POST['add_student']))
   {
-        $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_questions WHERE q_id = ?";
-        $stmt= $mysqli->prepare($adn);
-        $stmt->bind_param('i',$id);
-        $stmt->execute();
-        $stmt->close();	 
-  
-          if($stmt)
-          {
-            $success = "Questions Deleted";
-          }
-            else
-            {
-                $err = "Try Again Later";
-            }
-    }
+      $s_regno = $_POST['s_regno'];
+      $s_name = $_POST['s_name'];
+      $s_email = $_POST['s_email'];
+      $s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
+      $s_phoneno = $_POST['s_phoneno'];
+      $s_dob = $_POST['s_dob'];
+      $s_gender = $_POST['s_gender'];
+      $s_acc_stats = $_POST['s_acc_stats'];
+      
+      //Upload students profile picture
+      $s_dpic = $_FILES["s_dpic"]["name"];
+          move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
+      
+      //sql to insert captured values
+      $query="INSERT INTO lms_student (s_regno, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?)";
+      $stmt = $mysqli->prepare($query);
+      $rc=$stmt->bind_param('sssssssss', $s_regno, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
+      $stmt->execute();
+
+      if($stmt)
+      {
+                $success = "Student Account Added";
+                
+                //echo "<script>toastr.success('Have Fun')</script>";
+      }
+      else {
+        $err = "Please Try Again Or Try Later";
+      }
+      
+      
+  }
   */
-  
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -107,20 +121,35 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
-                        
+
+                        <?php
+                            $ls_id = $_GET['ls_id'];
+                            $ret="SELECT  * FROM lms_study_material  WHERE ls_id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$ls_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                              
+                        ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Answers</a>
+                                    <li class="breadcrumb-item"><a href="">Study Materials</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_ans.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_studymt.php">View</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href=""><?php echo $row->c_name;?></a>
                                     </li>
                                     
                                 </ol>
                             </nav>
                         </div>
+                        <?php }?>
                     </div>
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
@@ -130,6 +159,7 @@
                             </select>
                         </div>
                     </div>
+                    
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -138,71 +168,32 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            
             <div class="container-fluid">
                 <div class="row">
+                    <?php
+                        $ls_id = $_GET['ls_id'];
+                        $c_id = $_GET['c_id'];
+                        $ret="SELECT  * FROM lms_study_material  WHERE ls_id=? AND c_id =?";
+                        $stmt= $mysqli->prepare($ret) ;
+                        $stmt->bind_param('ii',$ls_id, $c_id);
+                        $stmt->execute() ;//ok
+                        $res=$stmt->get_result();
+                        //$cnt=1;
+                        while($row=$res->fetch_object())
+                        {
+                            
+                    ?>
+                    <div class="col-lg-12 col-md-12">
+                        
+                                                
+                            <iframe src="assets/Study_Materials/<?php echo $row->sm_materials;?>" class="col-md-12" style="height:500px;" frameborder="0"></iframe>       
 
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Units With Answered Questions. </h4>
-                                <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display "
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Qns Code</th>
-                                                <th>Ans Code</th>
-                                                <th>Unit Code</th>
-                                                <th>Unit Name</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        <?php
-                                            $ret="SELECT  * FROM  lms_answers  ";
-                                            $stmt= $mysqli->prepare($ret) ;
-                                            //$stmt->bind_param('i',$c_id);
-                                            $stmt->execute() ;//ok
-                                            $res=$stmt->get_result();
-                                            $cnt=1;
-                                            while($row=$res->fetch_object())
-                                            {
-                                        ?>
-
-                                            <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->q_code;?></td>
-                                                <td><?php echo $row->an_code;?></td>
-                                                <td><?php echo $row->c_code;?></td>
-                                                <td><?php echo $row->c_name;?></td>
-                                                <td>
-                                                    
-                                                    <a class="badge badge-success" href="pages_admin_view_specific_ans.php?an_id=<?php echo $row->an_id;?>">
-                                                     <i class="fas fa-eye"></i> <i class="icon  icon-doc "></i> View Answers
-                                                    </a>
-                                                    <!--
-                                                    <a class="badge badge-danger" href="pages_admin_manage_single_quizzes.php?delete=<?php echo $row->q_id;?>&c_id=<?php echo $row->c_id;?>">
-                                                     <i class="fas fa-trash"></i> <i class="icon  icon-doc "></i> Delete Quizzes
-                                                    </a>
-                                                   -->
-                                                </td>
-                                            </tr>
-
-                                            <?php $cnt = $cnt +1; }?>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                            </div>
-                        </div>
+                            
+                            <!-- Card -->
                     </div>
-
+                   
+                    <?php }?>
                 </div>
-            
                 <!-- *************************************************************** -->
             </div>
             <!-- ============================================================== -->
