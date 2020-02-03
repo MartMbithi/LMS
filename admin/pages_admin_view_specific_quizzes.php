@@ -121,12 +121,12 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
-                        <!--Get Details of single course category-->
+                        <!--Get Details of single student-->
                         <?php
-                            $cc_id = $_GET['cc_id'];
-                            $ret="SELECT  * FROM lms_course_categories  WHERE cc_id=?";
+                            $q_id = $_GET['q_id'];
+                            $ret="SELECT  * FROM lms_questions  WHERE q_id=?";
                             $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$cc_id);
+                            $stmt->bind_param('i',$q_id);
                             $stmt->execute() ;//ok
                             $res=$stmt->get_result();
                             //$cnt=1;
@@ -136,14 +136,18 @@
                         ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
-                                 <ol class="breadcrumb m-0 p-0">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">Course</a>
+                                    <li class="breadcrumb-item"><a href="">Questions</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php"><?php echo $row->cc_name;?></a>
+                                    <li class="breadcrumb-item"><a href="">View</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_testquizzes.php"><?php echo $row->c_name;?> Questions.</a>
                                     </li>
                                 </ol>
+                            </nav>
                             </nav>
                         </div>
                     </div>
@@ -151,7 +155,6 @@
                         <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
                                 <option selected id="ct"></option>
-                                
                             </select>
                         </div>
                     </div>
@@ -166,36 +169,44 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                            <!-- Card -->
-                            <div class="card">
-                                <img class="card-img-top img-fluid" src="assets/images/course_cat/<?php echo $row->cc_dpic;?>"
-                                    alt="Card image cap">
-                            </div>
-                            <!-- Card -->
-                    </div>
-
-                    <div class="col-lg-6 col-md-6">
-                        <div class="card-header">
-                            <?php echo $row->cc_name;?> Details
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Course Name      : <?php echo $row->cc_name;?></li>
-                            <li class="list-group-item">Course Code    : <?php echo $row->cc_code;?></li>
-                            <li class="list-group-item">Departmental Head    : <?php echo $row->cc_dept_head;?></li>
-
-                        </ul>
-                            
-                            <!-- Card -->
-                    </div>
-                </div>
-                <div class="row">
+                    
                     <div class="col-lg-12 col-md-6">
+                        <div class="card-header">
+                            <?php echo $row->c_name;?> Questions.
+                        </div>
+                        <hr>
                         
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Course Description</li>
-                            <li class="list-group-item"><?php echo $row->cc_desc;?></li>
-                        </ul>
+                        <table id="default_order" class="table table-striped table-bordered display no-wrap" 
+                            style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Questions. </th>
+                                    
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                                $q_id = $_GET['q_id'];
+                                $ret="SELECT  * FROM  lms_questions WHERE q_id = ?";
+                                $stmt= $mysqli->prepare($ret) ;
+                                $stmt->bind_param('i',$q_id);
+                                $stmt->execute() ;//ok
+                                $res=$stmt->get_result();
+                                $cnt=1;
+                                while($row=$res->fetch_object())
+                                {
+                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+                                    
+                            ?>
+                                <tr>
+                                    <td><?php echo $row->q_details;?></td>
+                                </tr>
+
+                                <?php $cnt = $cnt +1; }?>    
+
+                            </tbody>
+                        </table>
                             
                             <!-- Card -->
                     </div>
@@ -244,181 +255,7 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    <script type = "text/javascript">
-                            //On Screen Charts
-                            $(function () {
-
-                        // ==============================================================
-                        // Campaign
-                        // ==============================================================
-
-                        var chart1 = c3.generate({
-                            bindto: '#campaign-v2',
-                            data: {
-                                columns: [
-                                    ['Direct Sales', 25],
-                                    ['Referral Sales', 15],
-                                    ['Afilliate Sales', 10],
-                                    ['Indirect Sales', 15]
-                                ],
-
-                                type: 'donut',
-                                tooltip: {
-                                    show: true
-                                }
-                            },
-                            donut: {
-                                label: {
-                                    show: false
-                                },
-                                title: 'Sales',
-                                width: 18
-                            },
-
-                            legend: {
-                                hide: true
-                            },
-                            color: {
-                                pattern: [
-                                    '#edf2f6',
-                                    '#5f76e8',
-                                    '#ff4f70',
-                                    '#01caf1'
-                                ]
-                            }
-                        });
-
-                        d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
-
-                        // ============================================================== 
-                        // income
-                        // ============================================================== 
-                        var data = {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                            series: [
-                                [5, 4, 3, 7, 5, 10]
-                            ]
-                        };
-
-                        var options = {
-                            axisX: {
-                                showGrid: false
-                            },
-                            seriesBarDistance: 1,
-                            chartPadding: {
-                                top: 15,
-                                right: 15,
-                                bottom: 5,
-                                left: 0
-                            },
-                            plugins: [
-                                Chartist.plugins.tooltip()
-                            ],
-                            width: '100%'
-                        };
-
-                        var responsiveOptions = [
-                            ['screen and (max-width: 640px)', {
-                                seriesBarDistance: 5,
-                                axisX: {
-                                    labelInterpolationFnc: function (value) {
-                                        return value[0];
-                                    }
-                                }
-                            }]
-                        ];
-                        new Chartist.Bar('.net-income', data, options, responsiveOptions);
-
-                        // ============================================================== 
-                        // Visit By Location
-                        // ==============================================================
-                        jQuery('#visitbylocate').vectorMap({
-                            map: 'world_mill_en',
-                            backgroundColor: 'transparent',
-                            borderColor: '#000',
-                            borderOpacity: 0,
-                            borderWidth: 0,
-                            zoomOnScroll: false,
-                            color: '#d5dce5',
-                            regionStyle: {
-                                initial: {
-                                    fill: '#d5dce5',
-                                    'stroke-width': 1,
-                                    'stroke': 'rgba(255, 255, 255, 0.5)'
-                                }
-                            },
-                            enableZoom: true,
-                            hoverColor: '#bdc9d7',
-                            hoverOpacity: null,
-                            normalizeFunction: 'linear',
-                            scaleColors: ['#d5dce5', '#d5dce5'],
-                            selectedColor: '#bdc9d7',
-                            selectedRegions: [],
-                            showTooltip: true,
-                            onRegionClick: function (element, code, region) {
-                                var message = 'You clicked "' + region + '" which has the code: ' + code.toUpperCase();
-                                alert(message);
-                            }
-                        });
-
-                        // ==============================================================
-                        // Earning Stastics Chart
-                        // ==============================================================
-                        var chart = new Chartist.Line('.stats', {
-                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                            series: [
-                                [11, 10, 15, 21, 14, 23, 12]
-                            ]
-                        }, {
-                            low: 0,
-                            high: 28,
-                            showArea: true,
-                            fullWidth: true,
-                            plugins: [
-                                Chartist.plugins.tooltip()
-                            ],
-                            axisY: {
-                                onlyInteger: true,
-                                scaleMinSpace: 40,
-                                offset: 20,
-                                labelInterpolationFnc: function (value) {
-                                    return (value / 1) + 'k';
-                                }
-                            },
-                        });
-
-                        // Offset x1 a tiny amount so that the straight stroke gets a bounding box
-                        chart.on('draw', function (ctx) {
-                            if (ctx.type === 'area') {
-                                ctx.element.attr({
-                                    x1: ctx.x1 + 0.001
-                                });
-                            }
-                        });
-
-                        // Create the gradient definition on created event (always after chart re-render)
-                        chart.on('created', function (ctx) {
-                            var defs = ctx.svg.elem('defs');
-                            defs.elem('linearGradient', {
-                                id: 'gradient',
-                                x1: 0,
-                                y1: 1,
-                                x2: 0,
-                                y2: 0
-                            }).elem('stop', {
-                                offset: 0,
-                                'stop-color': 'rgba(255, 255, 255, 1)'
-                            }).parent().elem('stop', {
-                                offset: 1,
-                                'stop-color': 'rgba(80, 153, 255, 1)'
-                            });
-                        });
-
-                        $(window).on('resize', function () {
-                            chart.update();
-                        });
-                        })
-    </script>
+   
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>

@@ -4,38 +4,26 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-  /*egister a new instructor
-
-  if(isset($_POST['lms_instructor']))
+  //hold logged in user session.
+  //delete Enrollment
+  if(isset($_GET['delete_en_id']))
   {
-      $i_number = $_POST['i_number'];
-      $i_name = $_POST['i_name'];
-      $i_email = $_POST['i_email'];
-      $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
-      
-      //Upload students profile picture
-      $i_dpic = $_FILES["i_dpic"]["name"];
-          move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
-      
-      //sql to insert captured values
-      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
-      $stmt->execute();
-
-      if($stmt)
-      {
-                $success = "Instructor Account Added";
-                
-                //echo "<script>toastr.success('Have Fun')</script>";
-      }
-      else {
-        $err = "Please Try Again Or Try Later";
-      }
-      
-      
-  }
-  */
+        $id=intval($_GET['delete_en_id']);
+        $adn="DELETE FROM lms_enrollments WHERE en_id = ?";
+        $stmt= $mysqli->prepare($adn);
+        $stmt->bind_param('i',$id);
+        $stmt->execute();
+        $stmt->close();	 
+  
+          if($stmt)
+          {
+            $success = "Enrollment Record Deleted";
+          }
+            else
+            {
+                $err = "Try Again Later";
+            }
+    }
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -78,7 +66,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <?php
+                    <?php
                             $a_id = $_SESSION['a_id'];
                             $ret="SELECT  * FROM  lms_admin  WHERE a_id=?";
                             $stmt= $mysqli->prepare($ret) ;
@@ -122,10 +110,11 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Courses</a>
+                                    <li class="breadcrumb-item"><a href="">Enrollments</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_manage_enrollments.php">Manage</a>
                                     </li>
+                                    
                                 </ol>
                             </nav>
                         </div>
@@ -147,61 +136,69 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
+                
                 <div class="row">
-
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">View Courses</h4>
+                                <h4 class="card-title">Enrollment Details </h4>
                                 <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
+                                    <table id="default_order" class="table table-striped table-bordered display"
                                         style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Code</th>
-                                                <th>Dept Head</th>
+                                                <th>Unit Code</th>
+                                                <th>Unit Name</th>
+                                                <th>Instructor Name</th>
+                                                <th>Student Name</th>
+                                                <th>Enroll date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                                //registered instructor details.
-                                                $ret="SELECT  * FROM  lms_course_categories";
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                //$stmt->bind_param('i',$l_id);
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
-                                                    
-                                            ?>
-
+                                        <?php
+                                            //Student Enrollment.
+                                            $ret="SELECT  * FROM  lms_enrollments";
+                                            $stmt= $mysqli->prepare($ret) ;
+                                            //$stmt->bind_param('i',$l_id);
+                                            $stmt->execute() ;//ok
+                                            $res=$stmt->get_result();
+                                            $cnt=1;
+                                            while($row=$res->fetch_object())
+                                            {
+                                                $mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+                                                
+                                        ?>
                                             <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->cc_name;?></td>
-                                                <td><?php echo $row->cc_code;?></td>
-                                                <td><?php echo $row->cc_dept_head;?></td>
+                                                <td><?php echo $row->s_unit_code;?></td>
+                                                <td><?php echo $row->s_unit_name;?></td>
+                                                <td><?php echo $row->i_name;?></td>
+                                                <td><?php echo $row->s_name;?></td>
+                                                <td><?php echo date("d M Y", strtotime($mysqlDateTime));?></td>
                                                 <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
+                                                    
+                                                    <a class="badge badge-warning" 
+                                                         href="pages_admin_update_single_enrollment.php?en_id=<?php echo $row->en_id;?>&cc_id=<?php echo $row->cc_id;?>&c_id=<?php echo $row->c_id;?>&s_id=<?php echo $row->s_id;?>&s_course=<?php echo $row->s_course;?>">
+                                                         <i class="fas fa-edit"></i> <i class=" fas fa-pallet"></i>
+                                                             Update
+                                                    </a>
+                                                    <a class="badge badge-danger" 
+                                                         href="pages_admin_manage_enrollments.php?delete_en_id=<?php echo $row->en_id;?>">
+                                                         <i class="fas fa-trash"></i> <i class=" fas fa-pallet"></i>
+                                                            Delete
                                                     </a>
                                                 </td>
                                             </tr>
 
-                                            <?php }?>
+                                            <?php }?>    
 
                                         </tbody>
                                     </table>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
-
+                       
                 </div>
             
                 <!-- *************************************************************** -->

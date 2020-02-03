@@ -188,6 +188,7 @@
                             <li class="list-group-item">Phone No  : <?php echo $row->s_phoneno;?></li>
                             <li class="list-group-item">DOB       : <?php echo $row->s_dob;?></li>
                             <li class="list-group-item">Gender    : <?php echo $row->s_gender;?></li>
+                            <li class="list-group-item">Course    : <?php echo $row->s_course;?></li>
 
                         </ul>
                             

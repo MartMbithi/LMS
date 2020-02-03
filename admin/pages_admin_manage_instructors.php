@@ -6,7 +6,6 @@
   $a_id=$_SESSION['a_id'];
   
   //delete Instructor
-  //delete Bookings
   if(isset($_GET['delete_ins']))
   {
         $id=intval($_GET['delete_ins']);

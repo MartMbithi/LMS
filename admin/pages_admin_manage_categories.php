@@ -146,8 +146,9 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Course Category Name</th>
-                                                <th>Course Category Code</th>
+                                                <th>Name</th>
+                                                <th>Code</th>
+                                                <th>Dept Head</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -170,15 +171,16 @@
                                                 <td><?php echo $cnt;?></td>
                                                 <td><?php echo $row->cc_name;?></td>
                                                 <td><?php echo $row->cc_code;?></td>
+                                                <td><?php echo $row->cc_dept_head;?></td>
                                                 <td>
                                                     <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
+                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View
                                                     </a>
                                                     <a class="badge badge-warning" href="pages_admin_edit_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-edit"></i><i class="fas fa-archive"></i> Edit Record
+                                                     <i class="fas fa-edit"></i><i class="fas fa-archive"></i> Edit
                                                     </a>
                                                     <a class="badge badge-danger" href="pages_admin_manage_categories.php?delete_cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> Delete Record
+                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> Delete
                                                     </a>
                                                 </td>
                                             </tr>

@@ -4,28 +4,32 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-  /*egister a new instructor
-
-  if(isset($_POST['lms_instructor']))
+  /*
+  //register a new student
+  if(isset($_POST['add_student']))
   {
-      $i_number = $_POST['i_number'];
-      $i_name = $_POST['i_name'];
-      $i_email = $_POST['i_email'];
-      $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
+      $s_regno = $_POST['s_regno'];
+      $s_name = $_POST['s_name'];
+      $s_email = $_POST['s_email'];
+      $s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
+      $s_phoneno = $_POST['s_phoneno'];
+      $s_dob = $_POST['s_dob'];
+      $s_gender = $_POST['s_gender'];
+      $s_acc_stats = $_POST['s_acc_stats'];
       
       //Upload students profile picture
-      $i_dpic = $_FILES["i_dpic"]["name"];
-          move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
+      $s_dpic = $_FILES["s_dpic"]["name"];
+          move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
       
       //sql to insert captured values
-      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
+      $query="INSERT INTO lms_student (s_regno, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
+      $rc=$stmt->bind_param('sssssssss', $s_regno, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
       $stmt->execute();
 
       if($stmt)
       {
-                $success = "Instructor Account Added";
+                $success = "Student Account Added";
                 
                 //echo "<script>toastr.success('Have Fun')</script>";
       }
@@ -117,18 +121,37 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
+                        <!--Get Details of unit given a course-->
+                        <?php
+                            $c_id = $_GET['c_id'];
+                            $ret="SELECT  * FROM lms_course  WHERE c_id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$c_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                              
+                        ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb m-0 p-0">
+                            <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Courses</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_courses.php">Units</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_courses.php">View</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href=""><?php echo $row->c_category;?></a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href=""><?php echo $row->c_name;?></a>
+                                    </li>
                                     </li>
                                 </ol>
                             </nav>
                         </div>
+                        <?php }?>
                     </div>
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
@@ -138,6 +161,7 @@
                             </select>
                         </div>
                     </div>
+                    
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -148,62 +172,65 @@
             <!-- ============================================================== -->
             <div class="container-fluid">
                 <div class="row">
-
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">View Courses</h4>
-                                <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Code</th>
-                                                <th>Dept Head</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                                //registered instructor details.
-                                                $ret="SELECT  * FROM  lms_course_categories";
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                //$stmt->bind_param('i',$l_id);
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
-                                                    
-                                            ?>
-
-                                            <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->cc_name;?></td>
-                                                <td><?php echo $row->cc_code;?></td>
-                                                <td><?php echo $row->cc_dept_head;?></td>
-                                                <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <?php }?>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
+                    <div class="col-lg-6 col-md-6">
+                            <!-- Card -->
+                            <div class="card">
+                                    <?php
+                                    $cc_id = $_GET['cc_id'];
+                                    $ret="SELECT  * FROM lms_course_categories  WHERE cc_id=?";
+                                    $stmt= $mysqli->prepare($ret) ;
+                                    $stmt->bind_param('i',$cc_id);
+                                    $stmt->execute() ;//ok
+                                    $res=$stmt->get_result();
+                                    //$cnt=1;
+                                    while($row=$res->fetch_object())
+                                    {
+                                    
+                                ?>
+                                <img class="card-img-top img-fluid" src="assets/images/course_cat/<?php echo $row->cc_dpic;?>"
+                                    alt="Card image cap">
+                                <?php }?>
                             </div>
+                            <!-- Card -->
+                    </div>
+                    <?php
+                            $c_id = $_GET['c_id'];
+                            $ret="SELECT  * FROM lms_course  WHERE c_id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$c_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                              
+                        ?>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card-header">
+                            <?php echo $row->c_name;?>'s Details
                         </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Unit Name      : <?php echo $row->c_name;?></li>
+                            <li class="list-group-item">Unit Code      : <?php echo $row->c_code;?></li>
+                            <li class="list-group-item">Course Name    : <?php echo $row->c_category;?></li>
+                        </ul>
+                            
+                            <!-- Card -->
                     </div>
 
+                    <div class="col-lg-12 col-md-6">
+                        <div class="card-header">
+                            <?php echo $row->c_name;?>'s Description
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><?php echo $row->c_desc;?></li>
+                            
+                        </ul>
+                            
+                            <!-- Card -->
+                    </div>
+                    <?php }?>
                 </div>
-            
                 <!-- *************************************************************** -->
             </div>
             <!-- ============================================================== -->

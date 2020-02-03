@@ -11,15 +11,16 @@
       $cc_name = $_POST['cc_name'];
       $cc_code = $_POST['cc_code'];
       $cc_desc = $_POST['cc_desc'];
+      $cc_dept_head = $_POST['cc_dept_head'];
       $cc_id = $_GET['cc_id'];
            //Upload  profile picture
       $cc_dpic = $_FILES["cc_dpic"]["name"];
           move_uploaded_file($_FILES["cc_dpic"]["tmp_name"],"assets/images/course_cat/".$_FILES["cc_dpic"]["name"]);//move uploaded image
       
       //sql to insert captured values
-      $query="UPDATE  lms_course_categories SET cc_name=?, cc_code=?, cc_desc=?, cc_dpic=? WHERE cc_id = ?";
+      $query="UPDATE  lms_course_categories SET cc_name=?, cc_dept_head=?, cc_code=?, cc_desc=?, cc_dpic=? WHERE cc_id = ?";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('ssssi', $cc_name, $cc_code, $cc_desc, $cc_dpic, $cc_id);
+      $rc=$stmt->bind_param('sssssi', $cc_name, $cc_dept_head, $cc_code, $cc_desc, $cc_dpic, $cc_id);
       $stmt->execute();
 
       if($stmt)
@@ -134,7 +135,7 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Course Categories</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_manage_categories.php">Course Categories</a>
                                     </li>
                                     <li class="breadcrumb-item"><a href=""><?php echo $row->cc_name;?></a>
                                     </li>
@@ -169,25 +170,60 @@
                                 <form method ="post" enctype="multipart/form-data">
                                     <div class="row">
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Caouse Category Name</label>
                                             <input type="text" name="cc_name" value="<?php echo $row->cc_name;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Caouse Category Code</label>
                                             <input type="text" name="cc_code" value="<?php echo $row->cc_code;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
                                           
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Course Category Logo | Picture | Icon </label>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Course Category Logo | Icon </label>
                                             <input type="file" name="cc_dpic" value="<?php echo $row->cc_dpic;?>"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Course Category Head Instructor</label>
+
+                                            <select name="cc_dept_head" class="custom-select form-control bg-white custom-radius custom-shadow border-0">
+                                                <?php
+                                                    //registered instructor details.
+                                                    $ret="SELECT  * FROM  lms_instructor";
+                                                    $stmt= $mysqli->prepare($ret) ;
+                                                    //$stmt->bind_param('i',$l_id);
+                                                    $stmt->execute() ;//ok
+                                                    $res=$stmt->get_result();
+                                                    $cnt=1;
+                                                    while($row=$res->fetch_object())
+                                                    {
+                                                        //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+                                                        
+                                                ?>
+                                                <option selected><?php echo $row->i_name;?></option>
+
+                                                
+                                            </select>
+                                       
                                         </div>
 
                                     </div>
                                     
                                     <div class="row"> 
+                                    <?php
+                                        $cc_id = $_GET['cc_id'];
+                                        $ret="SELECT  * FROM lms_course_categories  WHERE cc_id=?";
+                                        $stmt= $mysqli->prepare($ret) ;
+                                        $stmt->bind_param('i',$cc_id);
+                                        $stmt->execute() ;//ok
+                                        $res=$stmt->get_result();
+                                        //$cnt=1;
+                                        while($row=$res->fetch_object())
+                                        {
                                         
+                                    ?>
                                         <div class="form-group col-md-12">
                                             <label for="exampleInputEmail1">Couse Category Description</label>
                                             <textarea type="text" name="cc_desc" class="form-control" id="editor1" aria-describedby="emailHelp"><?php echo $row->cc_desc;?></textarea>
@@ -205,7 +241,7 @@
 
                 </div>
 
-                <?php }?>
+                <?php }}}?>
                 <!-- *************************************************************** -->
             </div>
             <!-- ============================================================== -->

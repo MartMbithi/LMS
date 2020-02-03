@@ -183,7 +183,7 @@
                                     
                                         <h2 class="text-dark mb-1 font-weight-medium"><?php echo $course_categories;?></h2>
                                     </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Course Categories</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Courses</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="grid" class="feather-icon"></i></span>
@@ -205,7 +205,7 @@
                                             $stmt->close();
                                         ?>
                                     <h2 class="text-dark mb-1 font-weight-medium"><?php echo $courses;?></h2>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Courses</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Units</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
@@ -321,16 +321,17 @@
                 <!-- Start Sales Charts Section -->
                 <!-- *************************************************************** -->
                 <div class="row">
+                <!--
                     <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Courses By Categories</h4>
+                                <h4 class="card-title">Units By Courses</h4>
                                 <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
                                 <ul class="list-style-none mb-0">
 
                                     <li>
                                         <i class="fas fa-circle text-primary font-10 mr-2"></i>
-                                        <span class="text-muted">Various Course Categories</span>
+                                        <span class="text-muted">Various Number Of Units Per Course.</span>
                                         <?php
                                             //Student Enrollment.
                                             $ret="SELECT  * FROM  lms_enrollments";
@@ -352,37 +353,21 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
-                    <div class="col-lg-6 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Courses By Categories</h4>
-                                <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
-                                <ul class="list-style-none mb-0">
-
-                                    <li>
-                                        <i class="fas fa-circle text-primary font-10 mr-2"></i>
-                                        <span class="text-muted">Direct Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$2346</span>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    
                     
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Enrollment Details </h4>
                                 <div class="table-responsive">
-                                    <table id="default_order" class="table table-striped table-bordered display no-wrap"
+                                    <table id="default_order" class="table table-striped table-bordered display"
                                         style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Code</th>
-                                                <th>Course Name</th>
+                                                <th>Unit Code</th>
+                                                <th>Unit Name</th>
                                                 <th>Instructor Name</th>
                                                 <th>Student Name</th>
                                                 <th>Enroll date</th>
@@ -404,14 +389,14 @@
                                                 
                                         ?>
                                             <tr>
-                                                <td><?php echo $row->en_code;?></td>
-                                                <td><?php echo $row->en_c_name;?></td>
-                                                <td><?php echo $row->en_i_name;?></td>
-                                                <td><?php echo $row->en_s_name;?></td>
-                                                <td><?php echo date("d-m-Y - h:m:s", strtotime($mysqlDateTime));?></td>
+                                                <td><?php echo $row->s_unit_code;?></td>
+                                                <td><?php echo $row->s_unit_name;?></td>
+                                                <td><?php echo $row->i_name;?></td>
+                                                <td><?php echo $row->s_name;?></td>
+                                                <td><?php echo date("d M Y", strtotime($mysqlDateTime));?></td>
                                                 <td>
                                                     <a class="badge badge-success" 
-                                                         href="pages_admin_view_single_enrollment.php?en_id=<?php echo $row->en_id;?>&c_id=<?php echo $row->c_id;?>&cc_id=<?php echo $row->cc_id;?>&i_id=<?php echo $row->i_id;?>&s_id=<?php echo $row->s_id;?>">
+                                                         href="pages_admin_view_single_enrollment.php?en_id=<?php echo $row->en_id;?>&cc_id=<?php echo $row->cc_id;?>&c_id=<?php echo $row->c_id;?>&i_id=<?php echo $row->i_id;?>&s_id=<?php echo $row->s_id;?>">
                                                          <i class="fas fa-eye"></i> <i class=" fas fa-pallet"></i>
                                                          View Details
                                                     </a>
@@ -524,181 +509,7 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    <script type = "text/javascript">
-                            //On Screen Charts
-                            $(function () {
-
-                        // ==============================================================
-                        // Campaign
-                        // ==============================================================
-
-                        var chart1 = c3.generate({
-                            bindto: '#campaign-v2',
-                            data: {
-                                columns: [
-                                    ['Direct Sales', 25],
-                                    ['Referral Sales', 15],
-                                    ['Afilliate Sales', 10],
-                                    ['Indirect Sales', 15]
-                                ],
-
-                                type: 'donut',
-                                tooltip: {
-                                    show: true
-                                }
-                            },
-                            donut: {
-                                label: {
-                                    show: false
-                                },
-                                title: 'Sales',
-                                width: 18
-                            },
-
-                            legend: {
-                                hide: true
-                            },
-                            color: {
-                                pattern: [
-                                    '#edf2f6',
-                                    '#5f76e8',
-                                    '#ff4f70',
-                                    '#01caf1'
-                                ]
-                            }
-                        });
-
-                        d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
-
-                        // ============================================================== 
-                        // income
-                        // ============================================================== 
-                        var data = {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                            series: [
-                                [5, 4, 3, 7, 5, 10]
-                            ]
-                        };
-
-                        var options = {
-                            axisX: {
-                                showGrid: false
-                            },
-                            seriesBarDistance: 1,
-                            chartPadding: {
-                                top: 15,
-                                right: 15,
-                                bottom: 5,
-                                left: 0
-                            },
-                            plugins: [
-                                Chartist.plugins.tooltip()
-                            ],
-                            width: '100%'
-                        };
-
-                        var responsiveOptions = [
-                            ['screen and (max-width: 640px)', {
-                                seriesBarDistance: 5,
-                                axisX: {
-                                    labelInterpolationFnc: function (value) {
-                                        return value[0];
-                                    }
-                                }
-                            }]
-                        ];
-                        new Chartist.Bar('.net-income', data, options, responsiveOptions);
-
-                        // ============================================================== 
-                        // Visit By Location
-                        // ==============================================================
-                        jQuery('#visitbylocate').vectorMap({
-                            map: 'world_mill_en',
-                            backgroundColor: 'transparent',
-                            borderColor: '#000',
-                            borderOpacity: 0,
-                            borderWidth: 0,
-                            zoomOnScroll: false,
-                            color: '#d5dce5',
-                            regionStyle: {
-                                initial: {
-                                    fill: '#d5dce5',
-                                    'stroke-width': 1,
-                                    'stroke': 'rgba(255, 255, 255, 0.5)'
-                                }
-                            },
-                            enableZoom: true,
-                            hoverColor: '#bdc9d7',
-                            hoverOpacity: null,
-                            normalizeFunction: 'linear',
-                            scaleColors: ['#d5dce5', '#d5dce5'],
-                            selectedColor: '#bdc9d7',
-                            selectedRegions: [],
-                            showTooltip: true,
-                            onRegionClick: function (element, code, region) {
-                                var message = 'You clicked "' + region + '" which has the code: ' + code.toUpperCase();
-                                alert(message);
-                            }
-                        });
-
-                        // ==============================================================
-                        // Earning Stastics Chart
-                        // ==============================================================
-                        var chart = new Chartist.Line('.stats', {
-                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                            series: [
-                                [11, 10, 15, 21, 14, 23, 12]
-                            ]
-                        }, {
-                            low: 0,
-                            high: 28,
-                            showArea: true,
-                            fullWidth: true,
-                            plugins: [
-                                Chartist.plugins.tooltip()
-                            ],
-                            axisY: {
-                                onlyInteger: true,
-                                scaleMinSpace: 40,
-                                offset: 20,
-                                labelInterpolationFnc: function (value) {
-                                    return (value / 1) + 'k';
-                                }
-                            },
-                        });
-
-                        // Offset x1 a tiny amount so that the straight stroke gets a bounding box
-                        chart.on('draw', function (ctx) {
-                            if (ctx.type === 'area') {
-                                ctx.element.attr({
-                                    x1: ctx.x1 + 0.001
-                                });
-                            }
-                        });
-
-                        // Create the gradient definition on created event (always after chart re-render)
-                        chart.on('created', function (ctx) {
-                            var defs = ctx.svg.elem('defs');
-                            defs.elem('linearGradient', {
-                                id: 'gradient',
-                                x1: 0,
-                                y1: 1,
-                                x2: 0,
-                                y2: 0
-                            }).elem('stop', {
-                                offset: 0,
-                                'stop-color': 'rgba(255, 255, 255, 1)'
-                            }).parent().elem('stop', {
-                                offset: 1,
-                                'stop-color': 'rgba(80, 153, 255, 1)'
-                            });
-                        });
-
-                        $(window).on('resize', function () {
-                            chart.update();
-                        });
-                        })
-    </script>
+   
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>

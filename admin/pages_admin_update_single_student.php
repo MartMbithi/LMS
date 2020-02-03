@@ -9,6 +9,7 @@
   {
       $s_id =$_GET['s_id'];
       $s_regno = $_POST['s_regno'];
+      $s_course = $_POST['s_course'];
       $s_name = $_POST['s_name'];
       $s_email = $_POST['s_email'];
       $s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
@@ -22,9 +23,9 @@
           //move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
       
       //sql to insert captured values
-      $query="UPDATE lms_student SET s_regno=?, s_name=?, s_email=?, s_pwd=?, s_phoneno=?, s_dob=?, s_gender=?, s_acc_stats=? WHERE s_id=?";
+      $query="UPDATE lms_student SET s_regno=?, s_name=?, s_course = ?, s_email=?, s_pwd=?, s_phoneno=?, s_dob=?, s_gender=?, s_acc_stats=? WHERE s_id=?";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('ssssssssi', $s_regno, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_id);
+      $rc=$stmt->bind_param('sssssssssi', $s_regno, $s_name, $s_course, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_id);
       $stmt->execute();
 
       if($stmt)
@@ -184,15 +185,15 @@
                                         </div>
                                     </div>
                                     <div class="row">    
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Phone Number</label>
                                             <input type="text"   name = "s_phoneno" value="<?php echo $row->s_phoneno;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Date Of Birth</label>
                                             <input type="text" name="s_dob" value="<?php echo $row->s_dob;?>" class="form-control" placeholder ="DD/MM/YYYY" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Gender</label>
                                             <select class="custom-select" id="inputGroupSelect03" name="s_gender" aria-label="Example select with button addon">
                                                 <option selected>Choose...</option>
@@ -201,8 +202,40 @@
                                             </select>
                                         </div>
 
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Course</label>
+                                            <select class="custom-select" id="inputGroupSelect03" name="s_course" aria-label="Example select with button addon">
+                                                <option selected>Choose...</option>
+                                                    <?php
+                                                        //Student Courses
+                                                        $ret="SELECT  * FROM  lms_course_categories";
+                                                        $stmt= $mysqli->prepare($ret) ;
+                                                        $stmt->execute() ;//ok
+                                                        $res=$stmt->get_result();
+                                                        //$cnt=1;
+                                                        while($row=$res->fetch_object())
+                                                        {
+                                                            
+                                                    ?>
+                                                <option><?php echo $row->cc_name;?></option>
+                                                    <?php }?>
+                                            </select>
+                                        </div>
+
                                     </div>
-                                    
+                                    <?php
+                                    //Details Of A single student.
+                                        $s_id = $_GET['s_id'];
+                                        $ret="SELECT  * FROM lms_student  WHERE s_id=?";
+                                        $stmt= $mysqli->prepare($ret) ;
+                                        $stmt->bind_param('i',$s_id);
+                                        $stmt->execute() ;//ok
+                                        $res=$stmt->get_result();
+                                        //$cnt=1;
+                                        while($row=$res->fetch_object())
+                                        {
+                                        
+                                    ?>
                                     <div class="row"> 
                                           
                                         <div class="form-group col-md-6">
@@ -235,7 +268,7 @@
             
                 <!-- *************************************************************** -->
             </div>
-                            <?php }?>
+                            <?php }}?>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
