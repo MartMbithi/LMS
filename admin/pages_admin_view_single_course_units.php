@@ -117,14 +117,28 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
+                        <?php
+                            $cc_id = $_GET['cc_id'];
+                            $ret="SELECT  * FROM  lms_course WHERE cc_id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$cc_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                                ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Courses</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_courses.php">Units</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_courses.php">View</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href=""><?php echo $row->c_category;?></a>
+                                    </li>
                                     </li>
                                 </ol>
                             </nav>
@@ -152,7 +166,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">View Courses</h4>
+                                <h4 class="card-title"><?php echo $row->c_category;?> Units</h4>
                                 <div class="table-responsive">
                                     <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
                                         style="width:100%">
@@ -160,17 +174,17 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
+                                                <th>Course</th>
                                                 <th>Code</th>
-                                                <th>Dept Head</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                //registered instructor details.
-                                                $ret="SELECT  * FROM  lms_course_categories";
+                                                $cc_id = $_GET['cc_id'];
+                                                $ret="SELECT  * FROM  lms_course WHERE cc_id = ?";
                                                 $stmt= $mysqli->prepare($ret) ;
-                                                //$stmt->bind_param('i',$l_id);
+                                                $stmt->bind_param('i',$cc_id);
                                                 $stmt->execute() ;//ok
                                                 $res=$stmt->get_result();
                                                 $cnt=1;
@@ -182,22 +196,22 @@
 
                                             <tr>
                                                 <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->cc_name;?></td>
-                                                <td><?php echo $row->cc_code;?></td>
-                                                <td><?php echo $row->cc_dept_head;?></td>
+                                                <td><?php echo $row->c_name;?></td>
+                                                <td><?php echo $row->c_category;?></td>
+                                                <td><?php echo $row->c_code;?></td>
                                                 <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
+                                                    <a class="badge badge-success" href="pages_admin_view_single_unit.php?c_id=<?php echo $row->c_id;?>&cc_id=<?php echo $row->cc_id;?>">
+                                                     <i class="fas fa-eye"></i> <i class=" fas fa-calendar-alt"></i>View Unit
                                                     </a>
                                                 </td>
                                             </tr>
 
-                                            <?php }?>
+                                            <?php $cnt = $cnt +1; }?>
 
                                         </tbody>
                                     </table>
                                 </div>
-                                
+                            <?php }?>
                             </div>
                         </div>
                     </div>

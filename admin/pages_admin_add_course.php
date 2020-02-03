@@ -4,38 +4,26 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-  /*egister a new instructor
-
-  if(isset($_POST['lms_instructor']))
+    /*
+  if(isset($_GET['delete_cc_id']))
   {
-      $i_number = $_POST['i_number'];
-      $i_name = $_POST['i_name'];
-      $i_email = $_POST['i_email'];
-      $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
-      
-      //Upload students profile picture
-      $i_dpic = $_FILES["i_dpic"]["name"];
-          move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
-      
-      //sql to insert captured values
-      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
-      $stmt->execute();
-
-      if($stmt)
-      {
-                $success = "Instructor Account Added";
-                
-                //echo "<script>toastr.success('Have Fun')</script>";
-      }
-      else {
-        $err = "Please Try Again Or Try Later";
-      }
-      
-      
-  }
-  */
+        $id=intval($_GET['delete_cc_id']);
+        $adn="DELETE FROM lms_course_categories WHERE cc_id = ?";
+        $stmt= $mysqli->prepare($adn);
+        $stmt->bind_param('i',$id);
+        $stmt->execute();
+        $stmt->close();	 
+  
+          if($stmt)
+          {
+            $success = "Course Category Record Deleted";
+          }
+            else
+            {
+                $err = "Try Again Later";
+            }
+    }
+    */
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -122,9 +110,9 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Courses</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_add_course.php">Units</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_add_course.php">Add Units</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -152,7 +140,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">View Courses</h4>
+                                <h4 class="card-title">Select Any Course To Add New Unit.</h4>
                                 <div class="table-responsive">
                                     <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
                                         style="width:100%">
@@ -186,9 +174,12 @@
                                                 <td><?php echo $row->cc_code;?></td>
                                                 <td><?php echo $row->cc_dept_head;?></td>
                                                 <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
+                                                    
+                                                    <a class="badge badge-success"
+                                                         href="pages_admin_add_unit.php?cc_id=<?php echo $row->cc_id;?>&c_category=<?php echo $row->cc_name;?>" >
+                                                     <i class="fas fa-edit"></i> <i class="fas fa-archive"></i> Add Unit
                                                     </a>
+                                                    
                                                 </td>
                                             </tr>
 

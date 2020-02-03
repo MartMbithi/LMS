@@ -15,15 +15,16 @@
       $s_dob = $_POST['s_dob'];
       $s_gender = $_POST['s_gender'];
       $s_acc_stats = $_POST['s_acc_stats'];
+      $s_course = $_POST['s_course'];
       
       //Upload students profile picture
       $s_dpic = $_FILES["s_dpic"]["name"];
           move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
       
       //sql to insert captured values
-      $query="INSERT INTO lms_student (s_regno, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?)";
+      $query="INSERT INTO lms_student (s_regno, s_course, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssssssss', $s_regno, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
+      $rc=$stmt->bind_param('ssssssssss', $s_regno, $s_course, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
       $stmt->execute();
 
       if($stmt)
@@ -168,15 +169,34 @@
                                         </div>
                                     </div>
                                     <div class="row">    
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Phone Number</label>
                                             <input type="text"  name = "s_phoneno" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Date Of Birth</label>
                                             <input type="text" name="s_dob" class="form-control" placeholder ="DD/MM/YYYY" id="exampleInputEmail1" aria-describedby="emailHelp">
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Course</label>
+                                            <select class="custom-select" id="inputGroupSelect03" name="s_course" aria-label="Example select with button addon">
+                                                <option selected>Choose...</option>
+                                                    <?php
+                                                        //Student Courses
+                                                        $ret="SELECT  * FROM  lms_course_categories";
+                                                        $stmt= $mysqli->prepare($ret) ;
+                                                        $stmt->execute() ;//ok
+                                                        $res=$stmt->get_result();
+                                                        //$cnt=1;
+                                                        while($row=$res->fetch_object())
+                                                        {
+                                                            
+                                                    ?>
+                                                <option><?php echo $row->cc_name;?></option>
+                                                    <?php }?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Gender</label>
                                             <select class="custom-select" id="inputGroupSelect03" name="s_gender" aria-label="Example select with button addon">
                                                 <option selected>Choose...</option>

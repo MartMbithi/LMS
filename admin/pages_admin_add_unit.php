@@ -4,28 +4,27 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-  /*egister a new instructor
 
-  if(isset($_POST['lms_instructor']))
+  //add a new unit in the seleccted course.
+  if(isset($_POST['add_unit']))
   {
-      $i_number = $_POST['i_number'];
-      $i_name = $_POST['i_name'];
-      $i_email = $_POST['i_email'];
-      $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
-      
-      //Upload students profile picture
-      $i_dpic = $_FILES["i_dpic"]["name"];
-          move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
-      
+      $cc_id = $_GET['cc_id'];
+      $a_id = $_SESSION['a_id'];
+     // $i_id = $_SESSION['i_id'];<--Uncommment this if instructror is the one adding the unit. 
+      $c_code = $_POST['c_code'];
+      $c_name = $_POST['c_name'];
+      $c_category = $_POST['c_category'];
+      $c_desc = $_POST['c_desc'];
+
       //sql to insert captured values
-      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
+      $query="INSERT INTO lms_course (cc_id, a_id, c_code, c_name, c_category, c_desc ) VALUES (?,?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
+      $rc=$stmt->bind_param('ssssss', $cc_id, $a_id, $c_code, $c_name, $c_category, $c_desc);
       $stmt->execute();
 
       if($stmt)
       {
-                $success = "Instructor Account Added";
+                $success = "Unit Added";
                 
                 //echo "<script>toastr.success('Have Fun')</script>";
       }
@@ -35,7 +34,6 @@
       
       
   }
-  */
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -117,14 +115,27 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
+                        <?php
+                            $cc_id = $_GET['cc_id'];
+                            $ret="SELECT  * FROM  lms_course_categories WHERE cc_id = ?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$cc_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            $cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                                //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+                                
+                        ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Courses</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_add_course.php">Units</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">View</a>
+                                    <li class="breadcrumb-item"><a href=""><?php echo $row->cc_name;?>'s Unit</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -152,52 +163,44 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">View Courses</h4>
-                                <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Code</th>
-                                                <th>Dept Head</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                                //registered instructor details.
-                                                $ret="SELECT  * FROM  lms_course_categories";
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                //$stmt->bind_param('i',$l_id);
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
-                                                    
-                                            ?>
+                                <h4 class="card-title">Add New <?php echo $row->cc_name;?> Unit</h4>
+                                <!--Add Student-->
+                                <form method ="post" enctype="multipart/form-data">
+                                    <div class="row">
 
-                                            <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->cc_name;?></td>
-                                                <td><?php echo $row->cc_code;?></td>
-                                                <td><?php echo $row->cc_dept_head;?></td>
-                                                <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                        <div class="form-group col-md-12">
+                                            <label for="exampleInputEmail1">Course Name</label>
+                                            <input type="text" name="c_category" readonly  value="<?php echo $row->cc_name;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
 
-                                            <?php }?>
+                                    </div>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Unit Name</label>
+                                            <input type="text" name="c_name"  required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>    
+
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Unit Code</label>
+                                            <input type="text" name="c_code"  required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div class="row"> 
+                                        
+                                        <div class="form-group col-md-12">
+                                            <label for="exampleInputEmail1">Unit Description</label>
+                                            <textarea type="text" name="c_desc" class="form-control" id="editor1" aria-describedby="emailHelp"></textarea>
+                                        </div>
+
+                                    </div>
+
+                                   <hr>
+
+                                    <button type="submit" name="add_unit" class="btn btn-outline-primary">Add Unit</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -206,6 +209,7 @@
             
                 <!-- *************************************************************** -->
             </div>
+            <?php }?>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
@@ -231,6 +235,10 @@
     <script src="assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/basic/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace('editor1')
+    </script>
     <!-- apps -->
     <!-- apps -->
     <script src="dist/js/app-style-switcher.js"></script>

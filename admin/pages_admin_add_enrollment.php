@@ -4,38 +4,29 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-  /*egister a new instructor
-
-  if(isset($_POST['lms_instructor']))
+  
+  /*
+  //delete Instructor unit assaignment
+  if(isset($_GET['delete']))
   {
-      $i_number = $_POST['i_number'];
-      $i_name = $_POST['i_name'];
-      $i_email = $_POST['i_email'];
-      $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
-      
-      //Upload students profile picture
-      $i_dpic = $_FILES["i_dpic"]["name"];
-          move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
-      
-      //sql to insert captured values
-      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
-      $stmt->execute();
-
-      if($stmt)
-      {
-                $success = "Instructor Account Added";
-                
-                //echo "<script>toastr.success('Have Fun')</script>";
-      }
-      else {
-        $err = "Please Try Again Or Try Later";
-      }
-      
-      
-  }
-  */
+        $id=intval($_GET['delete']);
+        $adn="DELETE FROM lms_units_assaigns WHERE ua_id = ?";
+        $stmt= $mysqli->prepare($adn);
+        $stmt->bind_param('i',$id);
+        $stmt->execute();
+        $stmt->close();	 
+  
+          if($stmt)
+          {
+            $success = "Record Deleted";
+          }
+            else
+            {
+                $err = "Try Again Later";
+            }
+    }
+    */
+    
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -122,10 +113,11 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Courses</a>
+                                    <li class="breadcrumb-item"><a href="">Enrollments</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_add_enrollment.php">Add</a>
                                     </li>
+                                    
                                 </ol>
                             </nav>
                         </div>
@@ -146,29 +138,31 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
+            
             <div class="container-fluid">
                 <div class="row">
 
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">View Courses</h4>
+                                <h4 class="card-title">Students Registered</h4>
                                 <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
+                                <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
                                         style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
                                                 <th>Name</th>
-                                                <th>Code</th>
-                                                <th>Dept Head</th>
+                                                <th>RegNo.</th>
+                                                <th>PhoneNo.</th>
+                                                <th>DOB</th>
+                                                <th>Gender</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                //registered instructor details.
-                                                $ret="SELECT  * FROM  lms_course_categories";
+                                                //registered students details.
+                                                $ret="SELECT  * FROM  lms_student";
                                                 $stmt= $mysqli->prepare($ret) ;
                                                 //$stmt->bind_param('i',$l_id);
                                                 $stmt->execute() ;//ok
@@ -181,13 +175,14 @@
                                             ?>
 
                                             <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->cc_name;?></td>
-                                                <td><?php echo $row->cc_code;?></td>
-                                                <td><?php echo $row->cc_dept_head;?></td>
+                                                <td><?php echo $row->s_name;?></td>
+                                                <td><?php echo $row->s_regno;?></td>
+                                                <td><?php echo $row->s_phoneno;?></td>
+                                                <td><?php echo $row->s_dob;?></td>
+                                                <td><?php echo $row->s_gender;?></td>
                                                 <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
+                                                    <a class="badge badge-success" href="pages_admin_enroll_single_unit.php?s_id=<?php echo $row->s_id;?>&s_name=<?php echo $row->s_name;?>&s_course=<?php echo $row->s_course;?>">
+                                                     <i class="fas fa-user"></i><i class="icon  icon-doc "></i> Enroll
                                                     </a>
                                                 </td>
                                             </tr>

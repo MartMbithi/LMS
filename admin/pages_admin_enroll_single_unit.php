@@ -4,28 +4,31 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-  /*egister a new instructor
 
-  if(isset($_POST['lms_instructor']))
+  //Enroll Student
+
+  if(isset($_POST['enroll_Student']))
   {
-      $i_number = $_POST['i_number'];
-      $i_name = $_POST['i_name'];
-      $i_email = $_POST['i_email'];
-      $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
-      
-      //Upload students profile picture
-      $i_dpic = $_FILES["i_dpic"]["name"];
-          move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
-      
+      $s_id = $_GET['s_id'];
+      $s_name = $_POST['s_name'];
+      $s_regno = $_POST['s_regno'];
+      $s_unit_code = $_POST['s_unit_code'];
+      $s_unit_name = $_POST['s_unit_name'];
+      $i_name = (($_POST['i_name']));
+      $cc_id = $_POST['cc_id'];
+      $c_id = $_POST['c_id'];
+      $i_id = $_POST['i_id'];
+      $s_course = $_POST['s_course'];
+
       //sql to insert captured values
-      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
+      $query="INSERT INTO lms_enrollments (s_id, s_name, s_regno, s_unit_code, s_unit_name, i_name, cc_id, c_id, i_id, s_course) VALUES (?,?,?,?,?,?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
+      $rc=$stmt->bind_param('ssssssssss', $s_id, $s_name, $s_regno, $s_unit_code, $s_unit_name, $i_name, $cc_id, $c_id, $i_id, $s_course);
       $stmt->execute();
 
       if($stmt)
       {
-                $success = "Instructor Account Added";
+                $success = "Enrolled";
                 
                 //echo "<script>toastr.success('Have Fun')</script>";
       }
@@ -35,7 +38,6 @@
       
       
   }
-  */
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -117,15 +119,28 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
+
+                        <?php
+                            $s_id = $_GET['s_id'];
+                            $ret="SELECT  * FROM  lms_student  WHERE s_id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$s_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                                ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb m-0 p-0">
+                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Courses</a>
+                                    <li class="breadcrumb-item"><a href="">Enrollments</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_add_enrollment.php">Add</a>
                                     </li>
+                                    
                                 </ol>
                             </nav>
                         </div>
@@ -152,56 +167,91 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">View Courses</h4>
-                                <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Name</th>
-                                                <th>Code</th>
-                                                <th>Dept Head</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                                //registered instructor details.
-                                                $ret="SELECT  * FROM  lms_course_categories";
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                //$stmt->bind_param('i',$l_id);
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
-                                                    
-                                            ?>
+                                <h4 class="card-title">Enroll <?php echo $row->s_name;?></h4>
+                                <!--Add Student-->
+                                <form method ="post" enctype="multipart/form-data">
+                                    <div class="row">
+                                        
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Student Name</label>
+                                            <input type="text" readonly name="s_name" value="<?php echo $row->s_name;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                          
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Student Registration Number</label>
+                                            <input type="text" readonly name="s_regno" value="<?php echo $row->s_regno;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
 
-                                            <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->cc_name;?></td>
-                                                <td><?php echo $row->cc_code;?></td>
-                                                <td><?php echo $row->cc_dept_head;?></td>
-                                                <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                    </div>
+                                    <hr>
+                                    <div class="row"> 
+                                         <div class="form-group col-md-4">
+                                            <label for="exampleInputEmail1">Unit Code</label>
+                                            <select name="s_unit_code" onChange="getUnit(this.value);" id="code" class="custom-select form-control bg-white custom-radius custom-shadow border-0">
+                                              <option>Select Unit Code </option>
+                                                <?php
+                                                    //get all attributes of a certain unit given the students course.
+                                                    $s_course = $_GET['s_course'];
+                                                    $ret="SELECT  * FROM  lms_units_assaigns WHERE c_category = ? ";
+                                                    $stmt= $mysqli->prepare($ret) ;
+                                                    $stmt->bind_param('s',$s_course);
+                                                    $stmt->execute() ;//ok
+                                                    $res=$stmt->get_result();
+                                                    $cnt=1;
+                                                    while($row=$res->fetch_object())
+                                                    {
+                                                        //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+                                                        
+                                                ?>
+                                                <option value="<?php echo $row->c_code;?>"> <?php echo $row->c_code;?></option>
 
-                                            <?php }?>
+                                                <?php }?> 
+                                            </select>
+                                       
+                                        </div>
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputEmail1">Unit Name</label>
+                                            <input type="text" name="s_unit_name" readonly  id="unit_name"  class="form-control"  aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputEmail1">Instructor Name</label>
+                                            <input type="text" name="i_name" readonly  id="unit_instructor_name"  class="form-control"  aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="form-group col-md-6" style="display:none">
+                                            <label for="exampleInputEmail1">Course ID</label>
+                                            <input type="text" name="cc_id" readonly  id="course_id"  class="form-control"  aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="form-group col-md-6" style="display:none">
+                                            <label for="exampleInputEmail1">Unit ID</label>
+                                            <input type="text" name="c_id" readonly  id="unit_id"  class="form-control"  aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="form-group col-md-6" style="display:none">
+                                            <label for="exampleInputEmail1">Instructor Id</label>
+                                            <input type="text" name="i_id" readonly  id="unit_instructor_id"  class="form-control"  aria-describedby="emailHelp">
+                                        </div>
+
+
+                                        <div class="form-group col-md-12">
+                                            <label for="exampleInputEmail1">Course</label>
+                                            <input type="text" name="s_course" readonly  id="course_name"  class="form-control"  aria-describedby="emailHelp">
+                                        </div>
+                                       
+                                        
+                                    </div>
+                                   
+                                   <hr>
+
+                                    <button type="submit" name="enroll_Student" class="btn btn-outline-primary">Enroll Student.</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-
+                            <?php }?>
                 </div>
             
                 <!-- *************************************************************** -->

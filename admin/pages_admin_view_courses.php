@@ -122,9 +122,9 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Courses</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_courses.php">Units</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_category.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_courses.php">View</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -152,7 +152,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">View Courses</h4>
+                                <h4 class="card-title">View  Courses With Respective Units</h4>
                                 <div class="table-responsive">
                                     <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
                                         style="width:100%">
@@ -186,8 +186,8 @@
                                                 <td><?php echo $row->cc_code;?></td>
                                                 <td><?php echo $row->cc_dept_head;?></td>
                                                 <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $row->cc_id;?>">
-                                                     <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View Record
+                                                    <a class="badge badge-success" href="pages_admin_view_single_course_units.php?cc_id=<?php echo $row->cc_id;?>">
+                                                     <i class="fas fa-eye"></i> <i class=" fas fa-calendar-alt"></i> <?php echo $row->cc_code;?>  Units
                                                     </a>
                                                 </td>
                                             </tr>

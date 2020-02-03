@@ -27,6 +27,7 @@
                                             class="hide-menu"> Manage
                                         </span></a>
                                 </li>
+                                
                             </ul>
                         </li>
 
@@ -52,20 +53,20 @@
 
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                                 aria-expanded="false"><i data-feather="grid" class="feather-icon"></i><span
-                                    class="hide-menu">Course Categories </span></a>
+                                    class="hide-menu">Courses </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 <li class="sidebar-item"><a href="pages_admin_add_category.php" class="sidebar-link"><span
-                                            class="hide-menu"> Add Category
+                                            class="hide-menu"> Add Course
                                         </span></a>
                                 </li>
                                 <li class="sidebar-item"><a href="pages_admin_view_category.php" class="sidebar-link"><span
-                                            class="hide-menu"> View Category
+                                            class="hide-menu"> View Courses
                                         </span></a>
                                 </li>
                                 <li class="sidebar-item"><a href="pages_admin_manage_categories.php" class="sidebar-link"><span
                                             class="hide-menu">
-                                            Manage Categories
+                                            Manage Courses
                                         </span></a>
                                 </li>
                                 
@@ -74,24 +75,41 @@
 
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                                 aria-expanded="false"><i data-feather="file-text" class="feather-icon"></i><span
-                                    class="hide-menu">Courses </span></a>
+                                    class="hide-menu">Units </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 <li class="sidebar-item"><a href="pages_admin_add_course.php" class="sidebar-link"><span
-                                            class="hide-menu"> Add Course
+                                            class="hide-menu"> Add Unit
                                         </span></a>
                                 </li>
                                 <li class="sidebar-item"><a href="pages_admin_view_courses.php" class="sidebar-link"><span
-                                            class="hide-menu"> View Course
+                                            class="hide-menu"> View Units
                                         </span></a>
                                 </li>
                                 <li class="sidebar-item"><a href="pages_admin_manage_courses.php" class="sidebar-link"><span
-                                            class="hide-menu"> Manage Courses
+                                            class="hide-menu"> Manage Units
                                         </span></a>
                                 </li>
                             </ul>
                         </li>
-                        
+
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                                aria-expanded="false"><i class="icon  icon-magic-wand "></i><span
+                                    class="hide-menu">Assaign Unit</span></a>
+                                    
+                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                <li class="sidebar-item"><a href="pages_admin_assaign_instructors.php" class="sidebar-link"><span
+                                            class="hide-menu"> Assaign Units
+                                        </span></a>
+                                </li>
+                                
+                                <li class="sidebar-item"><a href="pages_admin_manage_assaign.php" class="sidebar-link"><span
+                                            class="hide-menu"> Manage
+                                        </span></a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                                 aria-expanded="false"><i class="icon icon-user-follow "></i><span
                                     class="hide-menu">Enrollments </span></a>

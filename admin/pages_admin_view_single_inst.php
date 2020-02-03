@@ -171,7 +171,7 @@
                     <div class="col-lg-6 col-md-6">
                             <!-- Card -->
                             <div class="card">
-                                <img class="card-img-top img-fluid" src="assets/images/users/<?php echo $row->i_dpic;?>"
+                                <img class="card-img-top img-fluid" src="../student/assets/images/users/<?php echo $row->i_dpic;?>"
                                     alt="Card image cap">
                             </div>
                             <!-- Card -->
@@ -188,6 +188,53 @@
                             <li class="list-group-item">Phone No  : <?php echo $row->i_phone;?></li>
                            
                         </ul>
+                            
+                            <!-- Card -->
+                    </div>
+                    <div class="col-lg-12 col-md-6">
+                        <div class="card-header">
+                            <?php echo $row->i_name;?>'s Units Assaigned.
+                        </div>
+                        <hr>
+                        
+                        <table id="default_order" class="table table-striped table-bordered display no-wrap" 
+                            style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Unit Code</th>
+                                    <th>Unit Name</th>
+                                    <th>Course</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                                //unit assaignment details
+                                $i_id = $_GET['i_id'];
+                                $ret="SELECT  * FROM  lms_units_assaigns WHERE i_id =?";
+                                $stmt= $mysqli->prepare($ret) ;
+                                $stmt->bind_param('i',$i_id);
+                                $stmt->execute() ;//ok
+                                $res=$stmt->get_result();
+                                $cnt=1;
+                                while($row=$res->fetch_object())
+                                {
+                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+                                    
+                            ?>
+                                <tr>
+                                    <td><?php echo $cnt;?></td>
+                                    <td><?php echo $row->c_code;?></td>
+                                    <td><?php echo $row->c_name;?></td>
+                                    <td><?php echo $row->c_category;?></td>
+                                    
+                                </tr>
+
+                                <?php $cnt = $cnt +1; }?>    
+
+                            </tbody>
+                        </table>
                             
                             <!-- Card -->
                     </div>
