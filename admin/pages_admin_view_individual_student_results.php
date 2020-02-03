@@ -4,28 +4,42 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-
-  /*delete Questions
-  if(isset($_GET['delete']))
+  /*
+  //register a new student
+  if(isset($_POST['add_student']))
   {
-        $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_questions WHERE q_id = ?";
-        $stmt= $mysqli->prepare($adn);
-        $stmt->bind_param('i',$id);
-        $stmt->execute();
-        $stmt->close();	 
-  
-          if($stmt)
-          {
-            $success = "Questions Deleted";
-          }
-            else
-            {
-                $err = "Try Again Later";
-            }
-    }
+      $s_regno = $_POST['s_regno'];
+      $s_name = $_POST['s_name'];
+      $s_email = $_POST['s_email'];
+      $s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
+      $s_phoneno = $_POST['s_phoneno'];
+      $s_dob = $_POST['s_dob'];
+      $s_gender = $_POST['s_gender'];
+      $s_acc_stats = $_POST['s_acc_stats'];
+      
+      //Upload students profile picture
+      $s_dpic = $_FILES["s_dpic"]["name"];
+          move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
+      
+      //sql to insert captured values
+      $query="INSERT INTO lms_student (s_regno, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?)";
+      $stmt = $mysqli->prepare($query);
+      $rc=$stmt->bind_param('sssssssss', $s_regno, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
+      $stmt->execute();
+
+      if($stmt)
+      {
+                $success = "Student Account Added";
+                
+                //echo "<script>toastr.success('Have Fun')</script>";
+      }
+      else {
+        $err = "Please Try Again Or Try Later";
+      }
+      
+      
+  }
   */
-  
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -107,15 +121,29 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
-                        
+                        <!--Get Details of single student-->
+                        <?php
+                            $rs_id = $_GET['rs_id'];
+                            $ret="SELECT  * FROM lms_results  WHERE rs_id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$rs_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                              
+                        ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Study Materials</a>
+                                    <li class="breadcrumb-item"><a href="">Results</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_studymt.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_manage_results.php">Manage</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="">Single Unit Marks</a>
                                     </li>
                                     
                                 </ol>
@@ -130,6 +158,7 @@
                             </select>
                         </div>
                     </div>
+                    
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -138,69 +167,92 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Select A Unit To View Its Study Materials And Course Work. </h4>
-                                <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display "
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Unit Code</th>
-                                                <th>Unit Name</th>
-                                                <th>Study Material Code</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                        <?php
-                                            $ret="SELECT  * FROM  lms_study_material ";
-                                            $stmt= $mysqli->prepare($ret) ;
-                                            //$stmt->bind_param('i',$c_id);
-                                            $stmt->execute() ;//ok
-                                            $res=$stmt->get_result();
-                                            $cnt=1;
-                                            while($row=$res->fetch_object())
-                                            {
-                                        ?>
-
-                                            <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->c_code;?></td>
-                                                <td><?php echo $row->c_name;?></td>
-                                                <td><?php echo $row->sm_number;?></td>
-                                                <td>
-                                                    
-                                                    <a class="badge badge-success" href="pages_admin_view_single_studymt.php?ls_id=<?php echo $row->ls_id;?>&c_id=<?php echo $row->c_id;?>">
-                                                     <i class="fas fa-eye"></i> <i class="icon  icon-doc "></i> View 
-                                                    </a>
-                                                    <!--
-                                                    <a class="badge badge-danger" href="pages_admin_manage_single_quizzes.php?delete=<?php echo $row->q_id;?>&c_id=<?php echo $row->c_id;?>">
-                                                     <i class="fas fa-trash"></i> <i class="icon  icon-doc "></i> Delete Quizzes
-                                                    </a>
-                                                   -->
-                                                </td>
-                                            </tr>
-
-                                            <?php $cnt = $cnt +1; }?>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                                
-                            </div>
+                    <div class="col-lg-12 col-md-6">
+                        <div class="card-header">
+                            <?php echo $row->s_unit_code;?> <?php echo $row->s_unit_name;?>
                         </div>
-                    </div>
+                        <hr>
+                       
+                        <table  class="table table-striped table-bordered display no-wrap" 
+                            style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Student RegNo</th>
+                                    <th>Student Name</th>
+                                    <th>Cat 1</th>
+                                    <th>Cat 2</th>
+                                    <th>Final Exam</th>
+                                    <th>Average</th>
+                                    <th>Grade</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                                $rs_id = $_GET['rs_id'];
+                                $ret="SELECT  * FROM lms_results  WHERE rs_id=?";
+                                $stmt= $mysqli->prepare($ret) ;
+                                $stmt->bind_param('i',$rs_id);
+                                $stmt->execute() ;//ok
+                                $res=$stmt->get_result();
+                                $cnt=1;
+                                while($row=$res->fetch_object())
+                                {
+                                    $cat1 = $row->c_cat1_marks;
+                                    $cat2 = $row->c_cat2_marks;
+                                    $sem_end = $row->c_eos_marks;
 
+                                    //Get The Avg Marks
+                                    $convertedCat1 = ($cat1/30)*20;
+                                    $convertedCat2 = ($cat2/30)*10;
+                                    $total_avg = ($convertedCat1 + $convertedCat2+$sem_end);
+
+                                    //Get The Grade
+                                    if($total_avg >= '70')
+                                    {
+                                        $grade = 'A';
+                                    }
+                                    elseif($total_avg >= '60')
+                                    {
+                                        $grade = 'B';
+                                    }
+                                    elseif($total_avg >= '50')
+                                    {
+                                        $grade = 'C';
+                                    }
+                                    elseif($total_avg >= '40')
+                                    {
+                                        $grade = 'D';
+                                    }
+                                    else
+                                    {
+                                        $grade = 'E';
+                                    }
+                                
+                            ?>
+                                <tr>
+                                    <td><?php echo $row->s_regno;?></td>
+                                    <td><?php echo $row->s_name;?></td>
+                                    <td><?php echo $row->c_cat1_marks;?></td>
+                                    <td><?php echo $row->c_cat2_marks;?></td>
+                                    <td><?php echo $row->c_eos_marks;?></td>
+                                    <td><?php echo $total_avg ;?></td>
+                                    <td><?php echo $grade;?></td>
+                                    
+                                </tr>
+
+                                <?php $cnt = $cnt +1; }?>    
+
+                            </tbody>
+                        </table>
+                            
+                            <!-- Card -->
+                    </div>
+                    <?php }?>
                 </div>
-            
                 <!-- *************************************************************** -->
             </div>
             <!-- ============================================================== -->

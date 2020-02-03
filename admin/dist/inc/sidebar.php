@@ -197,9 +197,7 @@
                                             class="hide-menu"> Add 
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_view_results.php" class="sidebar-link"><span
-                                            class="hide-menu"> View </span></a>
-                                </li>
+                                
                                 <li class="sidebar-item"><a href="pages_admin_manage_results.php" class="sidebar-link"><span
                                             class="hide-menu"> Manage </span></a>
                                 </li>
