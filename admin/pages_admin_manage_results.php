@@ -4,12 +4,13 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
+  //hold logged in user session.
 
-  /*delete Questions
+  //delete Results
   if(isset($_GET['delete']))
   {
         $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_questions WHERE q_id = ?";
+        $adn="DELETE FROM lms_results WHERE rs_id = ?";
         $stmt= $mysqli->prepare($adn);
         $stmt->bind_param('i',$id);
         $stmt->execute();
@@ -17,15 +18,14 @@
   
           if($stmt)
           {
-            $success = "Questions Deleted";
+            $success = "Marks Record Deleted";
           }
             else
             {
                 $err = "Try Again Later";
             }
     }
-  */
-  
+    
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -68,7 +68,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <?php
+                    <?php
                             $a_id = $_SESSION['a_id'];
                             $ret="SELECT  * FROM  lms_admin  WHERE a_id=?";
                             $stmt= $mysqli->prepare($ret) ;
@@ -107,15 +107,14 @@
                         ?>
                         <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
                         <?php }?>
-                        
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Study Materials</a>
+                                    <li class="breadcrumb-item"><a href="">Results</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_studymt.php">View</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_manage_results.php">Manage</a>
                                     </li>
                                     
                                 </ol>
@@ -138,67 +137,79 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            
             <div class="container-fluid">
+                
                 <div class="row">
-
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Select A Unit To View Its Study Materials And Course Work. </h4>
+                                <h4 class="card-title">Student Marks Details </h4>
                                 <div class="table-responsive">
-                                    <table id="multi_col_order" class="table table-striped table-bordered display "
+                                    <table id="default_order" class="table table-striped table-bordered display"
                                         style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
-                                                <th>Study Material Code</th>
+                                                <th>Std Reg No</th>
+                                                <th>Std Name</th>
+                                                <th>Date Added</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-
                                         <?php
-                                            $ret="SELECT  * FROM  lms_study_material ";
+                                            //Student Marks Details
+                                            $ret="SELECT  * FROM  lms_results";
                                             $stmt= $mysqli->prepare($ret) ;
-                                            //$stmt->bind_param('i',$c_id);
+                                            //$stmt->bind_param('i',$l_id);
                                             $stmt->execute() ;//ok
                                             $res=$stmt->get_result();
                                             $cnt=1;
                                             while($row=$res->fetch_object())
                                             {
+                                                $mysqlDateTime = $row->c_date_added;//trim timestamp to DD/MM/YYYY formart
+                                                
                                         ?>
-
                                             <tr>
-                                                <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->c_code;?></td>
-                                                <td><?php echo $row->c_name;?></td>
-                                                <td><?php echo $row->sm_number;?></td>
+                                                <td><?php echo $row->s_unit_code;?></td>
+                                                <td><?php echo $row->s_unit_name;?></td>
+                                                <td><?php echo $row->s_regno;?></td>
+                                                <td><?php echo $row->s_name;?>
+                                                <td><?php echo date("d M Y", strtotime($mysqlDateTime));?></td>
                                                 <td>
                                                     
-                                                    <a class="badge badge-success" href="pages_admin_view_single_studymt.php?ls_id=<?php echo $row->ls_id;?>&c_id=<?php echo $row->c_id;?>">
-                                                     <i class="fas fa-eye"></i> <i class="icon  icon-doc "></i> View 
+                                                    <a class="badge badge-warning" 
+                                                         href="pages_admin_update_individual_student_results.php?rs_id=<?php echo $row->rs_id;?>">
+                                                         <i class="fas fa-edit"></i> <i class=" fas fa-id-badge"></i>
+                                                             Update
                                                     </a>
-                                                    <!--
-                                                    <a class="badge badge-danger" href="pages_admin_manage_single_quizzes.php?delete=<?php echo $row->q_id;?>&c_id=<?php echo $row->c_id;?>">
-                                                     <i class="fas fa-trash"></i> <i class="icon  icon-doc "></i> Delete Quizzes
+                                                   
+                                                    <a class="badge badge-danger" 
+                                                         href="pages_admin_manage_results.php?delete=<?php echo $row->rs_id;?>">
+                                                         <i class="fas fa-trash"></i> <i class=" fas fa-id-badge"></i>
+                                                             Delete
                                                     </a>
-                                                   -->
+
+                                                    <a class="badge badge-success" 
+                                                         href="pages_admin_view_individual_student_results.php?rs_id=<?php echo $row->rs_id;?>">
+                                                         <i class="fas fa-eye"></i> <i class=" fas fa-id-badge"></i>
+                                                            View
+                                                    </a>
+                                                    
+                                                    
                                                 </td>
                                             </tr>
 
-                                            <?php $cnt = $cnt +1; }?>
+                                            <?php }?>    
 
                                         </tbody>
                                     </table>
                                 </div>
-                                
                             </div>
                         </div>
                     </div>
-
+                       
                 </div>
             
                 <!-- *************************************************************** -->
