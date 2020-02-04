@@ -39,7 +39,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
     <title>Learning Management System - The Ultimate Multipurpose E learning Platform</title>
     <!-- Custom CSS -->
     <link href="dist/css/style.min.css" rel="stylesheet">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
-                        <img src="assets/images/big/icon.png" alt="wrapkit">
+                        <img src="assets/images/logo-text.png" alt="logo">
                         <h2 class="mt-3 text-center">Sign Up for Free</h2>
 
                         <form method = 'POST' class="mt-4">

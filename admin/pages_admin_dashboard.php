@@ -295,14 +295,14 @@
                                 <div>
                                         <?php
 
-                                            $result ="SELECT SUM(b_amt) FROM  lms_billings ";
+                                            $result ="SELECT SUM(p_amt) FROM  lms_paid_study_materials ";
                                             $stmt = $mysqli->prepare($result);
                                             $stmt->execute();
                                             $stmt->bind_result($bills);
                                             $stmt->fetch();
                                             $stmt->close();
                                         ?>
-                                    <h2 class="text-dark mb-1 font-weight-medium"><?php echo $bills;?></h2>
+                                    <h2 class="text-dark mb-1 font-weight-medium">Ksh <?php echo $bills;?></h2>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Fee</h6>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
