@@ -241,25 +241,27 @@
                                 
                             </ul>
                         </li>
+
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" target="_blank" href="https://accounts.google.com/ServiceLogin/identifier?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1&flowName=GlifWebSignIn&flowEntry=AddSession"
+                                aria-expanded="false"><i icon class="icon icon-envelope "></i><span
+                                    class="hide-menu">Mail</span></a></li>
+
+                        
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i class="icon icon-bubbles"></i><span
-                                    class="hide-menu">Mail</span></a>
+                                aria-expanded="false"><i class="icon icon-envelope-open"></i><span
+                                    class="hide-menu">Forum</span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_admin_inbox.php" class="sidebar-link"><span
-                                            class="hide-menu"> InBox 
+                                <li class="sidebar-item"><a href="pages_admin_select_unit_to_add_forum.php" class="sidebar-link"><span
+                                            class="hide-menu"> Add Topic
                                         </span></a>
                                 </li>
                                 
-                                <li class="sidebar-item"><a href="pages_admin_sentmail.php" class="sidebar-link"><span
-                                            class="hide-menu"> Sent Mail </span></a>
+                                <li class="sidebar-item"><a href="pages_admin_manage_forum.php" class="sidebar-link"><span
+                                            class="hide-menu"> Manage </span></a>
                                 </li>
                                 
                             </ul>
-                        </li>
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="pages_admin_forum.php"
-                                aria-expanded="false"><i class=" icon icon-envelope-open"></i><span
-                                    class="hide-menu">Forum</span></a>
                         </li>
 
                        
