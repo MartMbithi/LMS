@@ -96,9 +96,8 @@
                                     My Profile</a>
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="pages_admin_mail.php"><i data-feather="mail"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    Inbox</a>
+                                <a class="dropdown-item" href="pages_admin_pwd_change.php"><i class="icon icon-lock"                               class="svg-icon mr-2 ml-1"></i>
+                                    Change Password</a>
                                 <div class="dropdown-divider"></div>
                                 
                                 <a class="dropdown-item" href="pages_admin_logout.php"><i data-feather="power"

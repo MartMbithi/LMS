@@ -187,6 +187,26 @@
                                 
                             </ul>
                         </li>
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                                aria-expanded="false"><i class="icon   icon-credit-card  "></i><span
+                                    class="hide-menu">Billings</span></a>
+
+                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                <li class="sidebar-item"><a href="pages_admin_price_study_materials.php" class="sidebar-link"><span
+                                            class="hide-menu"> Add 
+                                        </span></a>
+                                </li>
+                                
+                                <li class="sidebar-item"><a href="pages_admin_manage_payments.php" class="sidebar-link"><span
+                                            class="hide-menu"> Manage </span></a>
+                                </li>
+
+                                <li class="sidebar-item"><a href="pages_admin_view_payments.php" class="sidebar-link"><span
+                                            class="hide-menu"> View Payments </span></a>
+                                </li>
+                                
+                            </ul>
+                        </li>
 
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                                 aria-expanded="false"><i class="icon   icon-badge "></i><span

@@ -1,244 +1,70 @@
-<?php
-  session_start();
-  include('dist/inc/config.php');
-  include('dist/inc/checklogin.php');
-  check_login();
-  $a_id=$_SESSION['a_id'];
-  /*
-  //register a new student
-  if(isset($_POST['add_student']))
-  {
-      $s_regno = $_POST['s_regno'];
-      $s_name = $_POST['s_name'];
-      $s_email = $_POST['s_email'];
-      $s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
-      $s_phoneno = $_POST['s_phoneno'];
-      $s_dob = $_POST['s_dob'];
-      $s_gender = $_POST['s_gender'];
-      $s_acc_stats = $_POST['s_acc_stats'];
-      
-      //Upload students profile picture
-      $s_dpic = $_FILES["s_dpic"]["name"];
-          move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
-      
-      //sql to insert captured values
-      $query="INSERT INTO lms_student (s_regno, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?)";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssssssss', $s_regno, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
-      $stmt->execute();
-
-      if($stmt)
-      {
-                $success = "Student Account Added";
-                
-                //echo "<script>toastr.success('Have Fun')</script>";
-      }
-      else {
-        $err = "Please Try Again Or Try Later";
-      }
-      
-      
-  }
-  */
-?>
 <!DOCTYPE html>
-<html dir="ltr" lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Certificate</title>
+    <style>
 
-<!--Head-->
-<?php include("dist/inc/head.php");?>
-<!-- ./Head -->
-
-<body onload=display_ct();>
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
+    #certificate{background: linear-gradient(#c8be75 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #c8be75 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #c8be75 0%, rgba(255,255,255,0) 0) 55px 0 #FFF;background-size: 10.5in 8in;background-repeat: repeat-x;}
+    body{ margin: 0;}
     
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-            <?php include("dist/inc/header.php");?>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-            <?php include("dist/inc/sidebar.php");?>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
-        <div class="page-wrapper">
-            <!-- ============================================================== -->
-            <!-- Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <div class="page-breadcrumb">
-                <div class="row">
-                    <div class="col-7 align-self-center">
-                        <?php
-                            $a_id = $_SESSION['a_id'];
-                            $ret="SELECT  * FROM  lms_admin  WHERE a_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$a_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                                // time function to get day zones ie morning, noon, and night.
-                                $t = date("H");
+    @media print {
+        table{background: linear-gradient(#c8be75 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #c8be75 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #c8be75 0%, rgba(255,255,255,0) 0) 55px 0 #FFF;background-size: 10.5in 8in;background-repeat: repeat-x; -webkit-print-color-adjust: exact; }
+    }
+    
+    @page {
+        margin-top: 0.5cm;
+        margin-bottom: 2cm;
+        margin-left: 2cm;
+        margin-right: 2cm;
+    }
 
-                                if ($t < "10")
-                                 {
-                                    $d_time = "Good Morning";
+    </style>
+</head>
+<body>
+<button onclick="myFunction()">Print this page</button>
+<script>
+        function myFunction() {
+            window.print();
+        }
+</script>
 
-                                    }
-
-                                     elseif ($t < "15")
-                                      {
-
-                                      $d_time =  "Good Afternoon";
-
-                                     } 
-
-                                        elseif ($t < "20")
-                                        {
-
-                                        $d_time =  "Good Evening";
-
-                                        } 
-                                        else {
-
-                                            $d_time = "Good Night";
-                                }
-                        ?>
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
-                        <?php }?>
-
-                        <?php
-                            $ls_id = $_GET['ls_id'];
-                            $ret="SELECT  * FROM lms_study_material  WHERE ls_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$ls_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                              
-                        ?>
-                        <div class="d-flex align-items-center">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="">Study Materials</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_view_studymt.php">View</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href=""><?php echo $row->c_name;?></a>
-                                    </li>
-                                    
-                                </ol>
-                            </nav>
-                        </div>
-                        <?php }?>
-                    </div>
-                    <div class="col-5 align-self-center">
-                        <div class="customize-input float-right">
-                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                                <option selected id="ct"></option>
-                                
-                            </select>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
-            <div class="container-fluid">
-                
-                    <?php
-                        $ls_id = $_GET['ls_id'];
-                        $c_id = $_GET['c_id'];
-                        $ret="SELECT  * FROM lms_study_material  WHERE ls_id=? AND c_id =?";
-                        $stmt= $mysqli->prepare($ret) ;
-                        $stmt->bind_param('ii',$ls_id, $c_id);
-                        $stmt->execute() ;//ok
-                        $res=$stmt->get_result();
-                        //$cnt=1;
-                        while($row=$res->fetch_object())
-                        {
-                            
-                    ?>
-                    
-                        <div class="card-header">
-                            <?php echo $row->c_name;?> Study Materials
-                        </div>
-
-                        <iframe src="assets/Study_Materials/<?php echo $row->sm_materials;?>" class="col-md-12" style="height:500px;" frameborder="0"></iframe>       
-
-                    <?php }?>
-
-                <!-- *************************************************************** -->
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-                 <?php include("dist/inc/footer.php");?>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
+    <div class="certificate-container" style="background:#f9f9f9">
+        <table id="certificate" style="width: 11in;margin: 0 auto;text-align: center;padding: 10px;border-style: groove;border-width: 20px;outline: 5px dotted #000;height: 8.5in;outline-offset: -26px;outline-style: double;border-color: #9d8b00;">
+            <tr>
+                <td><h1 style="font-size: 0.6in; margin: 0; color: #000;">Certificate of JSSCWS</h1><h3 style="margin: 0;font-size: 0.25in;color: black;text-transform: uppercase;font-family: sans-serif;">Reg. by UP Government</h3> <p style="font-size: 0.2in;text-transform: uppercase;color: #494000;">Is hereby granted to :</p></td>
+            </tr>
+            <tr>
+                <td>
+                    <h2 style="color: #fff; font-size: 0.4in;margin: 10px 0 0 0; font-family: sans-serif;text-transform: uppercase;">KEHARPAL</h2>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="profile-pic.jpg" alt="" style="max-width: 100%;margin: 0 auto;display: block;border-width: 5px;border-style: double;border-color: #333;box-shadow: 0 5px 10px rgba(0,0,0,0.3);"></td>
+            </tr>
+            <tr>
+                <td>
+                    <h4 style="margin:0; font-size: 0.16in;font-family: sans-serif;color: #000;">The Covered Member</h4>
+                    <h5  style="margin: 5px 0 40px; font-size: 0.16in;font-family: sans-serif;color: #000;">Pension Scheme Age 50</h5>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   <img src="logo.png" alt="" style="max-width:100%;">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h6 style="margin: 10px 0 20px; font-family: sans-serif;font-size: 0.12in;">Reg. by JSSCWS</h6>
+                    <em>Generated : 12/1/2018 12:00:00 AM</em>
+                </td>
+            </tr>
+        </table>
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
-    <script src="assets/libs/jquery/dist/jquery.min.js"></script>
-    <script src="assets/libs/popper.js/dist/umd/popper.min.js"></script>
-    <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- apps -->
-    <!-- apps -->
-    <script src="dist/js/app-style-switcher.js"></script>
-    <script src="dist/js/feather.min.js"></script>
-    <script src="assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="dist/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="dist/js/custom.min.js"></script>
-    <!--This page JavaScript -->
-    <script src="assets/extra-libs/c3/d3.min.js"></script>
-    <script src="assets/extra-libs/c3/c3.min.js"></script>
-    <script src="assets/libs/chartist/dist/chartist.min.js"></script>
-    <script src="assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    
-    <!--This page plugins -->
-    <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>
 </body>
-
 </html>
+
+certificate.html
+Displaying certificate.html.
