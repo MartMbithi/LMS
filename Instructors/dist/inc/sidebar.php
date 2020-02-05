@@ -78,7 +78,7 @@
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 
                                 <li class="sidebar-item"><a href="pages_ins_manage_assaign.php" class="sidebar-link"><span
-                                            class="hide-menu"> Sidebar
+                                            class="hide-menu"> View
                                         </span></a>
                                 </li>
                             </ul>
@@ -89,15 +89,15 @@
                                     class="hide-menu">Enrollments </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_admin_add_enrollment.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_add_enrollment.php" class="sidebar-link"><span
                                             class="hide-menu"> Add 
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_view_enrollments.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_view_enrollments.php" class="sidebar-link"><span
                                             class="hide-menu"> View
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_manage_enrollments.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_manage_enrollments.php" class="sidebar-link"><span
                                             class="hide-menu">
                                             Manage
                                         </span></a>
@@ -110,14 +110,14 @@
                                     class="hide-menu">Questions </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_admin_add_testquizzes.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_add_testquizzes.php" class="sidebar-link"><span
                                             class="hide-menu"> Add Quizzes
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_view_testquizzes.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_view_testquizzes.php" class="sidebar-link"><span
                                             class="hide-menu"> View Quizzes </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_manage_testquizzes.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_manage_testquizzes.php" class="sidebar-link"><span
                                             class="hide-menu"> Manage Quizzes </span></a>
                                 </li>
                                 
@@ -128,14 +128,14 @@
                                     class="hide-menu">Answers </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                
-                                <li class="sidebar-item"><a href="pages_admin_add_ans.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_add_ans.php" class="sidebar-link"><span
                                             class="hide-menu"> Add Answers
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_view_ans.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_view_ans.php" class="sidebar-link"><span
                                             class="hide-menu"> View Answers </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_manage_ans.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_manage_ans.php" class="sidebar-link"><span
                                             class="hide-menu"> Manage Answers</span></a>
                                 </li>
 
@@ -161,27 +161,7 @@
                                 
                             </ul>
                         </li>
-                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i class="icon   icon-credit-card  "></i><span
-                                    class="hide-menu">Billings</span></a>
-
-                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_admin_price_study_materials.php" class="sidebar-link"><span
-                                            class="hide-menu"> Add 
-                                        </span></a>
-                                </li>
-                                
-                                <li class="sidebar-item"><a href="pages_admin_manage_payments.php" class="sidebar-link"><span
-                                            class="hide-menu"> Manage </span></a>
-                                </li>
-
-                                <li class="sidebar-item"><a href="pages_admin_view_payments.php" class="sidebar-link"><span
-                                            class="hide-menu"> View Payments </span></a>
-                                </li>
-                                
-                            </ul>
-                        </li>
-
+                        
                         <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                                 aria-expanded="false"><i class="icon   icon-badge "></i><span
                                     class="hide-menu">Results</span></a>
