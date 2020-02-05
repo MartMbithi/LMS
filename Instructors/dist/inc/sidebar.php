@@ -78,7 +78,7 @@
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 
                                 <li class="sidebar-item"><a href="pages_ins_manage_assaign.php" class="sidebar-link"><span
-                                            class="hide-menu"> Sidebar
+                                            class="hide-menu"> View
                                         </span></a>
                                 </li>
                             </ul>
@@ -89,15 +89,15 @@
                                     class="hide-menu">Enrollments </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_admin_add_enrollment.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_add_enrollment.php" class="sidebar-link"><span
                                             class="hide-menu"> Add 
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_view_enrollments.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_view_enrollments.php" class="sidebar-link"><span
                                             class="hide-menu"> View
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_admin_manage_enrollments.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_manage_enrollments.php" class="sidebar-link"><span
                                             class="hide-menu">
                                             Manage
                                         </span></a>
