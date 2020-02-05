@@ -110,7 +110,7 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Instructors</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Students</a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="pages_admin_manage_instructors.php">Manage</a>
                                     </li>

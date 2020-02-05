@@ -171,7 +171,7 @@
                     <div class="col-lg-6 col-md-6">
                             <!-- Card -->
                             <div class="card">
-                                <img class="card-img-top img-fluid" src="../student/assets/images/users/<?php echo $row->i_dpic;?>"
+                                <img class="card-img-top img-fluid" src="assets/images/users/<?php echo $row->i_dpic;?>"
                                     alt="Card image cap">
                             </div>
                             <!-- Card -->

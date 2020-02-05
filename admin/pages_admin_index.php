@@ -125,7 +125,8 @@
                                     <button type="submit" name="login" class="btn btn-block btn-outline-dark">Sign In</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                    Don't have an account? <a href="pages_admin_signup.php" class="text-danger">Sign Up</a>
+                                   <!--ADMIN ACCOUNT'S IS SYSTEM GENERATED NO NEED TO SIGN UP.
+                                    Don't have an account? <a href="pages_admin_signup.php" class="text-danger">Sign Up</a>-->
                                     Forgot Password? <a href="pages_reset_pwd.php" class="text-danger">Recover</a><br>
                                     Take Me  <a href="../" class="text-danger">Home</a> Safe
                                 </div>
