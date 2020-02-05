@@ -56,15 +56,15 @@
                                     class="hide-menu">Units </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_ins_add_course.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_add_unit.php" class="sidebar-link"><span
                                             class="hide-menu"> Add Unit
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_ins_view_courses.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_view_units.php" class="sidebar-link"><span
                                             class="hide-menu"> View Units
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_ins_manage_courses.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_manage_units.php" class="sidebar-link"><span
                                             class="hide-menu"> Manage Units
                                         </span></a>
                                 </li>
@@ -78,7 +78,7 @@
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 
                                 <li class="sidebar-item"><a href="pages_ins_manage_assaign.php" class="sidebar-link"><span
-                                            class="hide-menu"> Manage
+                                            class="hide-menu"> Sidebar
                                         </span></a>
                                 </li>
                             </ul>
