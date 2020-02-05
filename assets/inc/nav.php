@@ -74,7 +74,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Login</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="admin/pages_admin_index.php">Administrator</a>
-                                    <a class="dropdown-item" href="instructor/pages_instructor_index.php">Instructor</a>
+                                    <a class="dropdown-item" href="Instructors/pages_ins_index.php">Instructor</a>
                                     <a class="dropdown-item" href="student/pages_student_index.php">Student</a>
                                 </div>
                             </li>
