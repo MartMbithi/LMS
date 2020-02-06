@@ -56,7 +56,7 @@
                                     class="hide-menu">Units </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_ins_add_unit.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_add_course.php" class="sidebar-link"><span
                                             class="hide-menu"> Add Unit
                                         </span></a>
                                 </li>

@@ -13,14 +13,14 @@
       $i_id = $_SESSION['i_id'];
       $c_id = $_GET['c_id'];
       $f_topic = $_POST['f_topic'];
-      $a_id = $_SESSION['a_id'];
+      //$i_id = $_SESSION['i_id'];
       $f_no = $_POST['f_no'];
       //$i_id = $_POST['i_id'];<--Uncomment this code if the user is a student login
       
       //sql to insert captured values
-      $query="INSERT INTO lms_forum (s_unit_code, s_unit_name, i_id, c_id, f_topic, a_id, f_no)  VALUES (?,?,?,?,?,?,?)";
+      $query="INSERT INTO lms_forum (s_unit_code, s_unit_name, i_id, c_id, f_topic,  f_no)  VALUES (?,?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssssss', $s_unit_code, $s_unit_name, $i_id, $c_id, $f_topic, $a_id, $f_no);
+      $rc=$stmt->bind_param('ssssss', $s_unit_code, $s_unit_name, $i_id, $c_id, $f_topic,  $f_no);
       $stmt->execute();
 
       if($stmt)
