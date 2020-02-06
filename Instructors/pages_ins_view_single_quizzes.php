@@ -109,6 +109,7 @@
                                                 <th>#</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
+                                                <th>Question Code</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -130,6 +131,7 @@
                                                 <td><?php echo $cnt;?></td>
                                                 <td><?php echo $row->c_code;?></td>
                                                 <td><?php echo $row->c_name;?></td>
+                                                <td><?php echo $row->q_code;?></td>
                                                 <td>
                                                     
                                                     <a class="badge badge-success" href="pages_ins_view_specific_quizzes.php?q_id=<?php echo $row->q_id;?>">
