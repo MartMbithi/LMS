@@ -196,6 +196,29 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex d-lg-flex d-md-block align-items-center">
+                                <div>
+                                        <?php
+                                            $i_id = $_SESSION['i_id'];
+                                            $result ="SELECT SUM(p_amt) FROM  lms_paid_study_materials WHERE i_id =? ";
+                                            $stmt = $mysqli->prepare($result);
+                                            $stmt->bind_param('i',$i_id);
+                                            $stmt->execute();
+                                            $stmt->bind_result($bills);
+                                            $stmt->fetch();
+                                            $stmt->close();
+                                        ?>
+                                    <h2 class="text-dark mb-1 font-weight-medium">Ksh <?php echo $bills;?></h2>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Course Materials Payments</h6>
+                                </div>
+                                <div class="ml-auto mt-md-3 mt-lg-0">
+                                    <span class="opacity-7 text-muted"><i class=" icon-credit-card"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     
 
