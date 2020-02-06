@@ -101,9 +101,7 @@
                 </div>
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
-                        <div class="text-center">
-                            <img src="assets/images/big/icon.png" alt="wrapkit">
-                        </div>
+                       
                         <h2 class="mt-3 text-center">Reset Password</h2>
                         <p class="text-center">Enter your email address and password reset instructions will be sent to your email.</p>
                         <form method = "post" class="mt-4">
@@ -129,7 +127,7 @@
                                     <button type="submit" name="reset_pwd" class="btn btn-block btn-outline-dark">Reset Password</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                    Remembered Password? <a href="pages_admin_index.php" class="text-danger">Login</a><br>
+                                    Remembered Password? <a href="pages_std_index.php" class="text-danger">Login</a><br>
                                     Take Me  <a href="../" class="text-danger">Home</a> Safe
                                 </div>
                                

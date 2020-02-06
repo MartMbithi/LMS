@@ -1,14 +1,13 @@
 <?php
-    $a_id = $_SESSION['a_id'];
-    $ret="SELECT  * FROM  lms_admin  WHERE a_id=?";
+    $s_id = $_SESSION['s_id'];
+    $ret="SELECT  * FROM  lms_student  WHERE s_id=?";
     $stmt= $mysqli->prepare($ret) ;
-    $stmt->bind_param('i',$a_id);
+    $stmt->bind_param('i',$s_id);
     $stmt->execute() ;//ok
     $res=$stmt->get_result();
     //$cnt=1;
     while($row=$res->fetch_object())
     {
-// time function to get day zones ie morning, noon, and night.
 ?>
        <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md">
@@ -21,7 +20,7 @@
                     <!-- ============================================================== -->
                     <div class="navbar-brand">
                         <!-- Logo icon -->
-                        <a href="pages_admin_index.php">
+                        <a href="pages_std_dashboard.php">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
                                 <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
@@ -84,24 +83,27 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="assets/images/users/<?php echo $row->a_dpic;?>" alt="user" class="rounded-circle"
+                                <img src="assets/images/users/<?php echo $row->s_dpic;?>" alt="<?php echo $row->s_name;?>" class=""
                                     width="40">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
-                                        class="text-dark"><?php echo $row->a_name;?></span> <i data-feather="chevron-down"
+                                        class="text-dark"><?php echo $row->s_name;?></span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="pages_admin_profile.php"><i data-feather="user"
+                                <a class="dropdown-item" href="pages_std_view_profile.php"><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
-                                    My Profile</a>
+                                    Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="pages_std_profile.php"><i data-feather="user"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    Update Profile</a>
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item" href="pages_admin_mail.php"><i data-feather="mail"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    Inbox</a>
+                                <a class="dropdown-item" href="pages_std_pwd_change.php"><i class="icon icon-lock"                               class="svg-icon mr-2 ml-1"></i>
+                                    Change Password</a>
                                 <div class="dropdown-divider"></div>
                                 
-                                <a class="dropdown-item" href="pages_admin_logout.php"><i data-feather="power"
+                                <a class="dropdown-item" href="pages_std_logout.php"><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Logout</a>
                                 <div class="dropdown-divider"></div>

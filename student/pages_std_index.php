@@ -1,32 +1,30 @@
-<!--Server side code to handle  sign up-->
+<!-- Server side code for log in-->
 <?php
-	session_start();
-	include('dist/inc/config.php');
-		if(isset($_POST['signup']))
-		{
-            $a_name=$_POST['a_name'];
-            $a_uname=$_POST['a_uname'];
-            $a_email=$_POST['a_email'];
-            //$a_number = $_POST['a_number'];
-            $a_pwd=sha1(md5($_POST['a_pwd']));//double encrypt to increase security
-            //sql to insert captured values
-            $query="INSERT INTO lms_admin (a_name,  a_uname, a_email, a_pwd) values(?,?,?,?)";
-            $stmt = $mysqli->prepare($query);
-            $rc=$stmt->bind_param('ssss', $a_name, $a_uname, $a_email, $a_pwd);
-            $stmt->execute();
+    session_start();
+    include('dist/inc/config.php');//get configuration file
+    if(isset($_POST['login']))
+    {
+        $s_email=$_POST['s_email'];
+        $s_pwd=sha1(md5($_POST['s_pwd']));//double encrypt to increase security
+        $stmt=$mysqli->prepare("SELECT s_email ,s_pwd , s_id FROM lms_student WHERE s_email=? AND s_pwd=? ");//sql to log in user
+        $stmt->bind_param('ss',$s_email, $s_pwd);//bind fetched parameters
+        $stmt->execute();//execute bind
+        $stmt -> bind_result($s_email, $s_pwd, $s_id);//bind result
+        $rs=$stmt->fetch();
+        $_SESSION['s_id']= $s_id;//assaign session to admin id
+        //$uip=$_SERVER['REMOTE_ADDR'];
+        //$ldate=date('d/m/Y h:i:s', time());
+        if($rs)
+            {//if its sucessfull
+                header("location:pages_std_dashboard.php");
+            }
 
-            if($stmt)
+        else
             {
-                      $success = "Created Account Proceed To Log In";
-                      
-                      //echo "<script>toastr.success('Have Fun')</script>";
+            #echo "<script>alert('Access Denied Please Check Your Credentials');</script>";
+                $err = "Access Denied Please Check Your Credentials";
             }
-            else {
-              $err = "Please Try Again Or Try Later";
-            }
-			
-			
-		}
+    }
 ?>
 <!DOCTYPE html>
 <html dir="ltr">
@@ -43,12 +41,6 @@
     <title>Learning Management System - The Ultimate Multipurpose E learning Platform</title>
     <!-- Custom CSS -->
     <link href="dist/css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
     <!--Load Sweet Alert Javascript-->
     <script src="dist/js/swal.js"></script>
 
@@ -76,6 +68,12 @@
             </script>
 
     <?php } ?>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 </head>
 
 <body>
@@ -97,42 +95,39 @@
         <!-- ============================================================== -->
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
             style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
-            <div class="auth-box row text-center">
+            <div class="auth-box row">
                 <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(assets/images/big/3.jpg);">
                 </div>
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
-                        <img src="assets/images/big/icon.png" alt="wrapkit">
-                        <h2 class="mt-3 text-center">Sign Up for Free</h2>
-
-                        <form method = 'POST' class="mt-4">
+                        
+                        <h2 class="mt-3 text-center">Sign In</h2>
+                        <p class="text-center">Enter your email address and password to access student panel.</p>
+                        <form method ="post" class="mt-4">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input required="required" class="form-control" name="a_name" type="text" placeholder="Your Full Name">
+                                        <label class="text-dark" for="uname">Email</label>
+                                        <input class="form-control" required ="required" name="s_email" id="uname" type="email"
+                                            placeholder="Enter Your Email">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input required = "required" class="form-control" name="a_uname" type="text" placeholder="User Name">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <input required = "required" class="form-control" name="a_email" type="email" placeholder="Email Address">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <input class="form-control" require = "required" name="a_pwd" type="password" placeholder="Password">
+                                        <label class="text-dark" for="pwd">Password</label>
+                                        <input class="form-control" required ="required" name="s_pwd" id="pwd" type="password"
+                                            placeholder="Enter Your Password">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 text-center">
-                                    <button type="submit" name="signup" class="btn btn-block btn-outline-dark">Sign Up</button>
+                                    <button type="submit" name="login" class="btn btn-block btn-outline-dark">Sign In</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                    Already have an account? <a href="pages_admin_index.php" class="text-danger">Sign In</a>
+                                    Don't have an account? <a href="pages_std_signup.php" class="text-danger">Sign Up</a>
+                                    Forgot Password? <a href="pages_reset_pwd.php" class="text-danger">Recover</a><br>
+                                    Take Me  <a href="../" class="text-danger">Home</a> Safe
                                 </div>
+                               
                             </div>
                         </form>
                     </div>
