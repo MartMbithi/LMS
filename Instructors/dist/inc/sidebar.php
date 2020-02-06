@@ -202,12 +202,12 @@
                                     class="hide-menu">Certificates</span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_admin_add_certificate.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_add_certificate.php" class="sidebar-link"><span
                                             class="hide-menu"> Add 
                                         </span></a>
                                 </li>
                                 
-                                <li class="sidebar-item"><a href="pages_admin_manage_certificates.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_manage_certificates.php" class="sidebar-link"><span
                                             class="hide-menu"> Manage </span></a>
                                 </li>
                                 
@@ -224,12 +224,12 @@
                                     class="hide-menu">Forum</span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_admin_select_unit_to_add_forum.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_select_unit_to_add_forum.php" class="sidebar-link"><span
                                             class="hide-menu"> Add Topic
                                         </span></a>
                                 </li>
                                 
-                                <li class="sidebar-item"><a href="pages_admin_manage_forum.php" class="sidebar-link"><span
+                                <li class="sidebar-item"><a href="pages_ins_manage_forum.php" class="sidebar-link"><span
                                             class="hide-menu"> Manage </span></a>
                                 </li>
                                 
@@ -237,7 +237,7 @@
                         </li>
 
                        
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="pages_admin_logout.php"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="pages_ins_logout.php"
                                 aria-expanded="false"><i data-feather="log-out" class="feather-icon"></i><span
                                     class="hide-menu">Logout</span></a>
                         </li>

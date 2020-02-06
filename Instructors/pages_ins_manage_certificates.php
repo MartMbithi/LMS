@@ -3,41 +3,27 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $a_id=$_SESSION['a_id'];
-
-  //Enroll Student
-
-  if(isset($_POST['add_cert']))
+  $i_id = $_SESSION['i_id'];
+  //hold logged in user session.
+  //delete certificate primary details
+  if(isset($_GET['delete_cert']))
   {
-      $en_id = $_GET['en_id'];
-      $s_id = $_GET['s_id'];
-      $i_id = $_GET['i_id'];
-      $en_date = $_GET['en_date'];
-      $s_name = $_POST['s_name'];
-      $s_regno = $_POST['s_regno'];
-      $s_unit_code = $_POST['s_unit_code'];
-      $s_unit_name = $_POST['s_unit_name'];
-      $i_name = (($_POST['i_name']));
-      
-
-      //sql to insert captured values
-      $query="INSERT INTO lms_certs (en_id, s_id, i_id, en_date, s_name, s_regno, s_unit_code, s_unit_name, i_name) VALUES (?,?,?,?,?,?,?,?,?) ";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssssssss', $en_id, $s_id, $i_id, $en_date, $s_name, $s_regno, $s_unit_code, $s_unit_name, $i_name);
-      $stmt->execute();
-
-      if($stmt)
-      {
-                $success = "Details Saved";
-                
-                //echo "<script>toastr.success('Have Fun')</script>";
-      }
-      else {
-        $err = "Please Try Again Or Try Later";
-      }
-      
-      
-  }
+        $id=intval($_GET['delete_cert']);
+        $adn="DELETE FROM lms_certs WHERE cert_id = ?";
+        $stmt= $mysqli->prepare($adn);
+        $stmt->bind_param('i',$id);
+        $stmt->execute();
+        $stmt->close();	 
+  
+          if($stmt)
+          {
+            $success = "Record Deleted";
+          }
+            else
+            {
+                $err = "Try Again Later";
+            }
+    }
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -80,65 +66,15 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <?php
-                            $a_id = $_SESSION['a_id'];
-                            $ret="SELECT  * FROM  lms_admin  WHERE a_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$a_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                                // time function to get day zones ie morning, noon, and night.
-                                $t = date("H");
-
-                                if ($t < "10")
-                                 {
-                                    $d_time = "Good Morning";
-
-                                    }
-
-                                     elseif ($t < "15")
-                                      {
-
-                                      $d_time =  "Good Afternoon";
-
-                                     } 
-
-                                        elseif ($t < "20")
-                                        {
-
-                                        $d_time =  "Good Evening";
-
-                                        } 
-                                        else {
-
-                                            $d_time = "Good Night";
-                                }
-                        ?>
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
-                        <?php }?>
-
-                        <?php
-                            $en_id = $_GET['en_id'];
-                            $ret="SELECT  * FROM  lms_enrollments  WHERE en_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$en_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                                ?>
+                    <?php include("dist/inc/time_API.php");?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_add_certificate.php">Certificates</a>
+                                    <li class="breadcrumb-item"><a href="">Certificates</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_add_certificate.php">Add</a>
+                                    <li class="breadcrumb-item"><a href="pages_ins_manage_certificates.php">Manage</a>
                                     </li>
                                     
                                 </ol>
@@ -162,55 +98,70 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
+                
                 <div class="row">
-
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title"><?php echo $row->s_name;?> Enrollment Details</h4>
-                                <!--Add Student-->
-                                <form method ="post" enctype="multipart/form-data">
-                                    <div class="row">
-                                        
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Student Name</label>
-                                            <input type="text" readonly name="s_name" value="<?php echo $row->s_name;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                          
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Student Registration Number</label>
-                                            <input type="text" readonly name="s_regno" value="<?php echo $row->s_regno;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
+                                <h4 class="card-title">Primary Certificate Records</h4>
+                                <div class="table-responsive">
+                                    <table id="default_order" class="table table-striped table-bordered display"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Unit Code</th>
+                                                <th>Unit Name</th>
+                                                <th>Instructor Name</th>
+                                                <th>Student Name</th>
+                                                <th>Enroll date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                            //Student certificates
+                                            $i_id = $_SESSION['i_id'];
+                                            $ret="SELECT  * FROM  lms_certs WHERE i_id =?";
+                                            $stmt= $mysqli->prepare($ret) ;
+                                            $stmt->bind_param('i',$i_id);
+                                            $stmt->execute() ;//ok
+                                            $res=$stmt->get_result();
+                                            $cnt=1;
+                                            while($row=$res->fetch_object())
+                                            {
+                                                $mysqlDateTime = $row->date_generated;//trim timestamp to DD/MM/YYYY formart
+                                                
+                                        ?>
+                                            <tr>
+                                                <td><?php echo $row->s_unit_code;?></td>
+                                                <td><?php echo $row->s_unit_name;?></td>
+                                                <td><?php echo $row->i_name;?></td>
+                                                <td><?php echo $row->s_name;?></td>
+                                                <td><?php echo date("d M Y", strtotime($mysqlDateTime));?></td>
+                                                <td>
+                                                    
+                                                    <a class="badge badge-success" 
+                                                         href="pages_ins_generate_certificate.php?cert_id=<?php echo $row->cert_id;?>">
+                                                         <i class=" fas fa-check"></i> <i class="  fas fa-certificate"></i>
+                                                             Generate Certificate
+                                                    </a>
+                                                    <a class="badge badge-danger" 
+                                                         href="pages_ins_manage_certificates.php?delete_cert=<?php echo $row->cert_id;?>">
+                                                         <i class="fas fa-trash"></i> <i class=" fas fa-pallet"></i>
+                                                            Delete Record
+                                                    </a>
+                                                </td>
+                                            </tr>
 
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Unit Code</label>
-                                            <input type="text" readonly name="s_unit_code" value="<?php echo $row->s_unit_code;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                          
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Unit Name</label>
-                                            <input type="text" readonly name="s_unit_name" value="<?php echo $row->s_unit_name;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
+                                            <?php }?>    
 
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Instructor Name</label>
-                                            <input type="text" readonly name="i_name" value="<?php echo $row->i_name;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-
-                                    </div>
-                                   
-                                   <hr>
-
-                                    <button type="submit" name="add_cert" class="btn btn-outline-primary">Save</button>
-                                </form>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                            <?php }?>
+                       
                 </div>
             
                 <!-- *************************************************************** -->

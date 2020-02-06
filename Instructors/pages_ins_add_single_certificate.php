@@ -3,7 +3,7 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $a_id=$_SESSION['a_id'];
+  $i_id = $_SESSION['i_id'];
 
   //Enroll Student
 
