@@ -3,32 +3,29 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $a_id=$_SESSION['a_id'];
+  $i_id = $_SESSION['i_id'];
+  /*egister a new instructor
 
-  //Enroll Student
-
-  if(isset($_POST['add_cert']))
+  if(isset($_POST['lms_instructor']))
   {
-      $en_id = $_GET['en_id'];
-      $s_id = $_GET['s_id'];
-      $i_id = $_GET['i_id'];
-      $en_date = $_GET['en_date'];
-      $s_name = $_POST['s_name'];
-      $s_regno = $_POST['s_regno'];
-      $s_unit_code = $_POST['s_unit_code'];
-      $s_unit_name = $_POST['s_unit_name'];
-      $i_name = (($_POST['i_name']));
+      $i_number = $_POST['i_number'];
+      $i_name = $_POST['i_name'];
+      $i_email = $_POST['i_email'];
+      $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
       
-
+      //Upload students profile picture
+      $i_dpic = $_FILES["i_dpic"]["name"];
+          move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
+      
       //sql to insert captured values
-      $query="INSERT INTO lms_certs (en_id, s_id, i_id, en_date, s_name, s_regno, s_unit_code, s_unit_name, i_name) VALUES (?,?,?,?,?,?,?,?,?) ";
+      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('sssssssss', $en_id, $s_id, $i_id, $en_date, $s_name, $s_regno, $s_unit_code, $s_unit_name, $i_name);
+      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
       $stmt->execute();
 
       if($stmt)
       {
-                $success = "Details Saved";
+                $success = "Instructor Account Added";
                 
                 //echo "<script>toastr.success('Have Fun')</script>";
       }
@@ -38,6 +35,7 @@
       
       
   }
+  */
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -80,65 +78,31 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <?php
-                            $a_id = $_SESSION['a_id'];
-                            $ret="SELECT  * FROM  lms_admin  WHERE a_id=?";
+                       <?php 
+                            include("dist/inc/time_API.php");
+                            //Student certificates
+                            $cert_id = $_GET['cert_id'];
+                            $ret="SELECT  * FROM  lms_certs WHERE cert_id = ?";
                             $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$a_id);
+                            $stmt->bind_param('i',$cert_id);
                             $stmt->execute() ;//ok
                             $res=$stmt->get_result();
-                            //$cnt=1;
+                            $cnt=1;
                             while($row=$res->fetch_object())
                             {
-                                // time function to get day zones ie morning, noon, and night.
-                                $t = date("H");
-
-                                if ($t < "10")
-                                 {
-                                    $d_time = "Good Morning";
-
-                                    }
-
-                                     elseif ($t < "15")
-                                      {
-
-                                      $d_time =  "Good Afternoon";
-
-                                     } 
-
-                                        elseif ($t < "20")
-                                        {
-
-                                        $d_time =  "Good Evening";
-
-                                        } 
-                                        else {
-
-                                            $d_time = "Good Night";
-                                }
+                                $mysqlDateTime = $row->date_generated;//trim timestamp to DD/MM/YYYY formart
+                                
                         ?>
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
-                        <?php }?>
-
-                        <?php
-                            $en_id = $_GET['en_id'];
-                            $ret="SELECT  * FROM  lms_enrollments  WHERE en_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$en_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                                ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_add_certificate.php">Certificates</a>
+                                    <li class="breadcrumb-item"><a href="">Certificates</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_add_certificate.php">Add</a>
+                                    <li class="breadcrumb-item"><a href="pages_ins_manage_certificates.php">Manage</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="">Print</a>
                                     </li>
                                     
                                 </ol>
@@ -160,61 +124,73 @@
             <!-- ============================================================== -->
             <!-- ============================================================== -->
             <!-- Container fluid  -->
+            <!--Inline Css for certificate-->
+            <style>
+
+                #certificate{background: linear-gradient(#91EAE4 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #91EAE4 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #91EAE4 0%, rgba(255,255,255,0) 0) 55px 0 #FFF;background-size: 10.5in 8in;background-repeat: repeat-x;}
+                body{ margin: 0;}
+                
+                @media print {
+                    table{background: linear-gradient(#667db6 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #c8be75 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #c8be75 0%, rgba(255,255,255,0) 0) 55px 0 #FFF;background-size: 10.5in 8in;background-repeat: repeat-x; -webkit-print-color-adjust: exact; }
+                }
+                
+                @page {
+                    margin-top: 0.5cm;
+                    margin-bottom: 2cm;
+                    margin-left: 2cm;
+                    margin-right: 2cm;
+                }
+
+             </style>
             <!-- ============================================================== -->
             <div class="container-fluid">
                 <div class="row">
+                
 
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title"><?php echo $row->s_name;?> Enrollment Details</h4>
-                                <!--Add Student-->
-                                <form method ="post" enctype="multipart/form-data">
-                                    <div class="row">
-                                        
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Student Name</label>
-                                            <input type="text" readonly name="s_name" value="<?php echo $row->s_name;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                          
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Student Registration Number</label>
-                                            <input type="text" readonly name="s_regno" value="<?php echo $row->s_regno;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Unit Code</label>
-                                            <input type="text" readonly name="s_unit_code" value="<?php echo $row->s_unit_code;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                          
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Unit Name</label>
-                                            <input type="text" readonly name="s_unit_name" value="<?php echo $row->s_unit_name;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Instructor Name</label>
-                                            <input type="text" readonly name="i_name" value="<?php echo $row->i_name;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-
-                                    </div>
-                                   
-                                   <hr>
-
-                                    <button type="submit" name="add_cert" class="btn btn-outline-primary">Save</button>
-                                </form>
+                            <div  id="Print_Certificate" class="certificate-container col-md-12" style="background:#f9f9f9">
+                                <table  id="certificate" class="col-md-12" style="width: 11in;margin: 0 auto;text-align: center;padding: 10px;border-style: groove;border-width: 20px;outline: 5px dotted #000;height: 8.5in;outline-offset: -26px;outline-style: double;border-color: #667db6;">
+                                    <tr>
+                                        <td><h1 style="font-size: 0.6in; margin: 0; color: #000;">Certificate of Completion</h1><h3 style="margin: 0;font-size: 0.25in;color: black;text-transform: uppercase;font-family: sans-serif;"> Is hereby granted to : </h3> <p style="font-size: 0.3in;text-transform: uppercase;color: #494000;"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h2 style="color: #fff; font-size: 0.4in;margin: 10px 0 0 0; font-family: sans-serif;text-transform: uppercase;"><?php echo $row->s_name;?></h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4 style="margin:0; font-size: 0.16in;font-family: sans-serif;color: #000;">For Completing  <?php echo $row->s_unit_name;?>.</h4>
+                                            <h5  style="margin: 5px 0 40px; font-size: 0.16in;font-family: sans-serif;color: #000;"><?php echo $row->s_unit_code;?></h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        <img src="assets/images/logo-icon.png" alt="" style="max-width:100%;"><img src="assets/images/logo-text.png" alt="" style="max-width:100%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 style="margin: 10px 0 20px; font-family: sans-serif;font-size: 0.12in;"></h6>
+                                            <em>Generated : <?php echo date("d M Y- h:m:s", strtotime($mysqlDateTime));?> </em>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
+                                
                         </div>
+                        <button id="print" onclick='printContent("Print_Certificate");' class = "btn btn-outline-success"><i class="fas fa-print"></i>Print Certificate</button>
                     </div>
-                            <?php }?>
+                    
+
                 </div>
             
                 <!-- *************************************************************** -->
             </div>
+            <?php }?>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
@@ -256,7 +232,7 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    
+   
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>
