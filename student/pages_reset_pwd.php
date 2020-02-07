@@ -101,7 +101,9 @@
                 </div>
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
-                       
+                        <div class="text-center">
+                            <img src="assets/images/logo-text.png" alt="logo">
+                        </div>
                         <h2 class="mt-3 text-center">Reset Password</h2>
                         <p class="text-center">Enter your email address and password reset instructions will be sent to your email.</p>
                         <form method = "post" class="mt-4">

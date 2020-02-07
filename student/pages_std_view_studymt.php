@@ -1,4 +1,3 @@
-
 <?php
   session_start();
   include('dist/inc/config.php');
@@ -48,12 +47,18 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                    <?php include("dist/inc/time_API.php");?>
+                    <?php
+                       include("dist/inc/time_API.php");?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_studymt.php">Study Materials</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="">View</a>
+                                    </li>
+                                    
                                 </ol>
                             </nav>
                         </div>
@@ -75,110 +80,12 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                <!-- *************************************************************** -->
-                <!-- Start First Cards -->
-                <!-- *************************************************************** -->
-                <div class="card-group">
-                    <div class="card border-right">
-                        <div class="card-body">
-                            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                                <div>
-                                    <div class="d-inline-flex align-items-center">
-                                        <?php
-                                            //code for summing up my enrolled units| courses
-                                            $s_id = $_SESSION['s_id'];
-                                            $result ="SELECT count(*) FROM lms_certs WHERE s_id =? ";
-                                            $stmt = $mysqli->prepare($result);
-                                            $stmt->bind_param('i',$s_id);
-                                            $stmt->execute();
-                                            $stmt->bind_result($complete_courses);
-                                            $stmt->fetch();
-                                            $stmt->close();
-                                        ?>
-
-                                        <h2 class="text-dark mb-1 font-weight-medium"><?php echo $complete_courses;?></h2>
-                                        
-                                    </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Completed Courses</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i class="icon icon-people"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card border-right">
-                        <div class="card-body">
-                            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                                <div>
-                                    <div class="d-inline-flex align-items-center">
-                                        <?php
-                                            //code for summing up my enrolled units| courses
-                                            $s_id = $_SESSION['s_id'];
-                                            $result ="SELECT count(*) FROM lms_enrollments WHERE s_id =? ";
-                                            $stmt = $mysqli->prepare($result);
-                                            $stmt->bind_param('i',$s_id);
-                                            $stmt->execute();
-                                            $stmt->bind_result($student_enrolls);
-                                            $stmt->fetch();
-                                            $stmt->close();
-                                        ?>
-                                    
-                                        <h2 class="text-dark mb-1 font-weight-medium"><?php echo $student_enrolls;?></h2>
-                                    </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ongoing Courses</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="grid" class="feather-icon"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                                <div>
-                                        <?php
-                                            //get my paymnets
-                                            $s_id = $_SESSION['s_id'];
-                                            $result ="SELECT SUM(p_amt) FROM  lms_paid_study_materials WHERE s_id =? ";
-                                            $stmt = $mysqli->prepare($result);
-                                            $stmt->bind_param('i',$s_id);
-                                            $stmt->execute();
-                                            $stmt->bind_result($bills);
-                                            $stmt->fetch();
-                                            $stmt->close();
-                                        ?>
-                                    <h2 class="text-dark mb-1 font-weight-medium">Ksh <?php echo $bills;?></h2>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Course Materials Payments</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i class=" icon-credit-card"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-
-                </div>
                 
-                <!-- *************************************************************** -->
-                <!-- End First Cards -->
-                <!-- *************************************************************** -->
-                <!-- *************************************************************** -->
-                <!-- Start Sales Charts Section -->
-                <!-- *************************************************************** -->
                 <div class="row">
-                
-
-                    
-                    
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Unit | Courses Enrolled</h4>
+                                <h4 class="card-title">Select Any  Unit To View Its Study Materials</h4>
                                 <div class="table-responsive">
                                     <table id="default_order" class="table table-striped table-bordered display"
                                         style="width:100%">
@@ -196,7 +103,7 @@
                                         <?php
                                             //Student Enrollment.
                                             $s_id = $_SESSION['s_id'];
-                                            $ret="SELECT  * FROM  lms_enrollments WHERE s_id =?";
+                                            $ret="SELECT  * FROM  lms_enrollments WHERE s_id = ?";
                                             $stmt= $mysqli->prepare($ret) ;
                                             $stmt->bind_param('i',$s_id);
                                             $stmt->execute() ;//ok
@@ -215,9 +122,9 @@
                                                 <td><?php echo date("d M Y", strtotime($mysqlDateTime));?></td>
                                                 <td>
                                                     <a class="badge badge-success" 
-                                                         href="pages_std_view_single_enrollment.php?en_id=<?php echo $row->en_id;?>&cc_id=<?php echo $row->cc_id;?>&c_id=<?php echo $row->c_id;?>&i_id=<?php echo $row->i_id;?>&s_id=<?php echo $row->s_id;?>">
+                                                         href="pages_std_view_unit_study_material.php?c_id=<?php echo $row->c_id;?>">
                                                          <i class="fas fa-eye"></i> <i class=" fas fa-pallet"></i>
-                                                         View Details
+                                                         View 
                                                     </a>
                                                 </td>
                                             </tr>
@@ -230,8 +137,7 @@
                             </div>
                         </div>
                     </div>
-
-                        
+                       
                 </div>
             
                 <!-- *************************************************************** -->
@@ -277,7 +183,181 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-   
+    <script type = "text/javascript">
+                            //On Screen Charts
+                            $(function () {
+
+                        // ==============================================================
+                        // Campaign
+                        // ==============================================================
+
+                        var chart1 = c3.generate({
+                            bindto: '#campaign-v2',
+                            data: {
+                                columns: [
+                                    ['Direct Sales', 25],
+                                    ['Referral Sales', 15],
+                                    ['Afilliate Sales', 10],
+                                    ['Indirect Sales', 15]
+                                ],
+
+                                type: 'donut',
+                                tooltip: {
+                                    show: true
+                                }
+                            },
+                            donut: {
+                                label: {
+                                    show: false
+                                },
+                                title: 'Sales',
+                                width: 18
+                            },
+
+                            legend: {
+                                hide: true
+                            },
+                            color: {
+                                pattern: [
+                                    '#edf2f6',
+                                    '#5f76e8',
+                                    '#ff4f70',
+                                    '#01caf1'
+                                ]
+                            }
+                        });
+
+                        d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
+
+                        // ============================================================== 
+                        // income
+                        // ============================================================== 
+                        var data = {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            series: [
+                                [5, 4, 3, 7, 5, 10]
+                            ]
+                        };
+
+                        var options = {
+                            axisX: {
+                                showGrid: false
+                            },
+                            seriesBarDistance: 1,
+                            chartPadding: {
+                                top: 15,
+                                right: 15,
+                                bottom: 5,
+                                left: 0
+                            },
+                            plugins: [
+                                Chartist.plugins.tooltip()
+                            ],
+                            width: '100%'
+                        };
+
+                        var responsiveOptions = [
+                            ['screen and (max-width: 640px)', {
+                                seriesBarDistance: 5,
+                                axisX: {
+                                    labelInterpolationFnc: function (value) {
+                                        return value[0];
+                                    }
+                                }
+                            }]
+                        ];
+                        new Chartist.Bar('.net-income', data, options, responsiveOptions);
+
+                        // ============================================================== 
+                        // Visit By Location
+                        // ==============================================================
+                        jQuery('#visitbylocate').vectorMap({
+                            map: 'world_mill_en',
+                            backgroundColor: 'transparent',
+                            borderColor: '#000',
+                            borderOpacity: 0,
+                            borderWidth: 0,
+                            zoomOnScroll: false,
+                            color: '#d5dce5',
+                            regionStyle: {
+                                initial: {
+                                    fill: '#d5dce5',
+                                    'stroke-width': 1,
+                                    'stroke': 'rgba(255, 255, 255, 0.5)'
+                                }
+                            },
+                            enableZoom: true,
+                            hoverColor: '#bdc9d7',
+                            hoverOpacity: null,
+                            normalizeFunction: 'linear',
+                            scaleColors: ['#d5dce5', '#d5dce5'],
+                            selectedColor: '#bdc9d7',
+                            selectedRegions: [],
+                            showTooltip: true,
+                            onRegionClick: function (element, code, region) {
+                                var message = 'You clicked "' + region + '" which has the code: ' + code.toUpperCase();
+                                alert(message);
+                            }
+                        });
+
+                        // ==============================================================
+                        // Earning Stastics Chart
+                        // ==============================================================
+                        var chart = new Chartist.Line('.stats', {
+                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                            series: [
+                                [11, 10, 15, 21, 14, 23, 12]
+                            ]
+                        }, {
+                            low: 0,
+                            high: 28,
+                            showArea: true,
+                            fullWidth: true,
+                            plugins: [
+                                Chartist.plugins.tooltip()
+                            ],
+                            axisY: {
+                                onlyInteger: true,
+                                scaleMinSpace: 40,
+                                offset: 20,
+                                labelInterpolationFnc: function (value) {
+                                    return (value / 1) + 'k';
+                                }
+                            },
+                        });
+
+                        // Offset x1 a tiny amount so that the straight stroke gets a bounding box
+                        chart.on('draw', function (ctx) {
+                            if (ctx.type === 'area') {
+                                ctx.element.attr({
+                                    x1: ctx.x1 + 0.001
+                                });
+                            }
+                        });
+
+                        // Create the gradient definition on created event (always after chart re-render)
+                        chart.on('created', function (ctx) {
+                            var defs = ctx.svg.elem('defs');
+                            defs.elem('linearGradient', {
+                                id: 'gradient',
+                                x1: 0,
+                                y1: 1,
+                                x2: 0,
+                                y2: 0
+                            }).elem('stop', {
+                                offset: 0,
+                                'stop-color': 'rgba(255, 255, 255, 1)'
+                            }).parent().elem('stop', {
+                                offset: 1,
+                                'stop-color': 'rgba(80, 153, 255, 1)'
+                            });
+                        });
+
+                        $(window).on('resize', function () {
+                            chart.update();
+                        });
+                        })
+    </script>
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>

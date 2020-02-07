@@ -3,27 +3,43 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $i_id = $_SESSION['i_id'];
-  //hold logged in user session.
-  //delete some forum topics
-  if(isset($_GET['delete']))
+  $s_id=$_SESSION['s_id'];
+  /*
+  //register a new student
+  if(isset($_POST['add_student']))
   {
-        $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_forum WHERE f_id = ?";
-        $stmt= $mysqli->prepare($adn);
-        $stmt->bind_param('i',$id);
-        $stmt->execute();
-        $stmt->close();	 
-  
-          if($stmt)
-          {
-            $success = "Forum Record Deleted";
-          }
-            else
-            {
-                $err = "Try Again Later";
-            }
-    }
+      $s_regno = $_POST['s_regno'];
+      $s_name = $_POST['s_name'];
+      $s_email = $_POST['s_email'];
+      $s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
+      $s_phoneno = $_POST['s_phoneno'];
+      $s_dob = $_POST['s_dob'];
+      $s_gender = $_POST['s_gender'];
+      $s_acc_stats = $_POST['s_acc_stats'];
+      
+      //Upload students profile picture
+      $s_dpic = $_FILES["s_dpic"]["name"];
+          move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
+      
+      //sql to insert captured values
+      $query="INSERT INTO lms_student (s_regno, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?)";
+      $stmt = $mysqli->prepare($query);
+      $rc=$stmt->bind_param('sssssssss', $s_regno, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
+      $stmt->execute();
+
+      if($stmt)
+      {
+                $success = "Student Account Added";
+                
+                //echo "<script>toastr.success('Have Fun')</script>";
+      }
+      else {
+        $err = "Please Try Again Or Try Later";
+      }
+      
+      
+  }
+  */
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -66,17 +82,28 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                    <?php include("dist/inc/time_API.php");?>
+                        <?php 
+                            include("dist/inc/time_API.php");
+                            $s_id = $_SESSION['s_id'];
+                            $ret="SELECT  * FROM lms_student  WHERE s_id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$s_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                              
+                        ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Forum</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_profile.php">Profile</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Manage Discussion</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_profile.php"><?php echo $row->s_name;?></a>
                                     </li>
-                                    
                                 </ol>
                             </nav>
                         </div>
@@ -89,6 +116,7 @@
                             </select>
                         </div>
                     </div>
+                    
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -98,72 +126,37 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Select On Any Unit To Manage Its Forum Topics</h4>
-                                <div class="table-responsive">
-                                    <table id="default_order" class="table table-striped table-bordered display"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Unit Code</th>
-                                                <th>Unit Name</th>
-                                                <th>Forum Code</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php
-                                            //Student Enrollment.
-                                            $i_id = $_SESSION['i_id'];
-                                            $ret="SELECT  * FROM  lms_forum WHERE i_id =?";
-                                            $stmt= $mysqli->prepare($ret) ;
-                                            $stmt->bind_param('i',$i_id);
-                                            $stmt->execute() ;//ok
-                                            $res=$stmt->get_result();
-                                            $cnt=1;
-                                            while($row=$res->fetch_object())
-                                            {
-                                                $mysqlDateTime = $row->f_date_posted;//trim timestamp to DD/MM/YYYY formart
-                                                
-                                        ?>
-                                            <tr>
-                                                <td><?php echo $row->s_unit_code;?></td>
-                                                <td><?php echo $row->s_unit_name;?></td>
-                                                <td><?php echo $row->f_no;?></td>
-                                                <td>
-                                                    <a class="badge badge-success" 
-                                                         href="pages_ins_view_forum.php?f_id=<?php echo $row->f_id;?>&i_id=<?php echo $row->i_id;?>&c_id=<?php echo $row->c_id;?>&s_unit_code=<?php echo $row->s_unit_code;?>&s_unit_name=<?php echo $row->s_unit_name;?>&f_no=<?php echo $row->f_no;?>">
-                                                         <i class="fa fa-eye"></i> <i class=" icon icon-envelope-open"></i>
-                                                            View Discussion
-                                                    </a>
-                                                    <a class="badge badge-warning" 
-                                                         href="pages_ins_update_forum.php?f_id=<?php echo $row->f_id;?>">
-                                                         <i class="far fa-edit"></i> <i class=" icon icon-envelope-open"></i>
-                                                            Update Discussion
-                                                    </a>
-                                                    <a class="badge badge-danger" 
-                                                         href="pages_ins_manage_forum.php?delete=<?php echo $row->f_id;?>">
-                                                         <i class="fa fa-trash"></i> <i class=" icon icon-envelope-open"></i>
-                                                            Delete Discussion
-                                                    </a>
-                                                </td>
-                                            </tr>
-
-                                            <?php $cnt = $cnt +1; }?>    
-
-                                        </tbody>
-                                    </table>
-                                </div>
+                    <div class="col-lg-6 col-md-6">
+                            <!-- Card -->
+                            <div class="card">
+                                <img class="card-img-top img-fluid" src="assets/images/users/<?php echo $row->s_dpic;?>"
+                                    alt="Card image cap">
                             </div>
-                        </div>
+                            <!-- Card -->
                     </div>
-                       
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card-header">
+                            <?php echo $row->s_name;?>'s Details
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Name      : <?php echo $row->s_name;?></li>
+                            <li class="list-group-item">Reg No    : <?php echo $row->s_regno;?></li>
+                            <li class="list-group-item">Email     : <?php echo $row->s_email;?></li>
+                            <li class="list-group-item">Phone No  : <?php echo $row->s_phoneno;?></li>
+                            <li class="list-group-item">DOB       : <?php echo $row->s_dob;?></li>
+                            <li class="list-group-item">Gender    : <?php echo $row->s_gender;?></li>
+                            <li class="list-group-item">Course    : <?php echo $row->s_course;?></li>
+                            <li class="list-group-item">Bio       : <?php echo $row->s_bio;?></li>
+
+
+                        </ul>
+                            
+                            <!-- Card -->
+                    </div>
+                    <?php }?>
                 </div>
-            
                 <!-- *************************************************************** -->
             </div>
             <!-- ============================================================== -->

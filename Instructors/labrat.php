@@ -3,7 +3,8 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $i_id = $_SESSION['i_id'];
+  $s_id = $_SESSION['s_id'];
+
   //post discussion
   if(isset($_POST['post_ans']))
   {
@@ -36,6 +37,7 @@
       
       
   }
+  
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -94,15 +96,13 @@
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                  <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Forum</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_manage_forum.php">Forum</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Manage Discussion</a>
+                                    <li class="breadcrumb-item"><a href="">Give Discussion</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href=""><?php echo $row->s_unit_name;?> Discussion</a>
-                                    </li>
-                                    
+                                   
                                 </ol>
                             </nav>
                         </div>
@@ -192,10 +192,10 @@
                                     <textarea type="text" name="f_ans" required class="form-control" id="forum_discussion" aria-describedby="emailHelp"></textarea>
                                 </div>
                                 <?php
-                                    $i_id = $_SESSION['i_id'];
-                                    $ret="SELECT  * FROM lms_instructor  WHERE i_id=?";
+                                    $s_id = $_SESSION['s_id'];
+                                    $ret="SELECT  * FROM lms_student  WHERE s_id=?";
                                     $stmt= $mysqli->prepare($ret) ;
-                                    $stmt->bind_param('i',$i_id);
+                                    $stmt->bind_param('i',$s_id);
                                     $stmt->execute() ;//ok
                                     $res=$stmt->get_result();
                                     //$cnt=1;
@@ -204,8 +204,8 @@
                                 
                                 ?>
                                 <div class="form-group col-md-12" style="display:none">
-                                    <label for="exampleInputEmail1">Name</label>
-                                    <textarea type="text" name="s_name"   required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->i_name;?></textarea>
+                                    <label for="exampleInputEmail1">Student Name</label>
+                                    <textarea type="text" name="s_name"   required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->s_name;?></textarea>
                                 </div>
                                 <?php }?>
 
@@ -244,6 +244,10 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
+    <script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace('forum_discussion')
+    </script>
     <script src="assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="assets/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -263,10 +267,6 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    <script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('forum_discussion')
-    </script>
     
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>

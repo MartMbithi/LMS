@@ -37,19 +37,12 @@
                                     class="hide-menu">Enrollment </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_std_add_enrollment.php" class="sidebar-link"><span
-                                            class="hide-menu"> Add 
-                                        </span></a>
-                                </li>
+                                
                                 <li class="sidebar-item"><a href="pages_std_view_enrollments.php" class="sidebar-link"><span
                                             class="hide-menu"> View
                                         </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_std_manage_enrollments.php" class="sidebar-link"><span
-                                            class="hide-menu">
-                                            Manage
-                                        </span></a>
-                                </li>
+                                
                             </ul>
                         </li>
 
@@ -58,16 +51,11 @@
                                     class="hide-menu">Questions </span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_std_add_testquizzes.php" class="sidebar-link"><span
-                                            class="hide-menu"> Add Quizzes
-                                        </span></a>
-                                </li>
+                                
                                 <li class="sidebar-item"><a href="pages_std_view_testquizzes.php" class="sidebar-link"><span
                                             class="hide-menu"> View Quizzes </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_std_manage_testquizzes.php" class="sidebar-link"><span
-                                            class="hide-menu"> Manage Quizzes </span></a>
-                                </li>
+                               
                                 
                             </ul>
                         </li>
@@ -76,18 +64,10 @@
                                     class="hide-menu">Answers </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                
-                                <li class="sidebar-item"><a href="pages_std_add_ans.php" class="sidebar-link"><span
-                                            class="hide-menu"> Add Answers
-                                        </span></a>
-                                </li>
                                 <li class="sidebar-item"><a href="pages_std_view_ans.php" class="sidebar-link"><span
                                             class="hide-menu"> View Answers </span></a>
                                 </li>
-                                <li class="sidebar-item"><a href="pages_std_manage_ans.php" class="sidebar-link"><span
-                                            class="hide-menu"> Manage Answers</span></a>
-                                </li>
-
-                                
+                                                                
                             </ul>
                         </li>
 
@@ -97,8 +77,8 @@
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 
-                                <li class="sidebar-item"><a href="pages_std_manage_studymt.php" class="sidebar-link"><span
-                                            class="hide-menu"> Manage </span></a>
+                                <li class="sidebar-item"><a href="pages_std_view_studymt.php" class="sidebar-link"><span
+                                            class="hide-menu"> View </span></a>
                                 </li>
                                 
                             </ul>
@@ -158,13 +138,9 @@
                                     class="hide-menu">Forum</span></a>
 
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                                <li class="sidebar-item"><a href="pages_std_select_unit_to_add_forum.php" class="sidebar-link"><span
-                                            class="hide-menu"> Add Discussion
-                                        </span></a>
-                                </li>
-                                
-                                <li class="sidebar-item"><a href="pages_std_manage_forum.php" class="sidebar-link"><span
-                                            class="hide-menu"> Manage </span></a>
+                                                               
+                                <li class="sidebar-item"><a href="pages_std_join_forum.php" class="sidebar-link"><span
+                                            class="hide-menu"> Join Discussion </span></a>
                                 </li>
                                 
                             </ul>

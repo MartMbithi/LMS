@@ -3,27 +3,41 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $i_id = $_SESSION['i_id'];
-  //hold logged in user session.
-  //delete some forum topics
-  if(isset($_GET['delete']))
+  $s_id = $_SESSION['s_id'];
+  //Update a student
+  if(isset($_POST['update_student']))
   {
-        $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_forum WHERE f_id = ?";
-        $stmt= $mysqli->prepare($adn);
-        $stmt->bind_param('i',$id);
-        $stmt->execute();
-        $stmt->close();	 
-  
-          if($stmt)
-          {
-            $success = "Forum Record Deleted";
-          }
-            else
-            {
-                $err = "Try Again Later";
-            }
-    }
+      $s_id =$_SESSION['s_id'];
+      $s_regno = $_POST['s_regno'];
+      $s_course = $_POST['s_course'];
+      $s_name = $_POST['s_name'];
+      $s_email = $_POST['s_email'];
+      //$s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
+      $s_phoneno = $_POST['s_phoneno'];
+      $s_dob = $_POST['s_dob'];
+      $s_gender = $_POST['s_gender'];
+     
+      $s_dpic = $_FILES["s_dpic"]["name"];
+          move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
+      
+      //sql to insert captured values
+      $query="UPDATE lms_student SET s_regno=?, s_name=?, s_course = ?, s_email=?,  s_phoneno=?, s_dob=?, s_gender=?, s_dpic=? WHERE s_id=?";
+      $stmt = $mysqli->prepare($query);
+      $rc=$stmt->bind_param('ssssssssi', $s_regno, $s_name, $s_course, $s_email,  $s_phoneno, $s_dob, $s_gender, $s_dpic, $s_id);
+      $stmt->execute();
+
+      if($stmt)
+      {
+                $success = "Student Account Updated";
+                
+                //echo "<script>toastr.success('Have Fun')</script>";
+      }
+      else {
+        $err = "Please Try Again Or Try Later";
+      }
+      
+      
+  }
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -66,17 +80,29 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                    <?php include("dist/inc/time_API.php");?>
+                        <?php include("dist/inc/time_API.php");?>
+                        <?php
+                        //Details Of A single student.
+                            $s_id = $_SESSION['s_id'];
+                            $ret="SELECT  * FROM lms_student  WHERE s_id=?";
+                            $stmt= $mysqli->prepare($ret) ;
+                            $stmt->bind_param('i',$s_id);
+                            $stmt->execute() ;//ok
+                            $res=$stmt->get_result();
+                            //$cnt=1;
+                            while($row=$res->fetch_object())
+                            {
+                              
+                        ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Forum</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_profile.php">Profile</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Manage Discussion</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_profile.php"> Update <?php echo $row->s_name;?></a>
                                     </li>
-                                    
                                 </ol>
                             </nav>
                         </div>
@@ -98,74 +124,111 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                
                 <div class="row">
+
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Select On Any Unit To Manage Its Forum Topics</h4>
-                                <div class="table-responsive">
-                                    <table id="default_order" class="table table-striped table-bordered display"
-                                        style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Unit Code</th>
-                                                <th>Unit Name</th>
-                                                <th>Forum Code</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <?php
-                                            //Student Enrollment.
-                                            $i_id = $_SESSION['i_id'];
-                                            $ret="SELECT  * FROM  lms_forum WHERE i_id =?";
-                                            $stmt= $mysqli->prepare($ret) ;
-                                            $stmt->bind_param('i',$i_id);
-                                            $stmt->execute() ;//ok
-                                            $res=$stmt->get_result();
-                                            $cnt=1;
-                                            while($row=$res->fetch_object())
-                                            {
-                                                $mysqlDateTime = $row->f_date_posted;//trim timestamp to DD/MM/YYYY formart
-                                                
-                                        ?>
-                                            <tr>
-                                                <td><?php echo $row->s_unit_code;?></td>
-                                                <td><?php echo $row->s_unit_name;?></td>
-                                                <td><?php echo $row->f_no;?></td>
-                                                <td>
-                                                    <a class="badge badge-success" 
-                                                         href="pages_ins_view_forum.php?f_id=<?php echo $row->f_id;?>&i_id=<?php echo $row->i_id;?>&c_id=<?php echo $row->c_id;?>&s_unit_code=<?php echo $row->s_unit_code;?>&s_unit_name=<?php echo $row->s_unit_name;?>&f_no=<?php echo $row->f_no;?>">
-                                                         <i class="fa fa-eye"></i> <i class=" icon icon-envelope-open"></i>
-                                                            View Discussion
-                                                    </a>
-                                                    <a class="badge badge-warning" 
-                                                         href="pages_ins_update_forum.php?f_id=<?php echo $row->f_id;?>">
-                                                         <i class="far fa-edit"></i> <i class=" icon icon-envelope-open"></i>
-                                                            Update Discussion
-                                                    </a>
-                                                    <a class="badge badge-danger" 
-                                                         href="pages_ins_manage_forum.php?delete=<?php echo $row->f_id;?>">
-                                                         <i class="fa fa-trash"></i> <i class=" icon icon-envelope-open"></i>
-                                                            Delete Discussion
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                <h4 class="card-title">Update <?php echo $row->s_name;?> Account.</h4>
+                                <!--Add Student-->
+                                <form method ="post" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Registration Number</label>
+                                            <input type="text" name="s_regno" value="<?php echo $row->s_regno;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Full Name</label>
+                                            <input type="text" name="s_name"value="<?php echo $row->s_name;?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                    </div>
+                                    <div class="row">    
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Phone Number</label>
+                                            <input type="text"   name = "s_phoneno" value="<?php echo $row->s_phoneno;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Date Of Birth</label>
+                                            <input type="text" name="s_dob" value="<?php echo $row->s_dob;?>" class="form-control" placeholder ="DD/MM/YYYY" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Gender</label>
+                                            <select class="custom-select" id="inputGroupSelect03" name="s_gender" aria-label="Example select with button addon">
+                                                <option selected>Choose...</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
 
-                                            <?php $cnt = $cnt +1; }?>    
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Course</label>
+                                            <select class="custom-select" id="inputGroupSelect03" name="s_course" aria-label="Example select with button addon">
+                                                <option selected>Choose...</option>
+                                                    <?php
+                                                        //Student Courses
+                                                        $ret="SELECT  * FROM  lms_course_categories";
+                                                        $stmt= $mysqli->prepare($ret) ;
+                                                        $stmt->execute() ;//ok
+                                                        $res=$stmt->get_result();
+                                                        //$cnt=1;
+                                                        while($row=$res->fetch_object())
+                                                        {
+                                                            
+                                                    ?>
+                                                <option><?php echo $row->cc_name;?></option>
+                                                    <?php }?>
+                                            </select>
+                                        </div>
+                                        
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </div>
+                                    <?php
+                                    //Details Of A single student.
+                                        $s_id = $_SESSION['s_id'];
+                                        $ret="SELECT  * FROM lms_student  WHERE s_id=?";
+                                        $stmt= $mysqli->prepare($ret) ;
+                                        $stmt->bind_param('i',$s_id);
+                                        $stmt->execute() ;//ok
+                                        $res=$stmt->get_result();
+                                        //$cnt=1;
+                                        while($row=$res->fetch_object())
+                                        {
+                                        
+                                    ?>
+                                    <div class="row"> 
+                                          
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Email address</label>
+                                            <input type="email" name="s_email" value="<?php echo $row->s_email;?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Student Passport</label>
+                                            <input type="file" name="s_dpic" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+
+
+                                        
+                                        <div class="form-group col-md-4" style="display:none">
+                                            <label for="exampleInputEmail1">Student Account Status</label>
+                                            <input type="text" name="s_acc_stats" value="Approved" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        </div>
+
+
+                                    </div>
+                                   
+                                   <hr>
+
+                                    <button type="submit" name="update_student" class="btn btn-outline-warning">Update Student</button>
+                                </form>
                             </div>
                         </div>
                     </div>
-                       
+
                 </div>
             
                 <!-- *************************************************************** -->
             </div>
+                            <?php }}?>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->

@@ -1,11 +1,31 @@
-
 <?php
   session_start();
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
   $s_id = $_SESSION['s_id'];
-  //hold logged in user session.
+
+  /*delete Questions
+  if(isset($_GET['delete']))
+  {
+        $id=intval($_GET['delete']);
+        $adn="DELETE FROM lms_questions WHERE q_id = ?";
+        $stmt= $mysqli->prepare($adn);
+        $stmt->bind_param('i',$id);
+        $stmt->execute();
+        $stmt->close();	 
+  
+          if($stmt)
+          {
+            $success = "Questions Deleted";
+          }
+            else
+            {
+                $err = "Try Again Later";
+            }
+    }
+  */
+  
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -48,12 +68,17 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                    <?php include("dist/inc/time_API.php");?>
+                        <?php include("dist/inc/time_API.php");?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_studymt.php">Study Materials</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_studymt.php">View</a>
+                                    </li>
+                                    
                                 </ol>
                             </nav>
                         </div>
@@ -74,164 +99,68 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
+            
             <div class="container-fluid">
-                <!-- *************************************************************** -->
-                <!-- Start First Cards -->
-                <!-- *************************************************************** -->
-                <div class="card-group">
-                    <div class="card border-right">
-                        <div class="card-body">
-                            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                                <div>
-                                    <div class="d-inline-flex align-items-center">
-                                        <?php
-                                            //code for summing up my enrolled units| courses
-                                            $s_id = $_SESSION['s_id'];
-                                            $result ="SELECT count(*) FROM lms_certs WHERE s_id =? ";
-                                            $stmt = $mysqli->prepare($result);
-                                            $stmt->bind_param('i',$s_id);
-                                            $stmt->execute();
-                                            $stmt->bind_result($complete_courses);
-                                            $stmt->fetch();
-                                            $stmt->close();
-                                        ?>
-
-                                        <h2 class="text-dark mb-1 font-weight-medium"><?php echo $complete_courses;?></h2>
-                                        
-                                    </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Completed Courses</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i class="icon icon-people"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="card border-right">
-                        <div class="card-body">
-                            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                                <div>
-                                    <div class="d-inline-flex align-items-center">
-                                        <?php
-                                            //code for summing up my enrolled units| courses
-                                            $s_id = $_SESSION['s_id'];
-                                            $result ="SELECT count(*) FROM lms_enrollments WHERE s_id =? ";
-                                            $stmt = $mysqli->prepare($result);
-                                            $stmt->bind_param('i',$s_id);
-                                            $stmt->execute();
-                                            $stmt->bind_result($student_enrolls);
-                                            $stmt->fetch();
-                                            $stmt->close();
-                                        ?>
-                                    
-                                        <h2 class="text-dark mb-1 font-weight-medium"><?php echo $student_enrolls;?></h2>
-                                    </div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Ongoing Courses</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="grid" class="feather-icon"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex d-lg-flex d-md-block align-items-center">
-                                <div>
-                                        <?php
-                                            //get my paymnets
-                                            $s_id = $_SESSION['s_id'];
-                                            $result ="SELECT SUM(p_amt) FROM  lms_paid_study_materials WHERE s_id =? ";
-                                            $stmt = $mysqli->prepare($result);
-                                            $stmt->bind_param('i',$s_id);
-                                            $stmt->execute();
-                                            $stmt->bind_result($bills);
-                                            $stmt->fetch();
-                                            $stmt->close();
-                                        ?>
-                                    <h2 class="text-dark mb-1 font-weight-medium">Ksh <?php echo $bills;?></h2>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Course Materials Payments</h6>
-                                </div>
-                                <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i class=" icon-credit-card"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-
-                </div>
-                
-                <!-- *************************************************************** -->
-                <!-- End First Cards -->
-                <!-- *************************************************************** -->
-                <!-- *************************************************************** -->
-                <!-- Start Sales Charts Section -->
-                <!-- *************************************************************** -->
                 <div class="row">
-                
 
-                    
-                    
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Unit | Courses Enrolled</h4>
+                                <h4 class="card-title">Units With Course Materials. </h4>
                                 <div class="table-responsive">
-                                    <table id="default_order" class="table table-striped table-bordered display"
+                                    <table id="multi_col_order" class="table table-striped table-bordered display "
                                         style="width:100%">
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
-                                                <th>Instructor Name</th>
-                                                <th>Student Name</th>
-                                                <th>Enroll date</th>
+                                                <th>Study Material Code</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+
                                         <?php
-                                            //Student Enrollment.
-                                            $s_id = $_SESSION['s_id'];
-                                            $ret="SELECT  * FROM  lms_enrollments WHERE s_id =?";
+                                            $c_id = $_GET['c_id'];
+                                            $ret="SELECT  * FROM  lms_study_material WHERE c_id =? ";
                                             $stmt= $mysqli->prepare($ret) ;
-                                            $stmt->bind_param('i',$s_id);
+                                            $stmt->bind_param('i',$c_id);
                                             $stmt->execute() ;//ok
                                             $res=$stmt->get_result();
                                             $cnt=1;
                                             while($row=$res->fetch_object())
                                             {
-                                                $mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
-                                                
                                         ?>
+
                                             <tr>
-                                                <td><?php echo $row->s_unit_code;?></td>
-                                                <td><?php echo $row->s_unit_name;?></td>
-                                                <td><?php echo $row->i_name;?></td>
-                                                <td><?php echo $row->s_name;?></td>
-                                                <td><?php echo date("d M Y", strtotime($mysqlDateTime));?></td>
+                                                <td><?php echo $cnt;?></td>
+                                                <td><?php echo $row->c_code;?></td>
+                                                <td><?php echo $row->c_name;?></td>
+                                                <td><?php echo $row->sm_number;?></td>
                                                 <td>
-                                                    <a class="badge badge-success" 
-                                                         href="pages_std_view_single_enrollment.php?en_id=<?php echo $row->en_id;?>&cc_id=<?php echo $row->cc_id;?>&c_id=<?php echo $row->c_id;?>&i_id=<?php echo $row->i_id;?>&s_id=<?php echo $row->s_id;?>">
-                                                         <i class="fas fa-eye"></i> <i class=" fas fa-pallet"></i>
-                                                         View Details
+                                                    
+                                                    <a class="badge badge-success" href="pages_std_view_single_studymt.php?ls_id=<?php echo $row->ls_id;?>&c_id=<?php echo $row->c_id;?>">
+                                                     <i class="fas fa-eye"></i> <i class="icon  icon-doc "></i> View Study Materials 
                                                     </a>
+                                                    <!--
+                                                    <a class="badge badge-danger" href="pages_admin_manage_single_quizzes.php?delete=<?php echo $row->q_id;?>&c_id=<?php echo $row->c_id;?>">
+                                                     <i class="fas fa-trash"></i> <i class="icon  icon-doc "></i> Delete Quizzes
+                                                    </a>
+                                                   -->
                                                 </td>
                                             </tr>
 
-                                            <?php }?>    
+                                            <?php $cnt = $cnt +1; }?>
 
                                         </tbody>
                                     </table>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
 
-                        
                 </div>
             
                 <!-- *************************************************************** -->
@@ -277,7 +206,7 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-   
+    
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>

@@ -100,8 +100,12 @@
             <div class="auth-box row text-center">
                 <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(assets/images/big/3.jpg);">
                 </div>
+                
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
+                        <div class="text-center">
+                            <img src="assets/images/logo-text.png" alt="logo">
+                        </div>
                         <h2 class="mt-3 text-center">Sign Up for Free</h2>
                         <form method = 'POST' class="mt-4">
                             <div class="row">
