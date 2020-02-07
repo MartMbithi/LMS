@@ -3,30 +3,29 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $i_id = $_SESSION['i_id'];
-  //post discussion
-  if(isset($_POST['post_ans']))
+  $s_id = $_SESSION['s_id'];
+  /*egister a new instructor
+
+  if(isset($_POST['lms_instructor']))
   {
-     $f_id = $_GET['f_id'];
-     $i_id = $_GET['i_id'];
-     $c_id = $_GET['c_id'];
-     $s_unit_name = $_GET['s_unit_name'];
-     $s_unit_code = $_GET['s_unit_code'];
-     $f_no  = $_GET['f_no'];
-     $s_id = $_SESSION['s_id'];
-     $f_ans = $_POST['f_ans'];
-     $f_topic = $_POST['f_topic'];      
-     $s_name = $_POST['s_name'];
+      $i_number = $_POST['i_number'];
+      $i_name = $_POST['i_name'];
+      $i_email = $_POST['i_email'];
+      $i_pwd = sha1(md5($_POST['i_pwd']));//Double encryption
+      
+      //Upload students profile picture
+      $i_dpic = $_FILES["i_dpic"]["name"];
+          move_uploaded_file($_FILES["i_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["i_dpic"]["name"]);//move uploaded image
       
       //sql to insert captured values
-      $query="INSERT  INTO lms_forum_discussions  (f_id, i_id, c_id, s_unit_name, s_unit_code, f_no, s_id, f_ans, f_topic, s_name) VALUES (?,?,?,?,?,?,?,?,?,?)";
+      $query="INSERT INTO lms_instructor (i_number, i_name, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('ssssssssss', $f_id, $i_id, $c_id, $s_unit_name, $s_unit_name, $f_no, $s_id, $f_ans, $f_topic, $s_name);
+      $rc=$stmt->bind_param('sssss', $i_number, $i_name, $i_email, $i_pwd, $i_dpic);
       $stmt->execute();
 
       if($stmt)
       {
-                $success = "Your Answer Posted";
+                $success = "Instructor Account Added";
                 
                 //echo "<script>toastr.success('Have Fun')</script>";
       }
@@ -36,6 +35,7 @@
       
       
   }
+  */
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -78,29 +78,31 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <?php
+                       <?php 
                             include("dist/inc/time_API.php");
-                            $f_id = $_GET['f_id'];
-                            $ret="SELECT  * FROM lms_forum  WHERE f_id=?";
+                            //Student certificates
+                            $cert_id = $_GET['cert_id'];
+                            $ret="SELECT  * FROM  lms_certs WHERE cert_id = ?";
                             $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$f_id);
+                            $stmt->bind_param('i',$cert_id);
                             $stmt->execute() ;//ok
                             $res=$stmt->get_result();
-                            //$cnt=1;
+                            $cnt=1;
                             while($row=$res->fetch_object())
                             {
-                              
+                                $mysqlDateTime = $row->date_generated;//trim timestamp to DD/MM/YYYY formart
+                                
                         ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
-                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Forum</a>
+                                    <li class="breadcrumb-item"><a href="">Certificates</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Manage Discussion</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_manage_certificates.php">Manage</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href=""><?php echo $row->s_unit_name;?> Discussion</a>
+                                    <li class="breadcrumb-item"><a href="">Print</a>
                                     </li>
                                     
                                 </ol>
@@ -115,7 +117,6 @@
                             </select>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -123,105 +124,73 @@
             <!-- ============================================================== -->
             <!-- ============================================================== -->
             <!-- Container fluid  -->
+            <!--Inline Css for certificate-->
+            <style>
+
+                #certificate{background: linear-gradient(#91EAE4 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #91EAE4 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #91EAE4 0%, rgba(255,255,255,0) 0) 55px 0 #FFF;background-size: 10.5in 8in;background-repeat: repeat-x;}
+                body{ margin: 0;}
+                
+                @media print {
+                    table{background: linear-gradient(#667db6 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #c8be75 50%, rgba(255,255,255,0) 0) 0 0, radial-gradient(circle closest-side, #c8be75 0%, rgba(255,255,255,0) 0) 55px 0 #FFF;background-size: 10.5in 8in;background-repeat: repeat-x; -webkit-print-color-adjust: exact; }
+                }
+                
+                @page {
+                    margin-top: 0.5cm;
+                    margin-bottom: 2cm;
+                    margin-left: 2cm;
+                    margin-right: 2cm;
+                }
+
+             </style>
             <!-- ============================================================== -->
             <div class="container-fluid">
                 <div class="row">
+                
 
-                    <div class="col-lg-12 col-md-6">
-                        <div class="card-header">
-                            <?php echo $row->s_unit_code;?> <?php echo $row->s_unit_name;?> 
-                        </div>
-                        <hr>
-                       
-                        <table  class="table table-striped table-bordered display no-wrap" 
-                            style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Discussion Questions</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><?php echo $row->f_topic;?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table  class="table table-striped table-bordered display no-wrap" 
-                            style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Posted Answers</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                    $f_id = $_GET['f_id'];
-                                    $ret="SELECT  * FROM lms_forum_discussions  WHERE f_id=?";
-                                    $stmt= $mysqli->prepare($ret) ;
-                                    $stmt->bind_param('i',$f_id);
-                                    $stmt->execute() ;//ok
-                                    $res=$stmt->get_result();
-                                    //$cnt=1;
-                                    while($row=$res->fetch_object())
-                                    {
-                                
-                                ?>
-                                <tr>
-                                    <td><?php echo $row->f_ans;?><hr>Ansered By: <?php echo $row->s_name;?></td>
-                                    
-                                </tr>
-
-                                <?php }?>
-                            </tbody>
-                            
-                        </table>
-                        <form method ="post" enctype="multipart/form-data">
-                        
-                                
-                            <div class="row">
-                                
-                                <div class="form-group col-md-12" style="display:none">
-                                    <label for="exampleInputEmail1">Question</label>
-                                    <textarea type="text" name="f_topic"  required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->f_topic;?></textarea>
-                                </div>
-                                
-                                <div class="form-group col-md-12">
-                                    <label for="exampleInputEmail1">Your Answer</label>
-                                    <textarea type="text" name="f_ans" required class="form-control" id="forum_discussion" aria-describedby="emailHelp"></textarea>
-                                </div>
-                                <?php
-                                    $i_id = $_SESSION['i_id'];
-                                    $ret="SELECT  * FROM lms_instructor  WHERE i_id=?";
-                                    $stmt= $mysqli->prepare($ret) ;
-                                    $stmt->bind_param('i',$i_id);
-                                    $stmt->execute() ;//ok
-                                    $res=$stmt->get_result();
-                                    //$cnt=1;
-                                    while($row=$res->fetch_object())
-                                    {
-                                
-                                ?>
-                                <div class="form-group col-md-12" style="display:none">
-                                    <label for="exampleInputEmail1">Name</label>
-                                    <textarea type="text" name="s_name"   required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->i_name;?></textarea>
-                                </div>
-                                <?php }?>
-
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div  id="Print_Certificate" class="certificate-container col-md-12" style="background:#f9f9f9">
+                                <table  id="certificate" class="col-md-12" style="width: 11in;margin: 0 auto;text-align: center;padding: 10px;border-style: groove;border-width: 20px;outline: 5px dotted #000;height: 8.5in;outline-offset: -26px;outline-style: double;border-color: #667db6;">
+                                    <tr>
+                                        <td><h1 style="font-size: 0.6in; margin: 0; color: #000;">Certificate of Completion</h1><h3 style="margin: 0;font-size: 0.25in;color: black;text-transform: uppercase;font-family: sans-serif;"> Is hereby granted to : </h3> <p style="font-size: 0.3in;text-transform: uppercase;color: #494000;"></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h2 style="color: #fff; font-size: 0.4in;margin: 10px 0 0 0; font-family: sans-serif;text-transform: uppercase;"><?php echo $row->s_name;?></h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h4 style="margin:0; font-size: 0.16in;font-family: sans-serif;color: #000;">For Completing  <?php echo $row->s_unit_name;?>.</h4>
+                                            <h5  style="margin: 5px 0 40px; font-size: 0.16in;font-family: sans-serif;color: #000;"><?php echo $row->s_unit_code;?></h5>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                        <img src="assets/images/logo-icon.png" alt="" style="max-width:100%;"><img src="assets/images/logo-text.png" alt="" style="max-width:100%;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6 style="margin: 10px 0 20px; font-family: sans-serif;font-size: 0.12in;"></h6>
+                                            <em>Generated : <?php echo date("d M Y- h:m:s", strtotime($mysqlDateTime));?> </em>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
-
-                            <hr>
-
-                            <button type="submit" name="post_ans" class="btn btn-outline-primary">Post</button>
-                        </form>
-                            
-                            <!-- Card -->
+                                
+                        </div>
+                        <button id="print" onclick='printContent("Print_Certificate");' class = "btn btn-outline-success"><i class="fas fa-print"></i>Print Certificate</button>
                     </div>
-                    <?php }?>
+                    
+
                 </div>
+            
                 <!-- *************************************************************** -->
             </div>
+            <?php }?>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
             <!-- ============================================================== -->
@@ -263,11 +232,7 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    <script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('forum_discussion')
-    </script>
-    
+   
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>

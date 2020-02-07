@@ -4,19 +4,19 @@
     include('dist/inc/config.php');//get configuration file
     if(isset($_POST['login']))
     {
-        $a_email=$_POST['a_email'];
-        $a_pwd=sha1(md5($_POST['a_pwd']));//double encrypt to increase security
-        $stmt=$mysqli->prepare("SELECT a_email ,a_pwd , a_id FROM lms_admin WHERE a_email=? AND a_pwd=? ");//sql to log in user
-        $stmt->bind_param('ss',$a_email,$a_pwd);//bind fetched parameters
+        $s_email=$_POST['s_email'];
+        $s_pwd=sha1(md5($_POST['s_pwd']));//double encrypt to increase security
+        $stmt=$mysqli->prepare("SELECT s_email ,s_pwd , s_id FROM lms_student WHERE s_email=? AND s_pwd=? ");//sql to log in user
+        $stmt->bind_param('ss',$s_email, $s_pwd);//bind fetched parameters
         $stmt->execute();//execute bind
-        $stmt -> bind_result($a_email, $a_pwd, $a_id);//bind result
+        $stmt -> bind_result($s_email, $s_pwd, $s_id);//bind result
         $rs=$stmt->fetch();
-        $_SESSION['a_id']= $a_id;//assaign session to admin id
+        $_SESSION['s_id']= $s_id;//assaign session to admin id
         //$uip=$_SERVER['REMOTE_ADDR'];
         //$ldate=date('d/m/Y h:i:s', time());
         if($rs)
             {//if its sucessfull
-                header("location:pages_admin_dashboard.php");
+                header("location:pages_std_dashboard.php");
             }
 
         else
@@ -101,23 +101,23 @@
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
                         <div class="text-center">
-                            <img src="assets/images/big/icon.png" alt="wrapkit">
+                            <img src="assets/images/logo-text.png" alt="logo">
                         </div>
                         <h2 class="mt-3 text-center">Sign In</h2>
-                        <p class="text-center">Enter your email address and password to access admin panel.</p>
+                        <p class="text-center">Enter your email address and password to access student panel.</p>
                         <form method ="post" class="mt-4">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="text-dark" for="uname">Email</label>
-                                        <input class="form-control" required ="required" name="a_email" id="uname" type="email"
+                                        <input class="form-control" required ="required" name="s_email" id="uname" type="email"
                                             placeholder="Enter Your Email">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="text-dark" for="pwd">Password</label>
-                                        <input class="form-control" required ="required" name="a_pwd" id="pwd" type="password"
+                                        <input class="form-control" required ="required" name="s_pwd" id="pwd" type="password"
                                             placeholder="Enter Your Password">
                                     </div>
                                 </div>
@@ -125,7 +125,7 @@
                                     <button type="submit" name="login" class="btn btn-block btn-outline-dark">Sign In</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                    Don't have an account? <a href="pages_admin_signup.php" class="text-danger">Sign Up</a>
+                                    Don't have an account? <a href="pages_std_signup.php" class="text-danger">Sign Up</a>
                                     Forgot Password? <a href="pages_reset_pwd.php" class="text-danger">Recover</a><br>
                                     Take Me  <a href="../" class="text-danger">Home</a> Safe
                                 </div>

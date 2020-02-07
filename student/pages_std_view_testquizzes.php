@@ -3,27 +3,8 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $i_id = $_SESSION['i_id'];
+  $s_id = $_SESSION['s_id'];
   //hold logged in user session.
-  //delete some forum topics
-  if(isset($_GET['delete']))
-  {
-        $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_forum WHERE f_id = ?";
-        $stmt= $mysqli->prepare($adn);
-        $stmt->bind_param('i',$id);
-        $stmt->execute();
-        $stmt->close();	 
-  
-          if($stmt)
-          {
-            $success = "Forum Record Deleted";
-          }
-            else
-            {
-                $err = "Try Again Later";
-            }
-    }
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -66,15 +47,16 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                    <?php include("dist/inc/time_API.php");?>
+                    <?php
+                       include("dist/inc/time_API.php");?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="">Forum</a>
+                                    <li class="breadcrumb-item"><a href="">Questions</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Manage Discussion</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_testquizzes.php">View</a>
                                     </li>
                                     
                                 </ol>
@@ -103,7 +85,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Select On Any Unit To Manage Its Forum Topics</h4>
+                                <h4 class="card-title">Select On Any Unit To View Its Questions </h4>
                                 <div class="table-responsive">
                                     <table id="default_order" class="table table-striped table-bordered display"
                                         style="width:100%">
@@ -111,49 +93,43 @@
                                             <tr>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
-                                                <th>Forum Code</th>
+                                                <th>Instructor Name</th>
+                                                <th>Student Name</th>
+                                                <th>Enroll date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <?php
                                             //Student Enrollment.
-                                            $i_id = $_SESSION['i_id'];
-                                            $ret="SELECT  * FROM  lms_forum WHERE i_id =?";
+                                            $s_id = $_SESSION['s_id'];
+                                            $ret="SELECT  * FROM  lms_enrollments WHERE s_id = ?";
                                             $stmt= $mysqli->prepare($ret) ;
-                                            $stmt->bind_param('i',$i_id);
+                                            $stmt->bind_param('i',$s_id);
                                             $stmt->execute() ;//ok
                                             $res=$stmt->get_result();
                                             $cnt=1;
                                             while($row=$res->fetch_object())
                                             {
-                                                $mysqlDateTime = $row->f_date_posted;//trim timestamp to DD/MM/YYYY formart
+                                                $mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
                                                 
                                         ?>
                                             <tr>
                                                 <td><?php echo $row->s_unit_code;?></td>
                                                 <td><?php echo $row->s_unit_name;?></td>
-                                                <td><?php echo $row->f_no;?></td>
+                                                <td><?php echo $row->i_name;?></td>
+                                                <td><?php echo $row->s_name;?></td>
+                                                <td><?php echo date("d M Y", strtotime($mysqlDateTime));?></td>
                                                 <td>
                                                     <a class="badge badge-success" 
-                                                         href="pages_ins_view_forum.php?f_id=<?php echo $row->f_id;?>&i_id=<?php echo $row->i_id;?>&c_id=<?php echo $row->c_id;?>&s_unit_code=<?php echo $row->s_unit_code;?>&s_unit_name=<?php echo $row->s_unit_name;?>&f_no=<?php echo $row->f_no;?>">
-                                                         <i class="fa fa-eye"></i> <i class=" icon icon-envelope-open"></i>
-                                                            View Discussion
-                                                    </a>
-                                                    <a class="badge badge-warning" 
-                                                         href="pages_ins_update_forum.php?f_id=<?php echo $row->f_id;?>">
-                                                         <i class="far fa-edit"></i> <i class=" icon icon-envelope-open"></i>
-                                                            Update Discussion
-                                                    </a>
-                                                    <a class="badge badge-danger" 
-                                                         href="pages_ins_manage_forum.php?delete=<?php echo $row->f_id;?>">
-                                                         <i class="fa fa-trash"></i> <i class=" icon icon-envelope-open"></i>
-                                                            Delete Discussion
+                                                         href="pages_std_view_single_unit_questions.php?c_id=<?php echo $row->c_id;?>">
+                                                         <i class="fas fa-eye"></i> <i class=" fas fa-pallet"></i>
+                                                         View
                                                     </a>
                                                 </td>
                                             </tr>
 
-                                            <?php $cnt = $cnt +1; }?>    
+                                            <?php }?>    
 
                                         </tbody>
                                     </table>

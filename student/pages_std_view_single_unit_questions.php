@@ -3,39 +3,9 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $i_id = $_SESSION['i_id'];
-  //post discussion
-  if(isset($_POST['post_ans']))
-  {
-     $f_id = $_GET['f_id'];
-     $i_id = $_GET['i_id'];
-     $c_id = $_GET['c_id'];
-     $s_unit_name = $_GET['s_unit_name'];
-     $s_unit_code = $_GET['s_unit_code'];
-     $f_no  = $_GET['f_no'];
-     $s_id = $_SESSION['s_id'];
-     $f_ans = $_POST['f_ans'];
-     $f_topic = $_POST['f_topic'];      
-     $s_name = $_POST['s_name'];
-      
-      //sql to insert captured values
-      $query="INSERT  INTO lms_forum_discussions  (f_id, i_id, c_id, s_unit_name, s_unit_code, f_no, s_id, f_ans, f_topic, s_name) VALUES (?,?,?,?,?,?,?,?,?,?)";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('ssssssssss', $f_id, $i_id, $c_id, $s_unit_name, $s_unit_name, $f_no, $s_id, $f_ans, $f_topic, $s_name);
-      $stmt->execute();
-
-      if($stmt)
-      {
-                $success = "Your Answer Posted";
-                
-                //echo "<script>toastr.success('Have Fun')</script>";
-      }
-      else {
-        $err = "Please Try Again Or Try Later";
-      }
-      
-      
-  }
+  $s_id = $_SESSION['s_id'];
+  
+  
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -80,29 +50,29 @@
                     <div class="col-7 align-self-center">
                         <?php
                             include("dist/inc/time_API.php");
-                            $f_id = $_GET['f_id'];
-                            $ret="SELECT  * FROM lms_forum  WHERE f_id=?";
+                            $c_id = $_GET['c_id'];
+                            $ret="SELECT  * FROM  lms_questions WHERE c_id = ?";
                             $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$f_id);
+                            $stmt->bind_param('i',$c_id);
                             $stmt->execute() ;//ok
                             $res=$stmt->get_result();
-                            //$cnt=1;
+                            $cnt=1;
                             while($row=$res->fetch_object())
                             {
-                              
+                                //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+                                
                         ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
-                                 <ol class="breadcrumb m-0 p-0">
+                                <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Forum</a>
+                                    <li class="breadcrumb-item"><a href="">Questions</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Manage Discussion</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_view_testquizzes.php">View</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href=""><?php echo $row->s_unit_name;?> Discussion</a>
+                                    <li class="breadcrumb-item"><a href=""><?php echo $row->c_name;?> Questions.</a>
                                     </li>
-                                    
                                 </ol>
                             </nav>
                         </div>
@@ -115,7 +85,6 @@
                             </select>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -124,102 +93,66 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
+            
             <div class="container-fluid">
                 <div class="row">
 
-                    <div class="col-lg-12 col-md-6">
-                        <div class="card-header">
-                            <?php echo $row->s_unit_code;?> <?php echo $row->s_unit_name;?> 
-                        </div>
-                        <hr>
-                       
-                        <table  class="table table-striped table-bordered display no-wrap" 
-                            style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Discussion Questions</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><?php echo $row->f_topic;?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table  class="table table-striped table-bordered display no-wrap" 
-                            style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Posted Answers</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                    $f_id = $_GET['f_id'];
-                                    $ret="SELECT  * FROM lms_forum_discussions  WHERE f_id=?";
-                                    $stmt= $mysqli->prepare($ret) ;
-                                    $stmt->bind_param('i',$f_id);
-                                    $stmt->execute() ;//ok
-                                    $res=$stmt->get_result();
-                                    //$cnt=1;
-                                    while($row=$res->fetch_object())
-                                    {
-                                
-                                ?>
-                                <tr>
-                                    <td><?php echo $row->f_ans;?><hr>Ansered By: <?php echo $row->s_name;?></td>
-                                    
-                                </tr>
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title"><?php echo $row->c_name;?> Questions </h4>
+                                <div class="table-responsive">
+                                    <table id="multi_col_order" class="table table-striped table-bordered display "
+                                        style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Unit Code</th>
+                                                <th>Unit Name</th>
+                                                <th>Question Code</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                <?php }?>
-                            </tbody>
-                            
-                        </table>
-                        <form method ="post" enctype="multipart/form-data">
-                        
-                                
-                            <div class="row">
-                                
-                                <div class="form-group col-md-12" style="display:none">
-                                    <label for="exampleInputEmail1">Question</label>
-                                    <textarea type="text" name="f_topic"  required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->f_topic;?></textarea>
-                                </div>
-                                
-                                <div class="form-group col-md-12">
-                                    <label for="exampleInputEmail1">Your Answer</label>
-                                    <textarea type="text" name="f_ans" required class="form-control" id="forum_discussion" aria-describedby="emailHelp"></textarea>
-                                </div>
-                                <?php
-                                    $i_id = $_SESSION['i_id'];
-                                    $ret="SELECT  * FROM lms_instructor  WHERE i_id=?";
-                                    $stmt= $mysqli->prepare($ret) ;
-                                    $stmt->bind_param('i',$i_id);
-                                    $stmt->execute() ;//ok
-                                    $res=$stmt->get_result();
-                                    //$cnt=1;
-                                    while($row=$res->fetch_object())
-                                    {
-                                
-                                ?>
-                                <div class="form-group col-md-12" style="display:none">
-                                    <label for="exampleInputEmail1">Name</label>
-                                    <textarea type="text" name="s_name"   required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->i_name;?></textarea>
-                                </div>
-                                <?php }?>
+                                        <?php
+                                            $c_id = $_GET['c_id'];
+                                            $ret="SELECT  * FROM  lms_questions WHERE c_id = ?  ";
+                                            $stmt= $mysqli->prepare($ret) ;
+                                            $stmt->bind_param('i',$c_id);
+                                            $stmt->execute() ;//ok
+                                            $res=$stmt->get_result();
+                                            $cnt=1;
+                                            while($row=$res->fetch_object())
+                                            {
+                                        ?>
 
+                                            <tr>
+                                                <td><?php echo $cnt;?></td>
+                                                <td><?php echo $row->c_code;?></td>
+                                                <td><?php echo $row->c_name;?></td>
+                                                <td><?php echo $row->q_code;?></td>
+                                                <td>
+                                                    
+                                                    <a class="badge badge-success" href="pages_std_view_specific_quizzes.php?q_id=<?php echo $row->q_id;?>">
+                                                     <i class="fas fa-eye"></i><i class="icon  icon-doc "></i> View Quizzes
+                                                    </a>
+                                                   
+                                                </td>
+                                            </tr>
+
+                                            <?php $cnt = $cnt +1; }}?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
                             </div>
-
-                            <hr>
-
-                            <button type="submit" name="post_ans" class="btn btn-outline-primary">Post</button>
-                        </form>
-                            
-                            <!-- Card -->
+                        </div>
                     </div>
-                    <?php }?>
+
                 </div>
+            
                 <!-- *************************************************************** -->
             </div>
             <!-- ============================================================== -->
@@ -263,10 +196,6 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    <script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('forum_discussion')
-    </script>
     
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>

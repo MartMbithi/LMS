@@ -75,7 +75,7 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="admin/pages_admin_index.php">Administrator</a>
                                     <a class="dropdown-item" href="Instructors/pages_ins_index.php">Instructor</a>
-                                    <a class="dropdown-item" href="student/pages_student_index.php">Student</a>
+                                    <a class="dropdown-item" href="student/pages_std_index.php">Student</a>
                                 </div>
                             </li>
                         </ul>

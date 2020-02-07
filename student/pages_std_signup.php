@@ -4,20 +4,20 @@
 	include('dist/inc/config.php');
 		if(isset($_POST['signup']))
 		{
-            $a_name=$_POST['a_name'];
-            $a_uname=$_POST['a_uname'];
-            $a_email=$_POST['a_email'];
+            $s_name=$_POST['s_name'];
+            $s_regno=$_POST['s_regno'];
+            $s_email=$_POST['s_email'];
             //$a_number = $_POST['a_number'];
-            $a_pwd=sha1(md5($_POST['a_pwd']));//double encrypt to increase security
+            $s_pwd=sha1(md5($_POST['s_pwd']));//double encrypt to increase security
             //sql to insert captured values
-            $query="INSERT INTO lms_admin (a_name,  a_uname, a_email, a_pwd) values(?,?,?,?)";
+            $query="INSERT INTO lms_student (s_name, s_regno, s_email, s_pwd) values(?,?,?,?)";
             $stmt = $mysqli->prepare($query);
-            $rc=$stmt->bind_param('ssss', $a_name, $a_uname, $a_email, $a_pwd);
+            $rc=$stmt->bind_param('ssss', $s_name, $s_regno, $s_email, $s_pwd);
             $stmt->execute();
 
             if($stmt)
             {
-                      $success = "Created Account Proceed To Log In";
+                      $success = "Student Account Created Proceed To Log In";
                       
                       //echo "<script>toastr.success('Have Fun')</script>";
             }
@@ -100,38 +100,40 @@
             <div class="auth-box row text-center">
                 <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(assets/images/big/3.jpg);">
                 </div>
+                
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
-                        <img src="assets/images/big/icon.png" alt="wrapkit">
+                        <div class="text-center">
+                            <img src="assets/images/logo-text.png" alt="logo">
+                        </div>
                         <h2 class="mt-3 text-center">Sign Up for Free</h2>
-
                         <form method = 'POST' class="mt-4">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input required="required" class="form-control" name="a_name" type="text" placeholder="Your Full Name">
+                                        <input required="required" class="form-control" name="s_name" type="text" placeholder="Your Full Name">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input required = "required" class="form-control" name="a_uname" type="text" placeholder="User Name">
+                                        <input required = "required" class="form-control" name="s_regno" type="text" placeholder="Registration Number">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input required = "required" class="form-control" name="a_email" type="email" placeholder="Email Address">
+                                        <input required = "required" class="form-control" name="s_email" type="email" placeholder="Email Address">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input class="form-control" require = "required" name="a_pwd" type="password" placeholder="Password">
+                                        <input class="form-control" require = "required" name="s_pwd" type="password" placeholder="Password">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 text-center">
                                     <button type="submit" name="signup" class="btn btn-block btn-outline-dark">Sign Up</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                    Already have an account? <a href="pages_admin_index.php" class="text-danger">Sign In</a>
+                                    Already have an account? <a href="pages_std_index.php" class="text-danger">Sign In</a>
                                 </div>
                             </div>
                         </form>

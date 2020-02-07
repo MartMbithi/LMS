@@ -3,44 +3,8 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $a_id=$_SESSION['a_id'];
-  //register a new student
-  if(isset($_POST['add_student']))
-  {
-      $s_regno = $_POST['s_regno'];
-      $s_name = $_POST['s_name'];
-      $s_email = $_SESSION['s_email'];
-      $s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
-      $s_phoneno = $_POST['s_phoneno'];
-      $s_dob = $_POST['s_dob'];
-      $s_gender = $_POST['s_gender'];
-      $s_acc_stats = $_POST['s_acc_stats'];
-      
-      //Upload students profile picture
-      $s_dpic = $_FILES["s_dpic"]["name"];
-          move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../admin/dist/img/houses/".$_FILES["h_rear_pic"]["name"]);//move uploaded image
-      
-      $h_front_dpic=$_FILES["h_front_dpic"]["name"];
-      move_uploaded_file($_FILES["h_front_dpic"]["tmp_name"],"../admin/dist/img/houses/".$_FILES["h_front_dpic"]["name"]);
-      
-      //sql to insert captured values
-      $query="INSERT INTO amani_houses (h_number, h_rent, h_name, l_id,  h_category, h_location, h_landlord_number, h_desc, h_rear_pic, h_front_dpic, l_bankacc, l_tillno ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('ssssssssss', $h_number, $h_rent, $h_name, $l_id, $h_category, $h_location, $h_landlord_number, $h_desc, $h_rear_pic, $h_front_dpic, $l_bankacc, $l_tillno);
-      $stmt->execute();
-
-      if($stmt)
-      {
-                $success = "House Added";
-                
-                //echo "<script>toastr.success('Have Fun')</script>";
-      }
-      else {
-        $err = "Please Try Again Or Try Later";
-      }
-      
-      
-  }
+  $s_id = $_SESSION['s_id'];
+  //hold logged in user session.
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -83,54 +47,18 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <?php
-                            $a_id = $_SESSION['a_id'];
-                            $ret="SELECT  * FROM  lms_admin  WHERE a_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$a_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                                // time function to get day zones ie morning, noon, and night.
-                                $t = date("H");
-
-                                if ($t < "10")
-                                 {
-                                    $d_time = "Good Morning";
-
-                                    }
-
-                                     elseif ($t < "15")
-                                      {
-
-                                      $d_time =  "Good Afternoon";
-
-                                     } 
-
-                                        elseif ($t < "20")
-                                        {
-
-                                        $d_time =  "Good Evening";
-
-                                        } 
-                                        else {
-
-                                            $d_time = "Good Night";
-                                }
-                        ?>
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
-                        <?php }?>
+                    <?php
+                       include("dist/inc/time_API.php");?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Students</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_studymt.php">Study Materials</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_add_student.php">Register</a>
+                                    <li class="breadcrumb-item"><a href="">View</a>
                                     </li>
+                                    
                                 </ol>
                             </nav>
                         </div>
@@ -152,76 +80,64 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
+                
                 <div class="row">
-
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Add New Student</h4>
-                                <!--Add Student-->
-                                <form method ="post" enctype="multipart/form-data">
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Registration Number</label>
-                                            <input type="text" name="s_regno" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="exampleInputEmail1">Full Name</label>
-                                            <input type="text" name="s_name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                    </div>
-                                    <div class="row">    
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Phone Number</label>
-                                            <input type="text"  name = "s_phoneno" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Date Of Birth</label>
-                                            <input type="text" name="s_dob" class="form-control" placeholder ="DD/MM/YYYY" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Gender</label>
-                                            <select class="custom-select" id="inputGroupSelect03" name="s_gender" aria-label="Example select with button addon">
-                                                <option selected>Choose...</option>
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                            </select>
-                                        </div>
+                                <h4 class="card-title">Select Any  Unit To View Its Study Materials</h4>
+                                <div class="table-responsive">
+                                    <table id="default_order" class="table table-striped table-bordered display"
+                                        style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Unit Code</th>
+                                                <th>Unit Name</th>
+                                                <th>Instructor Name</th>
+                                                <th>Student Name</th>
+                                                <th>Enroll date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                            //Student Enrollment.
+                                            $s_id = $_SESSION['s_id'];
+                                            $ret="SELECT  * FROM  lms_enrollments WHERE s_id = ?";
+                                            $stmt= $mysqli->prepare($ret) ;
+                                            $stmt->bind_param('i',$s_id);
+                                            $stmt->execute() ;//ok
+                                            $res=$stmt->get_result();
+                                            $cnt=1;
+                                            while($row=$res->fetch_object())
+                                            {
+                                                $mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+                                                
+                                        ?>
+                                            <tr>
+                                                <td><?php echo $row->s_unit_code;?></td>
+                                                <td><?php echo $row->s_unit_name;?></td>
+                                                <td><?php echo $row->i_name;?></td>
+                                                <td><?php echo $row->s_name;?></td>
+                                                <td><?php echo date("d M Y", strtotime($mysqlDateTime));?></td>
+                                                <td>
+                                                    <a class="badge badge-success" 
+                                                         href="pages_std_view_unit_study_material.php?c_id=<?php echo $row->c_id;?>">
+                                                         <i class="fas fa-eye"></i> <i class=" fas fa-pallet"></i>
+                                                         View 
+                                                    </a>
+                                                </td>
+                                            </tr>
 
-                                    </div>
-                                    
-                                    <div class="row"> 
-                                          
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <input type="email" name="s_email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Password</label>
-                                            <input type="password" name="s_pwd" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
+                                            <?php }?>    
 
-                                        <div class="form-group col-md-4">
-                                            <label for="exampleInputEmail1">Student Passport</label>
-                                            <input type="file" name="s_dpic" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-
-                                        <div class="form-group col-md-4" style="display:none">
-                                            <label for="exampleInputEmail1">Student Account Status</label>
-                                            <input type="text" name="s_acc_status" value="Approved" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                        </div>
-
-
-                                    </div>
-                                   
-                                   <hr>
-
-                                    <button type="submit" name="add_student" class="btn btn-outline-primary">Add Student</button>
-                                </form>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                       
                 </div>
             
                 <!-- *************************************************************** -->

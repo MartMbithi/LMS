@@ -3,30 +3,33 @@
   include('dist/inc/config.php');
   include('dist/inc/checklogin.php');
   check_login();
-  $i_id = $_SESSION['i_id'];
-  //post discussion
-  if(isset($_POST['post_ans']))
+  $s_id = $_SESSION['s_id'];
+  /*
+  //register a new student
+  if(isset($_POST['add_student']))
   {
-     $f_id = $_GET['f_id'];
-     $i_id = $_GET['i_id'];
-     $c_id = $_GET['c_id'];
-     $s_unit_name = $_GET['s_unit_name'];
-     $s_unit_code = $_GET['s_unit_code'];
-     $f_no  = $_GET['f_no'];
-     $s_id = $_SESSION['s_id'];
-     $f_ans = $_POST['f_ans'];
-     $f_topic = $_POST['f_topic'];      
-     $s_name = $_POST['s_name'];
+      $s_regno = $_POST['s_regno'];
+      $s_name = $_POST['s_name'];
+      $s_email = $_POST['s_email'];
+      $s_pwd = sha1(md5($_POST['s_pwd']));//Double encryption
+      $s_phoneno = $_POST['s_phoneno'];
+      $s_dob = $_POST['s_dob'];
+      $s_gender = $_POST['s_gender'];
+      $s_acc_stats = $_POST['s_acc_stats'];
+      
+      //Upload students profile picture
+      $s_dpic = $_FILES["s_dpic"]["name"];
+          move_uploaded_file($_FILES["s_dpic"]["tmp_name"],"../student/assets/images/users/".$_FILES["s_dpic"]["name"]);//move uploaded image
       
       //sql to insert captured values
-      $query="INSERT  INTO lms_forum_discussions  (f_id, i_id, c_id, s_unit_name, s_unit_code, f_no, s_id, f_ans, f_topic, s_name) VALUES (?,?,?,?,?,?,?,?,?,?)";
+      $query="INSERT INTO lms_student (s_regno, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('ssssssssss', $f_id, $i_id, $c_id, $s_unit_name, $s_unit_name, $f_no, $s_id, $f_ans, $f_topic, $s_name);
+      $rc=$stmt->bind_param('sssssssss', $s_regno, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
       $stmt->execute();
 
       if($stmt)
       {
-                $success = "Your Answer Posted";
+                $success = "Student Account Added";
                 
                 //echo "<script>toastr.success('Have Fun')</script>";
       }
@@ -36,6 +39,7 @@
       
       
   }
+  */
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -80,10 +84,10 @@
                     <div class="col-7 align-self-center">
                         <?php
                             include("dist/inc/time_API.php");
-                            $f_id = $_GET['f_id'];
-                            $ret="SELECT  * FROM lms_forum  WHERE f_id=?";
+                            $rs_id = $_GET['rs_id'];
+                            $ret="SELECT  * FROM lms_results  WHERE rs_id=?";
                             $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$f_id);
+                            $stmt->bind_param('i',$rs_id);
                             $stmt->execute() ;//ok
                             $res=$stmt->get_result();
                             //$cnt=1;
@@ -93,14 +97,14 @@
                         ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
-                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_ins_dashboard.php">Dashboard</a>
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Forum</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_results.php">Results</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_ins_manage_forum.php">Manage Discussion</a>
+                                    <li class="breadcrumb-item"><a href="pages_std_view_results.php">View</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href=""><?php echo $row->s_unit_name;?> Discussion</a>
+                                    <li class="breadcrumb-item"><a href="">Single Unit Marks</a>
                                     </li>
                                     
                                 </ol>
@@ -129,7 +133,7 @@
 
                     <div class="col-lg-12 col-md-6">
                         <div class="card-header">
-                            <?php echo $row->s_unit_code;?> <?php echo $row->s_unit_name;?> 
+                            <?php echo $row->s_unit_code;?> <?php echo $row->s_unit_name;?>
                         </div>
                         <hr>
                        
@@ -137,84 +141,74 @@
                             style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Discussion Questions</th>
+                                    <th>Student RegNo</th>
+                                    <th>Student Name</th>
+                                    <th>Cat 1</th>
+                                    <th>Cat 2</th>
+                                    <th>Final Exam</th>
+                                    <th>Average</th>
+                                    <th>Grade</th>
                                     
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php
+                                $rs_id = $_GET['rs_id'];
+                                $ret="SELECT  * FROM lms_results  WHERE rs_id=?";
+                                $stmt= $mysqli->prepare($ret) ;
+                                $stmt->bind_param('i',$rs_id);
+                                $stmt->execute() ;//ok
+                                $res=$stmt->get_result();
+                                $cnt=1;
+                                while($row=$res->fetch_object())
+                                {
+                                    $cat1 = $row->c_cat1_marks;
+                                    $cat2 = $row->c_cat2_marks;
+                                    $sem_end = $row->c_eos_marks;
+
+                                    //Get The Avg Marks
+                                    $convertedCat1 = ($cat1/30)*20;
+                                    $convertedCat2 = ($cat2/30)*10;
+                                    $total_avg = ($convertedCat1 + $convertedCat2+$sem_end);
+
+                                    //Get The Grade
+                                    if($total_avg >= '70')
+                                    {
+                                        $grade = 'A';
+                                    }
+                                    elseif($total_avg >= '60')
+                                    {
+                                        $grade = 'B';
+                                    }
+                                    elseif($total_avg >= '50')
+                                    {
+                                        $grade = 'C';
+                                    }
+                                    elseif($total_avg >= '40')
+                                    {
+                                        $grade = 'D';
+                                    }
+                                    else
+                                    {
+                                        $grade = 'E';
+                                    }
+                                
+                            ?>
                                 <tr>
-                                    <td><?php echo $row->f_topic;?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table  class="table table-striped table-bordered display no-wrap" 
-                            style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Posted Answers</th>
+                                    <td><?php echo $row->s_regno;?></td>
+                                    <td><?php echo $row->s_name;?></td>
+                                    <td><?php echo $row->c_cat1_marks;?></td>
+                                    <td><?php echo $row->c_cat2_marks;?></td>
+                                    <td><?php echo $row->c_eos_marks;?></td>
+                                    <td><?php echo $total_avg ;?></td>
+                                    <td><?php echo $grade;?></td>
                                     
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                    $f_id = $_GET['f_id'];
-                                    $ret="SELECT  * FROM lms_forum_discussions  WHERE f_id=?";
-                                    $stmt= $mysqli->prepare($ret) ;
-                                    $stmt->bind_param('i',$f_id);
-                                    $stmt->execute() ;//ok
-                                    $res=$stmt->get_result();
-                                    //$cnt=1;
-                                    while($row=$res->fetch_object())
-                                    {
-                                
-                                ?>
-                                <tr>
-                                    <td><?php echo $row->f_ans;?><hr>Ansered By: <?php echo $row->s_name;?></td>
-                                    
-                                </tr>
 
-                                <?php }?>
+                                <?php $cnt = $cnt +1; }?>    
+
                             </tbody>
-                            
                         </table>
-                        <form method ="post" enctype="multipart/form-data">
-                        
-                                
-                            <div class="row">
-                                
-                                <div class="form-group col-md-12" style="display:none">
-                                    <label for="exampleInputEmail1">Question</label>
-                                    <textarea type="text" name="f_topic"  required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->f_topic;?></textarea>
-                                </div>
-                                
-                                <div class="form-group col-md-12">
-                                    <label for="exampleInputEmail1">Your Answer</label>
-                                    <textarea type="text" name="f_ans" required class="form-control" id="forum_discussion" aria-describedby="emailHelp"></textarea>
-                                </div>
-                                <?php
-                                    $i_id = $_SESSION['i_id'];
-                                    $ret="SELECT  * FROM lms_instructor  WHERE i_id=?";
-                                    $stmt= $mysqli->prepare($ret) ;
-                                    $stmt->bind_param('i',$i_id);
-                                    $stmt->execute() ;//ok
-                                    $res=$stmt->get_result();
-                                    //$cnt=1;
-                                    while($row=$res->fetch_object())
-                                    {
-                                
-                                ?>
-                                <div class="form-group col-md-12" style="display:none">
-                                    <label for="exampleInputEmail1">Name</label>
-                                    <textarea type="text" name="s_name"   required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->i_name;?></textarea>
-                                </div>
-                                <?php }?>
-
-                            </div>
-
-                            <hr>
-
-                            <button type="submit" name="post_ans" class="btn btn-outline-primary">Post</button>
-                        </form>
                             
                             <!-- Card -->
                     </div>
@@ -263,10 +257,6 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    <script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('forum_discussion')
-    </script>
     
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>

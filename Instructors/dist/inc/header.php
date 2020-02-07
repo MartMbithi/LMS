@@ -8,7 +8,6 @@
     //$cnt=1;
     while($row=$res->fetch_object())
     {
-// time function to get day zones ie morning, noon, and night.
 ?>
        <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md">
