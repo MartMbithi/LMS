@@ -26,7 +26,7 @@
       
       
       //sql to insert captured values
-      $query="INSERT c vb INTO lms_paid_study_materials  (ls_id, c_id, cc_id, i_id, c_code, sm_number, c_name, c_category, i_name, p_method, p_code, p_amt, s_id, s_name, s_regno) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+      $query="INSERT  INTO lms_paid_study_materials  (ls_id, c_id, cc_id, i_id, c_code, sm_number, c_name, c_category, i_name, p_method, p_code, p_amt, s_id, s_name, s_regno) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       $stmt = $mysqli->prepare($query);
       $rc=$stmt->bind_param('sssssssssssssss', $ls_id, $c_id, $cc_id, $i_id, $c_code, $sm_number, $c_name, $c_category, $i_name, $p_method, $p_code, $p_amt, $s_id, $s_name, $s_regno);
       $stmt->execute();
