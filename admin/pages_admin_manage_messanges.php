@@ -4,11 +4,12 @@
   include('dist/inc/checklogin.php');
   check_login();
   $a_id=$_SESSION['a_id'];
-    /*
-  if(isset($_GET['delete_cc_id']))
+  
+  //delete messange
+  if(isset($_GET['delete_msg']))
   {
-        $id=intval($_GET['delete_cc_id']);
-        $adn="DELETE FROM lms_course_categories WHERE cc_id = ?";
+        $id=intval($_GET['delete_msg']);
+        $adn="DELETE FROM lms_messanges WHERE id = ?";
         $stmt= $mysqli->prepare($adn);
         $stmt->bind_param('i',$id);
         $stmt->execute();
@@ -16,14 +17,13 @@
   
           if($stmt)
           {
-            $success = "Course Category Record Deleted";
+            $success = "Messange Deleted";
           }
             else
             {
                 $err = "Try Again Later";
             }
     }
-    */
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -110,9 +110,9 @@
                                 <ol class="breadcrumb m-0 p-0">
                                     <li class="breadcrumb-item"><a href="pages_admin_dashboard.php">Dashboard</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_add_course.php">Units</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_manage_messanges.php">Messanges</a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="pages_admin_add_course.php">Add Units</a>
+                                    <li class="breadcrumb-item"><a href="pages_admin_manage_messanges.php">Manage</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -140,7 +140,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Select Any Course To Add New Unit.</h4>
+                                <h4 class="card-title">Messanges</h4>
                                 <div class="table-responsive">
                                     <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
                                         style="width:100%">
@@ -148,15 +148,16 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Name</th>
-                                                <th>Code</th>
-                                                <th>Dept Head</th>
+                                                <th>Email</th>
+                                                <th>Subject</th>
                                                 <th>Action</th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                //registered instructor details.
-                                                $ret="SELECT  * FROM  lms_course_categories";
+                                                //Get Details of all messanges
+                                                $ret="SELECT  * FROM  lms_messanges";
                                                 $stmt= $mysqli->prepare($ret) ;
                                                 //$stmt->bind_param('i',$l_id);
                                                 $stmt->execute() ;//ok
@@ -170,20 +171,21 @@
 
                                             <tr>
                                                 <td><?php echo $cnt;?></td>
-                                                <td><?php echo $row->cc_name;?></td>
-                                                <td><?php echo $row->cc_code;?></td>
-                                                <td><?php echo $row->cc_dept_head;?></td>
+                                                <td><?php echo $row->name;?></td>
+                                                <td><?php echo $row->email;?></td>
+                                                <td><?php echo $row->subject?></td>
                                                 <td>
-                                                    
-                                                    <a class="badge badge-success"
-                                                         href="pages_admin_add_unit.php?cc_id=<?php echo $row->cc_id;?>&c_category=<?php echo $row->cc_name;?>" >
-                                                     <i class="fas fa-edit"></i> <i class="fas fa-archive"></i> Add Unit
+                                                    <a class="badge badge-success" href="pages_admin_read_single_msg.php?subject=<?php echo $row->subject;?>&id=<?php echo $row->id;?>">
+                                                     <i class="fas fa-eye"></i><i class="fas fa-user"></i> Read
                                                     </a>
                                                     
+                                                    <a class="badge badge-danger" href="pages_admin_manage_messanges.php?delete_msg=<?php echo $row->id;?>">
+                                                     <i class="fas fa-trash"></i><i class="fas fa-user"></i> Delete
+                                                    </a>
                                                 </td>
                                             </tr>
 
-                                            <?php $cnt = 1 + $cnt;}?>
+                                            <?php $cnt = 1+ $cnt; }?>
 
                                         </tbody>
                                     </table>

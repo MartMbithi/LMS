@@ -182,11 +182,6 @@
                                 
                             <div class="row">
                                 
-                                <div class="form-group col-md-12" style="display:none">
-                                    <label for="exampleInputEmail1">Question</label>
-                                    <textarea type="text" name="f_topic"  required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->f_topic;?></textarea>
-                                </div>
-                                
                                 <div class="form-group col-md-12">
                                     <label for="exampleInputEmail1">Your Answer</label>
                                     <textarea type="text" name="f_ans" required class="form-control" id="forum_discussion" aria-describedby="emailHelp"></textarea>
@@ -206,6 +201,23 @@
                                 <div class="form-group col-md-12" style="display:none">
                                     <label for="exampleInputEmail1">Student Name</label>
                                     <textarea type="text" name="s_name"   required class="form-control" id="forum_discussion1" aria-describedby="emailHelp"><?php echo $row->s_name;?></textarea>
+                                </div>
+                                <?php }?>
+                                <?php
+                                    $f_id = $_GET['f_id'];
+                                    $ret="SELECT  * FROM lms_forum  WHERE f_id=?";
+                                    $stmt= $mysqli->prepare($ret) ;
+                                    $stmt->bind_param('i',$f_id);
+                                    $stmt->execute() ;//ok
+                                    $res=$stmt->get_result();
+                                    //$cnt=1;
+                                    while($row=$res->fetch_object())
+                                    {
+                                
+                                ?>
+                                <div class="form-group col-md-12" style = "display:none">
+                                    <label for="exampleInputEmail1">Topic</label>
+                                    <textarea type="text" name="f_topic" required class="form-control" id="forum_discussion" aria-describedby="emailHelp"><?php echo $row->f_topic;?></textarea>
                                 </div>
                                 <?php }?>
 

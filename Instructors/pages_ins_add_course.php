@@ -146,7 +146,7 @@
                                                 </td>
                                             </tr>
 
-                                            <?php }?>
+                                            <?php $cnt = 1 + $cnt;}?>
 
                                         </tbody>
                                     </table>

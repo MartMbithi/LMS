@@ -263,6 +263,19 @@
                                 
                             </ul>
                         </li>
+
+                        <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
+                                aria-expanded="false"><i class="icon icon-envelope-open"></i><span
+                                    class="hide-menu">Messanges</span></a>
+
+                            <ul aria-expanded="false" class="collapse  first-level base-level-line">
+                                
+                                <li class="sidebar-item"><a href="pages_admin_manage_messanges.php" class="sidebar-link"><span
+                                            class="hide-menu"> Manage </span></a>
+                                </li>
+                                
+                            </ul>
+                        </li>
                         
 
                        
