@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/MartMbithi/LMS/blob/master/resources/views/LMS_Core/img/logo.png" width="400"></p>
+<p align="center"><img src="https://github.com/MartMbithi/LMS/blob/master/public/LMS_Core/img/logo.png" width="400"></p>
 
 
 
