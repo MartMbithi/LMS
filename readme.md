@@ -36,6 +36,8 @@ Learning Management System  is accessible, powerful, and provides tools required
 1. Email:   <b>sysadmin@lms.com</b><br>
 2. Password :  <b>admin</b> <br>
 
+## Glance Of The System
+<p align="center"><img src="https://github.com/MartMbithi/LMS/blob/master/resources/views/LMS_Core/img/screenshot.png" width="400"></p>
 
 ## License
 
