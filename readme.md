@@ -22,6 +22,21 @@ Learning Management System  is accessible, powerful, and provides tools required
 6. And Many More...
 
 
+## How To Unleash This Demon 
+1. Git clone this repo or download it as a zip<br>
+2. Extract it to your servers public_html or htdocs directory in your server<br>
+3. Run Composer install<br>
+4. Create a database name it anything you want but you should change the default value in   .env file<br>
+5. Run php artisan migrate<br>
+6. Or you can just import the .SQL file directly into your database server<br>
+7. On your web browser type <b>http://127.0.0.1:8000</b> or <b>http://127.0.0.1/public/</b>
+
+
+## Login Credentials For Admin Account
+1. Email:   <b>sysadmin@lms.com</b><br>
+2. Password :  <b>admin</b> <br>
+
+
 ## License
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Learning Management System is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).

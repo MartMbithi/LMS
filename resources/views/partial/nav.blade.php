@@ -14,15 +14,14 @@
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li> 
                             <li class="nav-item"><a class="nav-link" href="{{url('/features') }}">Features</a></li> 
-
                             <li class="nav-item"><a class="nav-link" href="{{ url('/contact') }}">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('LMS_Core/admin/pages_admin_index.php') }}">Admin Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('LMS_Core/Instructors/pages_ins_index.php') }}">Instructor Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('LMS_Core/student/pages_std_index.php') }}">Student Login</a></li>
+
                         </ul>
                     </div>
-                    <div class="right-button">
-                        <ul>
-                            <li><a class="sign_up" href="">Sign Up</a></li>
-                        </ul>
-                    </div> 
+                     
                 </div>
             </nav>
         </div>
