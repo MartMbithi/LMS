@@ -28,7 +28,8 @@ class TranslationWriter implements TranslationWriterInterface
     /**
      * Adds a dumper to the writer.
      *
-     * @param string $format The format of the dumper
+     * @param string          $format The format of the dumper
+     * @param DumperInterface $dumper The dumper
      */
     public function addDumper($format, DumperInterface $dumper)
     {
@@ -64,8 +65,9 @@ class TranslationWriter implements TranslationWriterInterface
     /**
      * Writes translation from the catalogue according to the selected format.
      *
-     * @param string $format  The format to use to dump the messages
-     * @param array  $options Options that are passed to the dumper
+     * @param MessageCatalogue $catalogue The message catalogue to write
+     * @param string           $format    The format to use to dump the messages
+     * @param array            $options   Options that are passed to the dumper
      *
      * @throws InvalidArgumentException
      */
