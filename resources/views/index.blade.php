@@ -15,9 +15,9 @@
                 <div class="row">
                     <div class="col-lg-6 offset-lg-6 col-xl-5 offset-xl-7">
                         <div class="banner_content">
-                            <h3>Build a better<br/>business & faster</h3>
-                            <p>Subdue creature does face signs evening good sixth foreign gaered one. Fruit. Third every fruitful multiply subdue creature doesn't face signs evening good sixth tyou're.</p>
-                            <a class="banner_btn" href="#">Begin Free Trial<i class="ti-arrow-right"></i></a>
+                            <h3>Learning<br/> Management System</h3>
+                            <p>Learning Management System is a  web based application crafted using finnest and modern web programming languages to deliver high productivity, robustness and user friendlyness in classroom environment.</p>
+                            <a class="banner_btn" href="#core_features">Features<i class="ti-arrow-right"></i></a>
                         </div>
                     </div>
 
@@ -28,7 +28,7 @@
     <!--================End Home Banner Area =================-->
 
     <!--================Service  Area =================-->
-    <section class="service-area area-padding">
+    <section id="core_features" class="service-area area-padding">
         <div class="container">
             <div class="row">
                 <!-- Single service -->
@@ -39,8 +39,8 @@
                         </div>
                         <div class="service-content">
                             <h5>Unique Design</h5>
-                            <p>Third don't lights wherein was. bring to build them, seas. Thing gathering answ gaered beast third that heaven after all that living one bank limit</p>
-                            <a href="#">Read More</a>
+                            <p>This application is crafted with unique designs that it can run on any platforms ie(Smartphones, Tables and Laptops), Its unique design makes it responsive and lightweight.</p>
+                            <a href="{{ url('/features') }}">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -52,9 +52,10 @@
                             <i class="ti-image"></i>
                         </div>
                         <div class="service-content">
-                            <h5>Business Solution</h5>
-                            <p>Third don't lights wherein was. bring to build them, seas. Thing gathering answ gaered beast third that heaven after all that living one bank limit</p>
-                            <a href="#">Read More</a>
+                            <h5>Email Intergration</h5>
+                            <p>Learning Management System uses gmail as its primary mailing service provider. It has direct intergration where a Instructor can log in directly to their personal or
+                             corporate mail, send and receive any mails without affecting or dropping sessions in the LMS application.</p>
+                            <a href="{{ url('/features') }}">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -67,9 +68,10 @@
                             <i class="ti-headphone-alt"></i>
                         </div>
                         <div class="service-content">
-                            <h5>Customer Support</h5>
-                            <p>Third don't lights wherein was. bring to build them, seas. Thing gathering answ gaered beast third that heaven after all that living one bank limit</p>
-                            <a href="#">Read More</a>
+                            <h5>In Build Forum</h5>
+                            <p>Many Learning Management Systems have their forum module developed separate from the main application but with this application its fully shipped with 
+                            its inbuild light-weight forum that emulates the 'MyBB' or StackOverflow Forums but with less functionalities compared to them. </p>
+                            <a href="{{ url('/features') }}">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -87,10 +89,12 @@
 
                 <div class="col-lg-6">
                     <div class="area-heading">
-                        <h4>Form Female From<br>Cattle Evening. </h4>
-                        <h6>And appear great open bearing evening dominion vodi </h6>
+                        <h4>Clean, OpenSource<br>and Fully Documented Codes </h4>
+                        <h6>And if you find any wack spaghetti code...mmmmhhh  dont panic just clean em and move on oh and dont forget to share. </h6>
 
-                        <p>There earth face earth behold. She'd stars made void two given do and also. Our own grass days.  Greater male Shall There faced earth behold She star</p>
+                        <p>LMS core source code mainly in PHP, Javascript, HTML5 and CSS3, these codes are well commented, clean and easy to extend, upgrade, downgrade or to add 
+                            other features. Well structured functions, classes and even normal code which is easy to manipulate. Our source codes are free i mean they are totally free and available
+                            in Github. Oh and if you find any spaghetti code feel free to make it clean and share it. </p>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-lg-6">
@@ -99,8 +103,9 @@
                                     <i class="ti-thought"></i>
                                 </div>
                                 <div class="single-about-content">
-                                    <h5>Cloud Compatibility</h5>
-                                    <p>There earth face earth behold. She stars made void two given and also our own grass days. Greater </p>
+                                    <h5>Deployment</h5>
+                                    <p>This system can be deployed easly on any web server, its easy to reconfigure and also its shipped with its .SQL database file which saves time for 
+                                    creating a ground zero database insted anyone who is installing the application can just import the bundled .SQL file and voila!! your database is up and running.</p>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +116,8 @@
                                 </div>
                                 <div class="single-about-content">
                                     <h5>On Time Delivery</h5>
-                                    <p>There earth face earth behold. She stars made void two given and also our own grass days. Greater </p>
+                                    <p>Learning Management System is opensource that means each and every module in the system is shipped fully no trials or subscriptions needed.
+                                    All you need is just a web server(XAMPP, LAMPP, WAMPP), a database server  -A MySql database server eg phpmyadmin which is the most used, then enjoy.</p>
                                 </div>
                             </div>
                         </div>
@@ -129,8 +135,8 @@
 
                 <div class="offset-lg-6 col-lg-6">
                     <div class="area-heading light">
-                        <h4>Easy to Use <br>Mobile Application</h4>
-                        <p>There earth face earth behold. She'd stars made void two given do and also. Our own grass days.  Greater male Shall There faced earth behold She star</p>
+                        <h4>Learning Management System on <br>Mobile (Smartphones)</h4>
+                        <p>The following features makes this platform one of the best lite-weight opensource Learning Management System:</p>
                     </div>
                     <div class="row">
                         <div class="col-">
@@ -139,8 +145,9 @@
                                     <i class="ti-layers"></i>
                                 </div>
                                 <div class="single-feature-content">
-                                    <h5>Add New Project</h5>
-                                    <p>There earth face earth behold. She stars made void two given and also our own grass days. Greater </p>
+                                    <h5>Super responsive design</h5>
+                                    <p>This feature allows the system to be viewed and accessed not only on devices with screens having large aspect ratio but also to devices with small aspect ratios like smartphones and tablets 
+                                    without any distortion, data loss or any front end bugs.</p>
                                 </div>
                             </div>
                         </div>
@@ -150,8 +157,9 @@
                                     <i class="ti-layers"></i>
                                 </div>
                                 <div class="single-feature-content">
-                                    <h5>Generating Leads</h5>
-                                    <p>There earth face earth behold. She stars made void two given and also our own grass days. Greater </p>
+                                    <h5>Lightweight</h5>
+                                    <p>Despite of complex backend this system is crafted with cutting edge practices which allows small devices like mobile phones to save an eact copy of the system in their browsers cache which speeds 
+                                    up the entire load and execution process thus making the learning activity fun and intresting.</p>
                                 </div>
                             </div>
                         </div>
@@ -163,306 +171,7 @@
     <!--================Feature Area End =================-->
 
 
-    <!--================About  Area =================-->
-    <section class="statics-area area-padding">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-lg-5">
-                    <div class="image-box">
-                        <img src="img/banner/about3.png" alt="">
-                    </div>
-                </div>
-
-                <div class="offset-lg-1 col-lg-6">
-                    <div class="area-heading">
-                        <h4>Form Female From<br>Cattle Evening. </h4>
-                        <h6>And appear great open bearing evening dominion vodi </h6>
-
-                        <p>There earth face earth behold. She'd stars made void two given do and also. Our own grass days.  Greater male Shall There faced earth behold She star</p>
-                    </div>
-                    <div class="single-data">
-                        <i class="ti-paint-bucket"></i>
-                        <p>Set dry signs spirit a kind First shall them.</p>
-                    </div>
-                    <div class="single-data">
-                        <i class="ti-check-box"></i>
-                        <p>He two face one moved dominion man you're likeness</p>
-                    </div>
-                    <div class="single-data">
-                        <i class="ti-ruler-pencil"></i>
-                        <p>Sea forth fill have divide be dominion from life</p>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--================About Area End =================-->
-
-
-
-
-
-    <!--================ Start Portfolio Area =================-->
-    <section class="pricing_area area-padding-top">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="area-heading">
-                        <h4>Our Pricing Plan</h4>
-                        <p>Life firmament under them evening make after called dont saying likeness<br> isn't wherein also forth she'd air two without</p>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <div class="single-pricing">
-                        <div class="pricing-icon">
-                            <i class="ti-home"></i>
-                        </div>
-                        <div class="single-pricing-content">
-                            <h5>Standard</h5>
-                            <h4>$25<span class="currency_line">/</span><span>month</span></h4>
-                            <ul>
-                                <li>2GB Bandwidth</li>
-                                <li>Two Account</li>
-                                <li>15GB Storage</li>
-                                <li>Sale After Service</li>
-                                <li>3 Host Domain</li>
-                                <li>24/7 Support</li>
-                            </ul>
-                            <a href="#">Purchase Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-lg-3">
-                    <div class="single-pricing">
-                        <div class="pricing-icon">
-                            <i class="ti-bag"></i>
-                        </div>
-                        <div class="single-pricing-content">
-                            <h5>Business</h5>
-                            <h4>$35<span class="currency_line">/</span><span>month</span></h4>
-                            <ul>
-                                <li>2GB Bandwidth</li>
-                                <li>Two Account</li>
-                                <li>15GB Storage</li>
-                                <li>Sale After Service</li>
-                                <li>3 Host Domain</li>
-                                <li>24/7 Support</li>
-                            </ul>
-                            <a href="#">Purchase Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-lg-3">
-                    <div class="single-pricing">
-                        <div class="pricing-icon">
-                            <i class="ti-car"></i>
-                        </div>
-                        <div class="single-pricing-content">
-                            <h5>Premium</h5>
-                            <h4>$45<span class="currency_line">/</span><span>month</span></h4>
-                            <ul>
-                                <li>2GB Bandwidth</li>
-                                <li>Two Account</li>
-                                <li>15GB Storage</li>
-                                <li>Sale After Service</li>
-                                <li>3 Host Domain</li>
-                                <li>24/7 Support</li>
-                            </ul>
-                            <a href="#">Purchase Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-lg-3">
-                    <div class="single-pricing">
-                        <div class="pricing-icon">
-                            <i class="ti-gift"></i>
-                        </div>
-                        <div class="single-pricing-content">
-                            <h5>Ultimate</h5>
-                            <h4>$55<span class="currency_line">/</span><span>month</span></h4>
-                            <ul>
-                                <li>2GB Bandwidth</li>
-                                <li>Two Account</li>
-                                <li>15GB Storage</li>
-                                <li>Sale After Service</li>
-                                <li>3 Host Domain</li>
-                                <li>24/7 Support</li>
-                            </ul>
-                            <a href="#">Purchase Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--================ End Pricing Area =================-->
-
-
-
-    <!--================ Start Blog Area =================-->
-    <section class="latest-blog-area area-padding">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="area-heading">
-                        <h4>Read Our Latest News</h4>
-                        <p>Life firmament under them evening make after called dont saying likeness<br> isn't wherein also forth she'd air two without</p>
-                    </div>           
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-8 col-md-6 ">
-                    <div class="single-blog full_image">
-                        <div class="thumb">
-                            <img class="img-fluid w-100" src="img/blog/1.png" alt="">
-                        </div>
-                        <div class="single-blog-content">
-                            <p class="tag">Software / Business</p>
-                            <p class="date">March 10, 2019</p>
-                            <h4>
-                                <a href="#">Appear called is blessed good void had given from <br>
-                                which Lights Saying image.</a>
-                            </h4>
-                            <div class="meta-bottom d-flex">
-                                <p class="likes"><i class="ti-comments"></i> 02 Comments</p>
-                                <p><i class="ti-heart"></i> 15 </p>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="col-lg-4 col-md-6 ">
-                    <div class="single-blog">
-                        <div class="thumb">
-                            <img class="img-fluid w-100" src="img/blog/2.png" alt="">
-                        </div>
-                        <div class="single-blog-content">
-                            <p class="tag">Software / Business</p>
-                            <p class="date">March 10, 2019</p>
-                            <h4>
-                                <a href="#">You living thing whose After
-                                our third you also Us.</a>
-                            </h4>
-                            <div class="meta-bottom d-flex">
-                                <p class="likes"><i class="ti-comments"></i> 02 Comments</p>
-                                <p><i class="ti-heart"></i> 15 </p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-4 col-md-6 ">
-                    <div class="single-blog">
-                        <div class="thumb">
-                            <img class="img-fluid w-100" src="img/blog/1.png" alt="">
-                        </div>
-                        <div class="single-blog-content">
-                            <p class="tag">Software / Business</p>
-                            <p class="date">March 10, 2019</p>
-                            <h4>
-                                <a href="#">You living thing whose After
-                                our third you also Us.</a>
-                            </h4>
-                            <div class="meta-bottom d-flex">
-                                <p class="likes"><i class="ti-comments"></i> 02 Comments</p>
-                                <p><i class="ti-heart"></i> 15 </p>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <div class="col-lg-8 col-md-6">
-                    <div class="single-blog full_image">
-                        <div class="thumb">
-                            <img class="img-fluid w-100" src="img/blog/4.png" alt="">
-                        </div>
-                        <div class="single-blog-content">
-                            <p class="tag">Software / Business</p>
-                            <p class="date">March 10, 2019</p>
-                            <h4>
-                                <a href="#">You living thing whose After
-                                our third you also Us.</a>
-                            </h4>
-                            <div class="meta-bottom d-flex">
-                                <p class="likes"><i class="ti-comments"></i> 02 Comments</p>
-                                <p><i class="ti-heart"></i>15</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-    </section>
-    <!--================ End Blog Area =================-->
-
-
-    <!--================ Start Brands Area =================-->
-    <section class="brands-area area-padding-bottom">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="owl-carousel brand-carousel">
-                        <!-- single-brand -->
-                        <div class="single-brand-item d-table">
-                            <div class="d-table-cell">
-                                <img src="img/logo/1.png" alt="">
-                            </div>
-                        </div>
-                        <!-- single-brand -->
-                        <div class="single-brand-item d-table">
-                            <div class="d-table-cell">
-                                <img src="img/logo/2.png" alt="">
-                            </div>
-                        </div>
-                        <!-- single-brand -->
-                        <div class="single-brand-item d-table">
-                            <div class="d-table-cell">
-                                <img src="img/logo/3.png" alt="">
-                            </div>
-                        </div>
-                        <!-- single-brand -->
-                        <div class="single-brand-item d-table">
-                            <div class="d-table-cell">
-                                <img src="img/logo/4.png" alt="">
-                            </div>
-                        </div>
-                        <!-- single-brand -->
-                        <div class="single-brand-item d-table">
-                            <div class="d-table-cell">
-                                <img src="img/logo/5.png" alt="">
-                            </div>
-                        </div>
-                        <!-- single-brand -->
-                        <div class="single-brand-item d-table">
-                            <div class="d-table-cell">
-                                <img src="img/logo/3.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--================ End Brands Area =================-->
-
+    
 
 
     <!-- ================ start footer Area ================= -->
