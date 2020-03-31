@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "symfony/translation": "4.3.8",
+        "symfony/http-foundation": "4.4.7",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {
