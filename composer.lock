@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "deadcab71fd626ed40c53329b963be3d",
+    "content-hash": "943b6c7112db56a4359296ccfc84e508",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2380,6 +2380,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2394,6 +2395,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> 61270af651e6f58d432fb34620723c84db1deea8
             "time": "2020-03-09T19:04:49+00:00"
         },
         {
@@ -2453,6 +2456,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2467,6 +2471,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> 61270af651e6f58d432fb34620723c84db1deea8
             "time": "2020-03-09T19:04:49+00:00"
         },
         {
@@ -2522,6 +2528,7 @@
                 "portable",
                 "shim"
             ],
+<<<<<<< HEAD
             "funding": [
                 {
                     "url": "https://symfony.com/sponsor",
@@ -2536,6 +2543,8 @@
                     "type": "tidelift"
                 }
             ],
+=======
+>>>>>>> 61270af651e6f58d432fb34620723c84db1deea8
             "time": "2020-02-27T09:26:54+00:00"
         },
         {
