@@ -26,8 +26,8 @@ Learning Management System  is accessible, powerful, and provides tools required
 1. Git clone this repo or download it as a zip<br>
 2. Extract it to your servers public_html or htdocs directory in your server<br>
 3. Run Composer install<br>
-4. Create a database named martdevelopers_laravel_lms<br>
-5. Inorder to create the database tables you can import the attached <i>martdevelopers_laravel_lms.sql</i> file or run <b>php artisan migrate</b> <br>
+4. Create a database named <b>martdevelopers_laravel_lms</b><br>
+5. Inorder to create the database tables you can import the attached <i>martdevelopers_laravel_lms.sql which is located under <b>public/LMS_Core/Database/</b> directory </i> file or run <b>php artisan migrate</b><br>
 6. On your web browser type <b>http://127.0.0.1/public/</b>
 7. Enjoy </br>
 
