@@ -2380,23 +2380,6 @@
                 "portable",
                 "shim"
             ],
-<<<<<<< HEAD
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-=======
->>>>>>> 61270af651e6f58d432fb34620723c84db1deea8
             "time": "2020-03-09T19:04:49+00:00"
         },
         {
@@ -2456,23 +2439,6 @@
                 "portable",
                 "shim"
             ],
-<<<<<<< HEAD
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-=======
->>>>>>> 61270af651e6f58d432fb34620723c84db1deea8
             "time": "2020-03-09T19:04:49+00:00"
         },
         {
@@ -2528,23 +2494,6 @@
                 "portable",
                 "shim"
             ],
-<<<<<<< HEAD
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-=======
->>>>>>> 61270af651e6f58d432fb34620723c84db1deea8
             "time": "2020-02-27T09:26:54+00:00"
         },
         {
