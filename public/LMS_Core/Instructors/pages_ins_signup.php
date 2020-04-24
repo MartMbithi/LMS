@@ -1,4 +1,3 @@
-<!--Server side code to handle  sign up-->
 <?php
 	session_start();
 	include('dist/inc/config.php');

@@ -1,4 +1,3 @@
-<!-- Server side code for log in-->
 <?php
     session_start();
     include('dist/inc/config.php');//get configuration file

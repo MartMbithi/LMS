@@ -1,4 +1,3 @@
-<!--Send A Messange-->
 <?php
   //session_start();
   include('admin/dist/inc/config.php');

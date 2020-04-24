@@ -1,4 +1,3 @@
-<!--Server side code to handle  password reset-->
 <?php
 	session_start();
 	include('dist/inc/config.php');
