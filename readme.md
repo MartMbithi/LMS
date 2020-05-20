@@ -39,6 +39,13 @@ Learning Management System  is accessible, powerful, and provides tools required
 ## Glance Of The System
 <p align="center"><img src="https://github.com/MartMbithi/LMS/blob/master/public/LMS_Core/img/screenshot.png" ></p>
 
+## Contributors
+<a href="https://github.com/MartMbithi/LMS/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=MartMbithi/LMS" />
+</a>
+
+Made with [contributors-img](https://contributors-img.web.app).
+
 ## License
 
 The Learning Management System is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
