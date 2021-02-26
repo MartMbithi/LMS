@@ -5,28 +5,6 @@ include('dist/inc/checklogin.php');
 check_login();
 $a_id = $_SESSION['a_id'];
 
-/*
-  //delete Instructor unit assaignment
-  if(isset($_GET['delete']))
-  {
-        $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_units_assaigns WHERE ua_id = ?";
-        $stmt= $mysqli->prepare($adn);
-        $stmt->bind_param('i',$id);
-        $stmt->execute();
-        $stmt->close();	 
-  
-          if($stmt)
-          {
-            $success = "Record Deleted";
-          }
-            else
-            {
-                $err = "Try Again Later";
-            }
-    }
-    */
-
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
