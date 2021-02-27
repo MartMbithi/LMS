@@ -1,58 +1,53 @@
 <?php
-  session_start();
-  include('dist/inc/config.php');
-  include('dist/inc/checklogin.php');
-  check_login();
-  $a_id=$_SESSION['a_id'];
-  //hold logged in user session.
-  //delete some forum topics
-  if(isset($_GET['delete']))
-  {
-        $id=intval($_GET['delete']);
-        $adn="DELETE FROM lms_forum WHERE f_id = ?";
-        $stmt= $mysqli->prepare($adn);
-        $stmt->bind_param('i',$id);
-        $stmt->execute();
-        $stmt->close();	 
-  
-          if($stmt)
-          {
-            $success = "Forum Record Deleted";
-          }
-            else
-            {
-                $err = "Try Again Later";
-            }
+session_start();
+include('dist/inc/config.php');
+include('dist/inc/checklogin.php');
+check_login();
+$a_id = $_SESSION['a_id'];
+//hold logged in user session.
+//delete some forum topics
+if (isset($_GET['delete'])) {
+    $id = intval($_GET['delete']);
+    $adn = "DELETE FROM lms_forum WHERE f_id = ?";
+    $stmt = $mysqli->prepare($adn);
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    $stmt->close();
+
+    if ($stmt) {
+        $success = "Forum Record Deleted";
+    } else {
+        $err = "Try Again Later";
     }
+}
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
 <!--Head-->
-<?php include("dist/inc/head.php");?>
+<?php include("dist/inc/head.php"); ?>
 <!-- ./Head -->
 
 <body onload=display_ct();>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    
+
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-            <?php include("dist/inc/header.php");?>
+        <?php include("dist/inc/header.php"); ?>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-            <?php include("dist/inc/sidebar.php");?>
+        <?php include("dist/inc/sidebar.php"); ?>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -66,45 +61,33 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                    <?php
-                            $a_id = $_SESSION['a_id'];
-                            $ret="SELECT  * FROM  lms_admin  WHERE a_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$a_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                                // time function to get day zones ie morning, noon, and night.
-                                $t = date("H");
+                        <?php
+                        $a_id = $_SESSION['a_id'];
+                        $ret = "SELECT  * FROM  lms_admin  WHERE a_id=?";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->bind_param('i', $a_id);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        //$cnt=1;
+                        while ($row = $res->fetch_object()) {
+                            // time function to get day zones ie morning, noon, and night.
+                            $t = date("H");
 
-                                if ($t < "10")
-                                 {
-                                    $d_time = "Good Morning";
+                            if ($t < "10") {
+                                $d_time = "Good Morning";
+                            } elseif ($t < "15") {
 
-                                    }
+                                $d_time =  "Good Afternoon";
+                            } elseif ($t < "20") {
 
-                                     elseif ($t < "15")
-                                      {
+                                $d_time =  "Good Evening";
+                            } else {
 
-                                      $d_time =  "Good Afternoon";
-
-                                     } 
-
-                                        elseif ($t < "20")
-                                        {
-
-                                        $d_time =  "Good Evening";
-
-                                        } 
-                                        else {
-
-                                            $d_time = "Good Night";
-                                }
+                                $d_time = "Good Night";
+                            }
                         ?>
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time;?> <?php echo $row->a_uname;?></h3>
-                        <?php }?>
+                            <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"><?php echo $d_time; ?> <?php echo $row->a_uname; ?></h3>
+                        <?php } ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -114,7 +97,7 @@
                                     </li>
                                     <li class="breadcrumb-item"><a href="pages_admin_select_unit_to_add_forum.php">Manage Discussion</a>
                                     </li>
-                                    
+
                                 </ol>
                             </nav>
                         </div>
@@ -123,7 +106,7 @@
                         <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
                                 <option selected id="ct"></option>
-                                
+
                             </select>
                         </div>
                     </div>
@@ -136,15 +119,14 @@
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
-                
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Select On Any Unit To Manage Its Forum Topics</h4>
                                 <div class="table-responsive">
-                                    <table id="default_order" class="table table-striped table-bordered display"
-                                        style="width:100%">
+                                    <table id="default_order" class="table table-striped table-bordered display" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Unit Code</th>
@@ -154,43 +136,40 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php
+                                            <?php
                                             //Student Enrollment.
-                                            $ret="SELECT  * FROM  lms_forum";
-                                            $stmt= $mysqli->prepare($ret) ;
+                                            $ret = "SELECT  * FROM  lms_forum";
+                                            $stmt = $mysqli->prepare($ret);
                                             //$stmt->bind_param('i',$l_id);
-                                            $stmt->execute() ;//ok
-                                            $res=$stmt->get_result();
-                                            $cnt=1;
-                                            while($row=$res->fetch_object())
-                                            {
-                                                $mysqlDateTime = $row->f_date_posted;//trim timestamp to DD/MM/YYYY formart
-                                                
-                                        ?>
-                                            <tr>
-                                                <td><?php echo $row->s_unit_code;?></td>
-                                                <td><?php echo $row->s_unit_name;?></td>
-                                                <td><?php echo $row->f_no;?></td>
-                                                <td>
-                                                    <a class="badge badge-success" 
-                                                         href="pages_admin_view_forum.php?f_id=<?php echo $row->f_id;?>">
-                                                         <i class="fa fa-eye"></i> <i class=" icon icon-envelope-open"></i>
-                                                            View Discussion
-                                                    </a>
-                                                    <a class="badge badge-warning" 
-                                                         href="pages_admin_update_forum.php?f_id=<?php echo $row->f_id;?>">
-                                                         <i class="far fa-edit"></i> <i class=" icon icon-envelope-open"></i>
-                                                            Update Discussion
-                                                    </a>
-                                                    <a class="badge badge-danger" 
-                                                         href="pages_admin_manage_forum.php?delete=<?php echo $row->f_id;?>">
-                                                         <i class="fa fa-trash"></i> <i class=" icon icon-envelope-open"></i>
-                                                            Delete Discussion
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            $stmt->execute(); //ok
+                                            $res = $stmt->get_result();
+                                            $cnt = 1;
+                                            while ($row = $res->fetch_object()) {
+                                                $mysqlDateTime = $row->f_date_posted; //trim timestamp to DD/MM/YYYY formart
 
-                                            <?php $cnt = $cnt +1; }?>    
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $row->s_unit_code; ?></td>
+                                                    <td><?php echo $row->s_unit_name; ?></td>
+                                                    <td><?php echo $row->f_no; ?></td>
+                                                    <td>
+                                                        <a class="badge badge-success" href="pages_admin_view_forum.php?f_id=<?php echo $row->f_id; ?>">
+                                                            <i class="fa fa-eye"></i> <i class=" icon icon-envelope-open"></i>
+                                                            View Discussion
+                                                        </a>
+                                                        <a class="badge badge-warning" href="pages_admin_update_forum.php?f_id=<?php echo $row->f_id; ?>">
+                                                            <i class="far fa-edit"></i> <i class=" icon icon-envelope-open"></i>
+                                                            Update Discussion
+                                                        </a>
+                                                        <a class="badge badge-danger" href="pages_admin_manage_forum.php?delete=<?php echo $row->f_id; ?>">
+                                                            <i class="fa fa-trash"></i> <i class=" icon icon-envelope-open"></i>
+                                                            Delete Discussion
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                            <?php $cnt = $cnt + 1;
+                                            } ?>
 
                                         </tbody>
                                     </table>
@@ -198,9 +177,9 @@
                             </div>
                         </div>
                     </div>
-                       
+
                 </div>
-            
+
                 <!-- *************************************************************** -->
             </div>
             <!-- ============================================================== -->
@@ -209,7 +188,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-                 <?php include("dist/inc/footer.php");?>
+            <?php include("dist/inc/footer.php"); ?>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -244,180 +223,180 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    <script type = "text/javascript">
-                            //On Screen Charts
-                            $(function () {
+    <script type="text/javascript">
+        //On Screen Charts
+        $(function() {
 
-                        // ==============================================================
-                        // Campaign
-                        // ==============================================================
+            // ==============================================================
+            // Campaign
+            // ==============================================================
 
-                        var chart1 = c3.generate({
-                            bindto: '#campaign-v2',
-                            data: {
-                                columns: [
-                                    ['Direct Sales', 25],
-                                    ['Referral Sales', 15],
-                                    ['Afilliate Sales', 10],
-                                    ['Indirect Sales', 15]
-                                ],
+            var chart1 = c3.generate({
+                bindto: '#campaign-v2',
+                data: {
+                    columns: [
+                        ['Direct Sales', 25],
+                        ['Referral Sales', 15],
+                        ['Afilliate Sales', 10],
+                        ['Indirect Sales', 15]
+                    ],
 
-                                type: 'donut',
-                                tooltip: {
-                                    show: true
-                                }
-                            },
-                            donut: {
-                                label: {
-                                    show: false
-                                },
-                                title: 'Sales',
-                                width: 18
-                            },
+                    type: 'donut',
+                    tooltip: {
+                        show: true
+                    }
+                },
+                donut: {
+                    label: {
+                        show: false
+                    },
+                    title: 'Sales',
+                    width: 18
+                },
 
-                            legend: {
-                                hide: true
-                            },
-                            color: {
-                                pattern: [
-                                    '#edf2f6',
-                                    '#5f76e8',
-                                    '#ff4f70',
-                                    '#01caf1'
-                                ]
-                            }
-                        });
+                legend: {
+                    hide: true
+                },
+                color: {
+                    pattern: [
+                        '#edf2f6',
+                        '#5f76e8',
+                        '#ff4f70',
+                        '#01caf1'
+                    ]
+                }
+            });
 
-                        d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
+            d3.select('#campaign-v2 .c3-chart-arcs-title').style('font-family', 'Rubik');
 
-                        // ============================================================== 
-                        // income
-                        // ============================================================== 
-                        var data = {
-                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                            series: [
-                                [5, 4, 3, 7, 5, 10]
-                            ]
-                        };
+            // ============================================================== 
+            // income
+            // ============================================================== 
+            var data = {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                series: [
+                    [5, 4, 3, 7, 5, 10]
+                ]
+            };
 
-                        var options = {
-                            axisX: {
-                                showGrid: false
-                            },
-                            seriesBarDistance: 1,
-                            chartPadding: {
-                                top: 15,
-                                right: 15,
-                                bottom: 5,
-                                left: 0
-                            },
-                            plugins: [
-                                Chartist.plugins.tooltip()
-                            ],
-                            width: '100%'
-                        };
+            var options = {
+                axisX: {
+                    showGrid: false
+                },
+                seriesBarDistance: 1,
+                chartPadding: {
+                    top: 15,
+                    right: 15,
+                    bottom: 5,
+                    left: 0
+                },
+                plugins: [
+                    Chartist.plugins.tooltip()
+                ],
+                width: '100%'
+            };
 
-                        var responsiveOptions = [
-                            ['screen and (max-width: 640px)', {
-                                seriesBarDistance: 5,
-                                axisX: {
-                                    labelInterpolationFnc: function (value) {
-                                        return value[0];
-                                    }
-                                }
-                            }]
-                        ];
-                        new Chartist.Bar('.net-income', data, options, responsiveOptions);
+            var responsiveOptions = [
+                ['screen and (max-width: 640px)', {
+                    seriesBarDistance: 5,
+                    axisX: {
+                        labelInterpolationFnc: function(value) {
+                            return value[0];
+                        }
+                    }
+                }]
+            ];
+            new Chartist.Bar('.net-income', data, options, responsiveOptions);
 
-                        // ============================================================== 
-                        // Visit By Location
-                        // ==============================================================
-                        jQuery('#visitbylocate').vectorMap({
-                            map: 'world_mill_en',
-                            backgroundColor: 'transparent',
-                            borderColor: '#000',
-                            borderOpacity: 0,
-                            borderWidth: 0,
-                            zoomOnScroll: false,
-                            color: '#d5dce5',
-                            regionStyle: {
-                                initial: {
-                                    fill: '#d5dce5',
-                                    'stroke-width': 1,
-                                    'stroke': 'rgba(255, 255, 255, 0.5)'
-                                }
-                            },
-                            enableZoom: true,
-                            hoverColor: '#bdc9d7',
-                            hoverOpacity: null,
-                            normalizeFunction: 'linear',
-                            scaleColors: ['#d5dce5', '#d5dce5'],
-                            selectedColor: '#bdc9d7',
-                            selectedRegions: [],
-                            showTooltip: true,
-                            onRegionClick: function (element, code, region) {
-                                var message = 'You clicked "' + region + '" which has the code: ' + code.toUpperCase();
-                                alert(message);
-                            }
-                        });
+            // ============================================================== 
+            // Visit By Location
+            // ==============================================================
+            jQuery('#visitbylocate').vectorMap({
+                map: 'world_mill_en',
+                backgroundColor: 'transparent',
+                borderColor: '#000',
+                borderOpacity: 0,
+                borderWidth: 0,
+                zoomOnScroll: false,
+                color: '#d5dce5',
+                regionStyle: {
+                    initial: {
+                        fill: '#d5dce5',
+                        'stroke-width': 1,
+                        'stroke': 'rgba(255, 255, 255, 0.5)'
+                    }
+                },
+                enableZoom: true,
+                hoverColor: '#bdc9d7',
+                hoverOpacity: null,
+                normalizeFunction: 'linear',
+                scaleColors: ['#d5dce5', '#d5dce5'],
+                selectedColor: '#bdc9d7',
+                selectedRegions: [],
+                showTooltip: true,
+                onRegionClick: function(element, code, region) {
+                    var message = 'You clicked "' + region + '" which has the code: ' + code.toUpperCase();
+                    alert(message);
+                }
+            });
 
-                        // ==============================================================
-                        // Earning Stastics Chart
-                        // ==============================================================
-                        var chart = new Chartist.Line('.stats', {
-                            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                            series: [
-                                [11, 10, 15, 21, 14, 23, 12]
-                            ]
-                        }, {
-                            low: 0,
-                            high: 28,
-                            showArea: true,
-                            fullWidth: true,
-                            plugins: [
-                                Chartist.plugins.tooltip()
-                            ],
-                            axisY: {
-                                onlyInteger: true,
-                                scaleMinSpace: 40,
-                                offset: 20,
-                                labelInterpolationFnc: function (value) {
-                                    return (value / 1) + 'k';
-                                }
-                            },
-                        });
+            // ==============================================================
+            // Earning Stastics Chart
+            // ==============================================================
+            var chart = new Chartist.Line('.stats', {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                series: [
+                    [11, 10, 15, 21, 14, 23, 12]
+                ]
+            }, {
+                low: 0,
+                high: 28,
+                showArea: true,
+                fullWidth: true,
+                plugins: [
+                    Chartist.plugins.tooltip()
+                ],
+                axisY: {
+                    onlyInteger: true,
+                    scaleMinSpace: 40,
+                    offset: 20,
+                    labelInterpolationFnc: function(value) {
+                        return (value / 1) + 'k';
+                    }
+                },
+            });
 
-                        // Offset x1 a tiny amount so that the straight stroke gets a bounding box
-                        chart.on('draw', function (ctx) {
-                            if (ctx.type === 'area') {
-                                ctx.element.attr({
-                                    x1: ctx.x1 + 0.001
-                                });
-                            }
-                        });
+            // Offset x1 a tiny amount so that the straight stroke gets a bounding box
+            chart.on('draw', function(ctx) {
+                if (ctx.type === 'area') {
+                    ctx.element.attr({
+                        x1: ctx.x1 + 0.001
+                    });
+                }
+            });
 
-                        // Create the gradient definition on created event (always after chart re-render)
-                        chart.on('created', function (ctx) {
-                            var defs = ctx.svg.elem('defs');
-                            defs.elem('linearGradient', {
-                                id: 'gradient',
-                                x1: 0,
-                                y1: 1,
-                                x2: 0,
-                                y2: 0
-                            }).elem('stop', {
-                                offset: 0,
-                                'stop-color': 'rgba(255, 255, 255, 1)'
-                            }).parent().elem('stop', {
-                                offset: 1,
-                                'stop-color': 'rgba(80, 153, 255, 1)'
-                            });
-                        });
+            // Create the gradient definition on created event (always after chart re-render)
+            chart.on('created', function(ctx) {
+                var defs = ctx.svg.elem('defs');
+                defs.elem('linearGradient', {
+                    id: 'gradient',
+                    x1: 0,
+                    y1: 1,
+                    x2: 0,
+                    y2: 0
+                }).elem('stop', {
+                    offset: 0,
+                    'stop-color': 'rgba(255, 255, 255, 1)'
+                }).parent().elem('stop', {
+                    offset: 1,
+                    'stop-color': 'rgba(80, 153, 255, 1)'
+                });
+            });
 
-                        $(window).on('resize', function () {
-                            chart.update();
-                        });
-                        })
+            $(window).on('resize', function() {
+                chart.update();
+            });
+        })
     </script>
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
