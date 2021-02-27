@@ -1,29 +1,24 @@
 <?php
-    session_start();
-    include('dist/inc/config.php');//get configuration file
-    if(isset($_POST['login']))
-    {
-        $a_email=$_POST['a_email'];
-        $a_pwd=sha1(md5($_POST['a_pwd']));//double encrypt to increase security
-        $stmt=$mysqli->prepare("SELECT a_email ,a_pwd , a_id FROM lms_admin WHERE a_email=? AND a_pwd=? ");//sql to log in user
-        $stmt->bind_param('ss',$a_email,$a_pwd);//bind fetched parameters
-        $stmt->execute();//execute bind
-        $stmt -> bind_result($a_email, $a_pwd, $a_id);//bind result
-        $rs=$stmt->fetch();
-        $_SESSION['a_id']= $a_id;//assaign session to admin id
-        //$uip=$_SERVER['REMOTE_ADDR'];
-        //$ldate=date('d/m/Y h:i:s', time());
-        if($rs)
-            {//if its sucessfull
-                header("location:pages_admin_dashboard.php");
-            }
-
-        else
-            {
-            #echo "<script>alert('Access Denied Please Check Your Credentials');</script>";
-                $err = "Access Denied Please Check Your Credentials";
-            }
+session_start();
+include('dist/inc/config.php'); //get configuration file
+if (isset($_POST['login'])) {
+    $a_email = $_POST['a_email'];
+    $a_pwd = sha1(md5($_POST['a_pwd'])); //double encrypt to increase security
+    $stmt = $mysqli->prepare("SELECT a_email ,a_pwd , a_id FROM lms_admin WHERE a_email=? AND a_pwd=? "); //sql to log in user
+    $stmt->bind_param('ss', $a_email, $a_pwd); //bind fetched parameters
+    $stmt->execute(); //execute bind
+    $stmt->bind_result($a_email, $a_pwd, $a_id); //bind result
+    $rs = $stmt->fetch();
+    $_SESSION['a_id'] = $a_id; //assaign session to admin id
+    //$uip=$_SERVER['REMOTE_ADDR'];
+    //$ldate=date('d/m/Y h:i:s', time());
+    if ($rs) { //if its sucessfull
+        header("location:pages_admin_dashboard.php");
+    } else {
+        #echo "<script>alert('Access Denied Please Check Your Credentials');</script>";
+        $err = "Access Denied Please Check Your Credentials";
     }
+}
 ?>
 <!DOCTYPE html>
 <html dir="ltr">
@@ -44,27 +39,25 @@
     <script src="dist/js/swal.js"></script>
 
     <!--Inject SWAL-->
-    <?php if(isset($success)) {?>
-    <!--This code for injecting an alert-->
-            <script>
-                        setTimeout(function ()
-                        {
-                            swal("Success","<?php echo $success;?>","success");
-                        },
-                            100);
-            </script>
+    <?php if (isset($success)) { ?>
+        <!--This code for injecting an alert-->
+        <script>
+            setTimeout(function() {
+                    swal("Success", "<?php echo $success; ?>", "success");
+                },
+                100);
+        </script>
 
     <?php } ?>
 
-    <?php if(isset($err)) {?>
-    <!--This code for injecting an alert-->
-            <script>
-                        setTimeout(function ()
-                        {
-                            swal("Failed","<?php echo $err;?>","error");
-                        },
-                            100);
-            </script>
+    <?php if (isset($err)) { ?>
+        <!--This code for injecting an alert-->
+        <script>
+            setTimeout(function() {
+                    swal("Failed", "<?php echo $err; ?>", "error");
+                },
+                100);
+        </script>
 
     <?php } ?>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -92,8 +85,7 @@
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
-            style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
             <div class="auth-box row">
                 <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(assets/images/big/3.jpg);">
                 </div>
@@ -104,32 +96,30 @@
                         </div>
                         <h2 class="mt-3 text-center">Sign In</h2>
                         <p class="text-center">Enter your email address and password to access admin panel.</p>
-                        <form method ="post" class="mt-4">
+                        <form method="post" class="mt-4">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="text-dark" for="uname">Email</label>
-                                        <input class="form-control" required ="required" name="a_email" id="uname" type="email"
-                                            placeholder="Enter Your Email">
+                                        <input class="form-control" required="required" name="a_email" id="uname" type="email" placeholder="Enter Your Email">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="text-dark" for="pwd">Password</label>
-                                        <input class="form-control" required ="required" name="a_pwd" id="pwd" type="password"
-                                            placeholder="Enter Your Password">
+                                        <input class="form-control" required="required" name="a_pwd" id="pwd" type="password" placeholder="Enter Your Password">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 text-center">
                                     <button type="submit" name="login" class="btn btn-block btn-outline-dark">Sign In</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
-                                   <!--ADMIN ACCOUNT'S IS SYSTEM GENERATED NO NEED TO SIGN UP.
+                                    <!--ADMIN ACCOUNT'S IS SYSTEM GENERATED NO NEED TO SIGN UP.
                                     Don't have an account? <a href="pages_admin_signup.php" class="text-danger">Sign Up</a>-->
                                     Forgot Password? <a href="pages_reset_pwd.php" class="text-danger">Recover</a><br>
-                                    Take Me  <a href="../" class="text-danger">Home</a> Safe
+                                    Take Me <a href="../" class="text-danger">Home</a> Safe
                                 </div>
-                               
+
                             </div>
                         </form>
                     </div>

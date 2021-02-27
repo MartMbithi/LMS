@@ -5,4 +5,3 @@
 
     header("Location: pages_admin_index.php");
     exit;
-?>
