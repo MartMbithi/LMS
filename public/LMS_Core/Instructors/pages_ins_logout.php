@@ -5,4 +5,3 @@
 
     header("Location: pages_ins_index.php");
     exit;
-?>
