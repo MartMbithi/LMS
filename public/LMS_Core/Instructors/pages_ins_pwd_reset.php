@@ -1,31 +1,26 @@
 <?php
-	session_start();
-	include('dist/inc/config.php');
-		if(isset($_POST['reset_pwd']))
-		{
-      $email=$_POST['email'];
-      $token=$_POST['token'];
-      //$a_email=$_POST['a_email'];
-      //$a_number = $_POST['a_number'];
-      //$a_pwd=sha1(md5($_POST['a_pwd']));//double encrypt to increase security
-      //sql to insert captured values
-      $query="INSERT INTO lms_pwdresets (email, token) values(?,?)";
-      $stmt = $mysqli->prepare($query);
-      $rc=$stmt->bind_param('ss', $email,$token);
-      $stmt->execute();
+session_start();
+include('dist/inc/config.php');
+if (isset($_POST['reset_pwd'])) {
+    $email = $_POST['email'];
+    $token = $_POST['token'];
+    //$a_email=$_POST['a_email'];
+    //$a_number = $_POST['a_number'];
+    //$a_pwd=sha1(md5($_POST['a_pwd']));//double encrypt to increase security
+    //sql to insert captured values
+    $query = "INSERT INTO lms_pwdresets (email, token) values(?,?)";
+    $stmt = $mysqli->prepare($query);
+    $rc = $stmt->bind_param('ss', $email, $token);
+    $stmt->execute();
 
-            if($stmt)
-            {
-                      $success = "Check Your Mail Inbox For Password Reset Instruction ";
-                      
-                      //echo "<script>toastr.success('Have Fun')</script>";
-            }
-            else {
-              $err = "Please Try Again Or Try Later";
-            }
-			
-			
-		}
+    if ($stmt) {
+        $success = "Check Your Mail Inbox For Password Reset Instruction ";
+
+        //echo "<script>toastr.success('Have Fun')</script>";
+    } else {
+        $err = "Please Try Again Or Try Later";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html dir="ltr">
@@ -50,30 +45,28 @@
 <![endif]-->
     <script src="dist/js/swal.js"></script>
 
-        <!--Inject SWAL-->
-        <?php if(isset($success)) {?>
+    <!--Inject SWAL-->
+    <?php if (isset($success)) { ?>
         <!--This code for injecting an alert-->
-                <script>
-                            setTimeout(function ()
-                            {
-                                swal("Success","<?php echo $success;?>","success");
-                            },
-                                100);
-                </script>
+        <script>
+            setTimeout(function() {
+                    swal("Success", "<?php echo $success; ?>", "success");
+                },
+                100);
+        </script>
 
-        <?php } ?>
+    <?php } ?>
 
-        <?php if(isset($err)) {?>
+    <?php if (isset($err)) { ?>
         <!--This code for injecting an alert-->
-                <script>
-                            setTimeout(function ()
-                            {
-                                swal("Failed","<?php echo $err;?>","error");
-                            },
-                                100);
-                </script>
+        <script>
+            setTimeout(function() {
+                    swal("Failed", "<?php echo $err; ?>", "error");
+                },
+                100);
+        </script>
 
-        <?php } ?>
+    <?php } ?>
 </head>
 
 <body>
@@ -93,8 +86,7 @@
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
-            style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
             <div class="auth-box row">
                 <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(assets/images/big/3.jpg);">
                 </div>
@@ -105,33 +97,31 @@
                         </div>
                         <h2 class="mt-3 text-center">Reset Password</h2>
                         <p class="text-center">Enter your email address and password reset instructions will be sent to your email.</p>
-                        <form method = "post" class="mt-4">
+                        <form method="post" class="mt-4">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="text-dark" for="uname">Email</label>
-                                        <input class="form-control" name="email" id="uname" type="email"
-                                            placeholder="Enter Your Email">
+                                        <input class="form-control" name="email" id="uname" type="email" placeholder="Enter Your Email">
                                     </div>
                                     <div class="form-group" style="display:none">
                                         <label class="text-dark" for="uname">Reset Token</label>
-                                        <?php 
-                                            $length = 10;    
-                                            $reset_token =  substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$length);
+                                        <?php
+                                        $length = 10;
+                                        $reset_token =  substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 1, $length);
                                         ?>
-                                        <input class="form-control" name="token" value="<?php echo $reset_token;?>" id="uname" type="text"
-                                            placeholder="enter your email">
+                                        <input class="form-control" name="token" value="<?php echo $reset_token; ?>" id="uname" type="text" placeholder="enter your email">
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-lg-12 text-center">
                                     <button type="submit" name="reset_pwd" class="btn btn-block btn-outline-dark">Reset Password</button>
                                 </div>
                                 <div class="col-lg-12 text-center mt-5">
                                     Remembered Password? <a href="pages_ins_index.php" class="text-danger">Login</a><br>
-                                    Take Me  <a href="../" class="text-danger">Home</a> Safe
+                                    Take Me <a href="../" class="text-danger">Home</a> Safe
                                 </div>
-                               
+
                             </div>
                         </form>
                     </div>
