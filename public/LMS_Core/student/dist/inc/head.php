@@ -1,4 +1,3 @@
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,46 +25,41 @@
     <link href="assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
 
     <!--Inject SWAL-->
-    <?php if(isset($success)) {?>
-    <!--This code for injecting an alert-->
-            <script>
-                        setTimeout(function ()
-                        {
-                            swal("Success","<?php echo $success;?>","success");
-                        },
-                            100);
-            </script>
+    <?php if (isset($success)) { ?>
+        <!--This code for injecting an alert-->
+        <script>
+            setTimeout(function() {
+                    swal("Success", "<?php echo $success; ?>", "success");
+                },
+                100);
+        </script>
 
     <?php } ?>
 
-    <?php if(isset($err)) {?>
-    <!--This code for injecting an alert-->
-            <script>
-                        setTimeout(function ()
-                        {
-                            swal("Failed","<?php echo $err;?>","error");
-                        },
-                            100);
-            </script>
+    <?php if (isset($err)) { ?>
+        <!--This code for injecting an alert-->
+        <script>
+            setTimeout(function() {
+                    swal("Failed", "<?php echo $err; ?>", "error");
+                },
+                100);
+        </script>
 
     <?php } ?>
-    <script type="text/javascript"> 
-        function display_c()
-        {
-            var refresh=1000; // Refresh rate in milli seconds
-            mytime=setTimeout('display_ct()',refresh)
+    <script type="text/javascript">
+        function display_c() {
+            var refresh = 1000; // Refresh rate in milli seconds
+            mytime = setTimeout('display_ct()', refresh)
         }
 
-        function display_ct() 
-            {
+        function display_ct() {
             var x = new Date()
             document.getElementById('ct').innerHTML = x;
             display_c();
-         }
+        }
     </script>
     <script>
-        function printContent(el)
-        {
+        function printContent(el) {
             var restorepage = $('body').html();
             var printcontent = $('#' + el).clone();
             $('body').empty().html(printcontent);

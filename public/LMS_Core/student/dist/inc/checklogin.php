@@ -10,4 +10,3 @@ if(strlen($_SESSION['s_id'])==0)
 		header("Location: http://$host$uri/$extra");
 	}
 }
-?>
