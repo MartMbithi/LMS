@@ -1,39 +1,38 @@
 <?php
-  session_start();
-  include('dist/inc/config.php');
-  include('dist/inc/checklogin.php');
-  check_login();
-  $i_id = $_SESSION['i_id'];
-  
+session_start();
+include('dist/inc/config.php');
+include('dist/inc/checklogin.php');
+check_login();
+$i_id = $_SESSION['i_id'];
+
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
 <!--Head-->
-<?php include("dist/inc/head.php");?>
+<?php include("dist/inc/head.php"); ?>
 <!-- ./Head -->
 
 <body onload=display_ct();>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    
+
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-            <?php include("dist/inc/header.php");?>
+        <?php include("dist/inc/header.php"); ?>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-            <?php include("dist/inc/sidebar.php");?>
+        <?php include("dist/inc/sidebar.php"); ?>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -47,7 +46,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <?php include("dist/inc/time_API.php");?>
+                        <?php include("dist/inc/time_API.php"); ?>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
@@ -57,7 +56,7 @@
                                     </li>
                                     <li class="breadcrumb-item"><a href="pages_ins_add_enrollment.php">Add</a>
                                     </li>
-                                    
+
                                 </ol>
                             </nav>
                         </div>
@@ -66,7 +65,7 @@
                         <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
                                 <option selected id="ct"></option>
-                                
+
                             </select>
                         </div>
                     </div>
@@ -78,7 +77,7 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            
+
             <div class="container-fluid">
                 <div class="row">
 
@@ -87,8 +86,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Registered Students</h4>
                                 <div class="table-responsive">
-                                <table id="multi_col_order" class="table table-striped table-bordered display no-wrap"
-                                        style="width:100%">
+                                    <table id="multi_col_order" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -101,44 +99,43 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                                //registered students details.
-                                                $ret="SELECT  * FROM  lms_student";
-                                                $stmt= $mysqli->prepare($ret) ;
-                                                //$stmt->bind_param('i',$l_id);
-                                                $stmt->execute() ;//ok
-                                                $res=$stmt->get_result();
-                                                $cnt=1;
-                                                while($row=$res->fetch_object())
-                                                {
-                                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
-                                                    
+                                            //registered students details.
+                                            $ret = "SELECT  * FROM  lms_student";
+                                            $stmt = $mysqli->prepare($ret);
+                                            //$stmt->bind_param('i',$l_id);
+                                            $stmt->execute(); //ok
+                                            $res = $stmt->get_result();
+                                            $cnt = 1;
+                                            while ($row = $res->fetch_object()) {
+                                                //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+
                                             ?>
 
-                                            <tr>
-                                                <td><?php echo $row->s_name;?></td>
-                                                <td><?php echo $row->s_regno;?></td>
-                                                <td><?php echo $row->s_phoneno;?></td>
-                                                <td><?php echo $row->s_dob;?></td>
-                                                <td><?php echo $row->s_gender;?></td>
-                                                <td>
-                                                    <a class="badge badge-success" href="pages_ins_enroll_single_unit.php?s_id=<?php echo $row->s_id;?>&s_name=<?php echo $row->s_name;?>&s_course=<?php echo $row->s_course;?>">
-                                                     <i class="fas fa-user"></i><i class="icon  icon-doc "></i> Enroll
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td><?php echo $row->s_name; ?></td>
+                                                    <td><?php echo $row->s_regno; ?></td>
+                                                    <td><?php echo $row->s_phoneno; ?></td>
+                                                    <td><?php echo $row->s_dob; ?></td>
+                                                    <td><?php echo $row->s_gender; ?></td>
+                                                    <td>
+                                                        <a class="badge badge-success" href="pages_ins_enroll_single_unit.php?s_id=<?php echo $row->s_id; ?>&s_name=<?php echo $row->s_name; ?>&s_course=<?php echo $row->s_course; ?>">
+                                                            <i class="fas fa-user"></i><i class="icon  icon-doc "></i> Enroll
+                                                        </a>
+                                                    </td>
+                                                </tr>
 
-                                            <?php }?>
+                                            <?php } ?>
 
                                         </tbody>
                                     </table>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
 
                 </div>
-            
+
                 <!-- *************************************************************** -->
             </div>
             <!-- ============================================================== -->
@@ -147,7 +144,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-                 <?php include("dist/inc/footer.php");?>
+            <?php include("dist/inc/footer.php"); ?>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -182,7 +179,7 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    
+
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>
