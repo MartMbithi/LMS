@@ -1,10 +1,10 @@
 <?php
-  session_start();
-  include('dist/inc/config.php');
-  include('dist/inc/checklogin.php');
-  check_login();
-  $s_id = $_SESSION['s_id'];
-  /*
+session_start();
+include('dist/inc/config.php');
+include('dist/inc/checklogin.php');
+check_login();
+$s_id = $_SESSION['s_id'];
+/*
   //register a new student
   if(isset($_POST['add_student']))
   {
@@ -45,30 +45,29 @@
 <html dir="ltr" lang="en">
 
 <!--Head-->
-<?php include("dist/inc/head.php");?>
+<?php include("dist/inc/head.php"); ?>
 <!-- ./Head -->
 
 <body onload=display_ct();>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    
+
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-            <?php include("dist/inc/header.php");?>
+        <?php include("dist/inc/header.php"); ?>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-            <?php include("dist/inc/sidebar.php");?>
+        <?php include("dist/inc/sidebar.php"); ?>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -83,43 +82,42 @@
                 <div class="row">
                     <div class="col-7 align-self-center">
                         <?php
-                            include("dist/inc/time_API.php");
-                            $rs_id = $_GET['rs_id'];
-                            $ret="SELECT  * FROM lms_results  WHERE rs_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$rs_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                              
+                        include("dist/inc/time_API.php");
+                        $rs_id = $_GET['rs_id'];
+                        $ret = "SELECT  * FROM lms_results  WHERE rs_id=?";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->bind_param('i', $rs_id);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        //$cnt=1;
+                        while ($row = $res->fetch_object()) {
+
                         ?>
-                        <div class="d-flex align-items-center">
-                            <nav aria-label="breadcrumb">
-                                <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="pages_std_view_results.php">Results</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="pages_std_view_results.php">View</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="">Single Unit Marks</a>
-                                    </li>
-                                    
-                                </ol>
-                            </nav>
-                        </div>
+                            <div class="d-flex align-items-center">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb m-0 p-0">
+                                        <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
+                                        </li>
+                                        <li class="breadcrumb-item"><a href="pages_std_view_results.php">Results</a>
+                                        </li>
+                                        <li class="breadcrumb-item"><a href="pages_std_view_results.php">View</a>
+                                        </li>
+                                        <li class="breadcrumb-item"><a href="">Single Unit Marks</a>
+                                        </li>
+
+                                    </ol>
+                                </nav>
+                            </div>
                     </div>
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
                                 <option selected id="ct"></option>
-                                
+
                             </select>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -133,12 +131,11 @@
 
                     <div class="col-lg-12 col-md-6">
                         <div class="card-header">
-                            <?php echo $row->s_unit_code;?> <?php echo $row->s_unit_name;?>
+                            <?php echo $row->s_unit_code; ?> <?php echo $row->s_unit_name; ?>
                         </div>
                         <hr>
-                       
-                        <table  class="table table-striped table-bordered display no-wrap" 
-                            style="width:100%">
+
+                        <table class="table table-striped table-bordered display no-wrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Student RegNo</th>
@@ -148,71 +145,62 @@
                                     <th>Final Exam</th>
                                     <th>Average</th>
                                     <th>Grade</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
+                                <?php
                                 $rs_id = $_GET['rs_id'];
-                                $ret="SELECT  * FROM lms_results  WHERE rs_id=?";
-                                $stmt= $mysqli->prepare($ret) ;
-                                $stmt->bind_param('i',$rs_id);
-                                $stmt->execute() ;//ok
-                                $res=$stmt->get_result();
-                                $cnt=1;
-                                while($row=$res->fetch_object())
-                                {
+                                $ret = "SELECT  * FROM lms_results  WHERE rs_id=?";
+                                $stmt = $mysqli->prepare($ret);
+                                $stmt->bind_param('i', $rs_id);
+                                $stmt->execute(); //ok
+                                $res = $stmt->get_result();
+                                $cnt = 1;
+                                while ($row = $res->fetch_object()) {
                                     $cat1 = $row->c_cat1_marks;
                                     $cat2 = $row->c_cat2_marks;
                                     $sem_end = $row->c_eos_marks;
 
                                     //Get The Avg Marks
-                                    $convertedCat1 = ($cat1/30)*20;
-                                    $convertedCat2 = ($cat2/30)*10;
-                                    $total_avg = ($convertedCat1 + $convertedCat2+$sem_end);
+                                    $convertedCat1 = ($cat1 / 30) * 20;
+                                    $convertedCat2 = ($cat2 / 30) * 10;
+                                    $total_avg = ($convertedCat1 + $convertedCat2 + $sem_end);
 
                                     //Get The Grade
-                                    if($total_avg >= '70')
-                                    {
+                                    if ($total_avg >= '70') {
                                         $grade = 'A';
-                                    }
-                                    elseif($total_avg >= '60')
-                                    {
+                                    } elseif ($total_avg >= '60') {
                                         $grade = 'B';
-                                    }
-                                    elseif($total_avg >= '50')
-                                    {
+                                    } elseif ($total_avg >= '50') {
                                         $grade = 'C';
-                                    }
-                                    elseif($total_avg >= '40')
-                                    {
+                                    } elseif ($total_avg >= '40') {
                                         $grade = 'D';
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         $grade = 'E';
                                     }
-                                
-                            ?>
-                                <tr>
-                                    <td><?php echo $row->s_regno;?></td>
-                                    <td><?php echo $row->s_name;?></td>
-                                    <td><?php echo $row->c_cat1_marks;?></td>
-                                    <td><?php echo $row->c_cat2_marks;?></td>
-                                    <td><?php echo $row->c_eos_marks;?></td>
-                                    <td><?php echo $total_avg ;?></td>
-                                    <td><?php echo $grade;?></td>
-                                    
-                                </tr>
 
-                                <?php $cnt = $cnt +1; }?>    
+                                ?>
+                                    <tr>
+                                        <td><?php echo $row->s_regno; ?></td>
+                                        <td><?php echo $row->s_name; ?></td>
+                                        <td><?php echo $row->c_cat1_marks; ?></td>
+                                        <td><?php echo $row->c_cat2_marks; ?></td>
+                                        <td><?php echo $row->c_eos_marks; ?></td>
+                                        <td><?php echo $total_avg; ?></td>
+                                        <td><?php echo $grade; ?></td>
+
+                                    </tr>
+
+                                <?php $cnt = $cnt + 1;
+                                } ?>
 
                             </tbody>
                         </table>
-                            
-                            <!-- Card -->
+
+                        <!-- Card -->
                     </div>
-                    <?php }?>
+                <?php } ?>
                 </div>
                 <!-- *************************************************************** -->
             </div>
@@ -222,7 +210,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-                 <?php include("dist/inc/footer.php");?>
+            <?php include("dist/inc/footer.php"); ?>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -257,7 +245,7 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-    
+
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>

@@ -1,10 +1,10 @@
 <?php
-  session_start();
-  include('dist/inc/config.php');
-  include('dist/inc/checklogin.php');
-  check_login();
-  $s_id = $_SESSION['s_id'];
-  /*
+session_start();
+include('dist/inc/config.php');
+include('dist/inc/checklogin.php');
+check_login();
+$s_id = $_SESSION['s_id'];
+/*
   //register a new student
   if(isset($_POST['add_student']))
   {
@@ -45,30 +45,29 @@
 <html dir="ltr" lang="en">
 
 <!--Head-->
-<?php include("dist/inc/head.php");?>
+<?php include("dist/inc/head.php"); ?>
 <!-- ./Head -->
 
 <body onload=display_ct();>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    
+
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
-    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
         <!-- ============================================================== -->
         <!-- Topbar header - style you can find in pages.scss -->
         <!-- ============================================================== -->
-            <?php include("dist/inc/header.php");?>
+        <?php include("dist/inc/header.php"); ?>
         <!-- ============================================================== -->
         <!-- End Topbar header -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-            <?php include("dist/inc/sidebar.php");?>
+        <?php include("dist/inc/sidebar.php"); ?>
         <!-- ============================================================== -->
         <!-- End Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
@@ -83,35 +82,34 @@
                 <div class="row">
                     <div class="col-7 align-self-center">
                         <?php
-                           include("dist/inc/time_API.php");
-                            $q_id = $_GET['q_id'];
-                            $ret="SELECT  * FROM lms_answers  WHERE q_id=?";
-                            $stmt= $mysqli->prepare($ret) ;
-                            $stmt->bind_param('i',$q_id);
-                            $stmt->execute() ;//ok
-                            $res=$stmt->get_result();
-                            //$cnt=1;
-                            while($row=$res->fetch_object())
-                            {
-                              
+                        include("dist/inc/time_API.php");
+                        $q_id = $_GET['q_id'];
+                        $ret = "SELECT  * FROM lms_answers  WHERE q_id=?";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->bind_param('i', $q_id);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        //$cnt=1;
+                        while ($row = $res->fetch_object()) {
+
                         ?>
-                        <div class="d-flex align-items-center">
-                            <nav aria-label="breadcrumb">
-                            <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="">Answers</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="pages_std_view_ans.php">View</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href=""><?php echo $row->c_name;?></a>
-                                    </li>
-                                    
-                                </ol>
-                            </nav>
-                            </nav>
-                        </div>
+                            <div class="d-flex align-items-center">
+                                <nav aria-label="breadcrumb">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb m-0 p-0">
+                                            <li class="breadcrumb-item"><a href="pages_std_dashboard.php">Dashboard</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a href="">Answers</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a href="pages_std_view_ans.php">View</a>
+                                            </li>
+                                            <li class="breadcrumb-item"><a href=""><?php echo $row->c_name; ?></a>
+                                            </li>
+
+                                        </ol>
+                                    </nav>
+                                </nav>
+                            </div>
                     </div>
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
@@ -120,7 +118,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <!-- ============================================================== -->
@@ -129,64 +127,62 @@
             <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
-            <div  class="container-fluid">
+            <div class="container-fluid">
                 <div id="print_ans" class="row">
-                    
-                <div  class="col-lg-12 col-md-6">
-                        
+
+                    <div class="col-lg-12 col-md-6">
+
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">Questions</li>
                             <?php
-                                $q_id = $_GET['q_id'];
-                                $ret="SELECT  * FROM  lms_answers WHERE q_id = ?";
-                                $stmt= $mysqli->prepare($ret) ;
-                                $stmt->bind_param('i',$q_id);
-                                $stmt->execute() ;//ok
-                                $res=$stmt->get_result();
-                                $cnt=1;
-                                while($row=$res->fetch_object())
-                                {
-                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
-                                    
-                            ?>
-                            <li class="list-group-item"><?php echo $row->q_details;?></li>
-                            
-                            <?php }?>
-                        </ul>
-                            
-                            <!-- Card -->
-                    </div>
-                    <?php }?>
+                            $q_id = $_GET['q_id'];
+                            $ret = "SELECT  * FROM  lms_answers WHERE q_id = ?";
+                            $stmt = $mysqli->prepare($ret);
+                            $stmt->bind_param('i', $q_id);
+                            $stmt->execute(); //ok
+                            $res = $stmt->get_result();
+                            $cnt = 1;
+                            while ($row = $res->fetch_object()) {
+                                //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
 
-                    <div class="col-lg-12 col-md-6">
-                        
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Answers</li>
-                            <?php
-                                $q_id = $_GET['q_id'];
-                                $ret="SELECT  * FROM  lms_answers WHERE q_id = ?";
-                                $stmt= $mysqli->prepare($ret) ;
-                                $stmt->bind_param('i',$q_id);
-                                $stmt->execute() ;//ok
-                                $res=$stmt->get_result();
-                                $cnt=1;
-                                while($row=$res->fetch_object())
-                                {
-                                    //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
-                                    
                             ?>
-                            <li class="list-group-item"><?php echo $row->ans_details;?></li>
-                            
-                            <?php }?>
-                        </ul>
-                            
-                            <!-- Card -->
-                    </div>
+                                <li class="list-group-item"><?php echo $row->q_details; ?></li>
 
-                    
+                            <?php } ?>
+                        </ul>
+
+                        <!-- Card -->
+                    </div>
+                <?php } ?>
+
+                <div class="col-lg-12 col-md-6">
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Answers</li>
+                        <?php
+                        $q_id = $_GET['q_id'];
+                        $ret = "SELECT  * FROM  lms_answers WHERE q_id = ?";
+                        $stmt = $mysqli->prepare($ret);
+                        $stmt->bind_param('i', $q_id);
+                        $stmt->execute(); //ok
+                        $res = $stmt->get_result();
+                        $cnt = 1;
+                        while ($row = $res->fetch_object()) {
+                            //$mysqlDateTime = $row->en_date;//trim timestamp to DD/MM/YYYY formart
+
+                        ?>
+                            <li class="list-group-item"><?php echo $row->ans_details; ?></li>
+
+                        <?php } ?>
+                    </ul>
+
+                    <!-- Card -->
+                </div>
+
+
                 </div>
                 <hr>
-                <button id="print_ans" onclick='printContent("Print");' class = "btn btn-outline-success"><i class="fas fa-print"></i>Print Document</button>
+                <button id="print_ans" onclick='printContent("Print");' class="btn btn-outline-success"><i class="fas fa-print"></i>Print Document</button>
 
                 <!-- *************************************************************** -->
             </div>
@@ -196,7 +192,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-                 <?php include("dist/inc/footer.php");?>
+            <?php include("dist/inc/footer.php"); ?>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->
@@ -231,14 +227,13 @@
     <script src="assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="dist/js/pages/dashboards/dashboard1.min.js"></script>
-   
+
     <!--This page plugins -->
     <script src="assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="dist/js/pages/datatable/datatable-basic.init.js"></script>
     <script>
-    //print a page
-        function printContent(el)
-        {
+        //print a page
+        function printContent(el) {
             var restorepage = $('body').html();
             var printcontent = $('#' + el).clone();
             $('body').empty().html(printcontent);
