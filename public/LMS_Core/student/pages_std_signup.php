@@ -1,31 +1,26 @@
 <?php
-	session_start();
-	include('dist/inc/config.php');
-		if(isset($_POST['signup']))
-		{
-            $s_name=$_POST['s_name'];
-            $s_regno=$_POST['s_regno'];
-            $s_email=$_POST['s_email'];
-            //$a_number = $_POST['a_number'];
-            $s_pwd=sha1(md5($_POST['s_pwd']));//double encrypt to increase security
-            //sql to insert captured values
-            $query="INSERT INTO lms_student (s_name, s_regno, s_email, s_pwd) values(?,?,?,?)";
-            $stmt = $mysqli->prepare($query);
-            $rc=$stmt->bind_param('ssss', $s_name, $s_regno, $s_email, $s_pwd);
-            $stmt->execute();
+session_start();
+include('dist/inc/config.php');
+if (isset($_POST['signup'])) {
+    $s_name = $_POST['s_name'];
+    $s_regno = $_POST['s_regno'];
+    $s_email = $_POST['s_email'];
+    //$a_number = $_POST['a_number'];
+    $s_pwd = sha1(md5($_POST['s_pwd'])); //double encrypt to increase security
+    //sql to insert captured values
+    $query = "INSERT INTO lms_student (s_name, s_regno, s_email, s_pwd) values(?,?,?,?)";
+    $stmt = $mysqli->prepare($query);
+    $rc = $stmt->bind_param('ssss', $s_name, $s_regno, $s_email, $s_pwd);
+    $stmt->execute();
 
-            if($stmt)
-            {
-                      $success = "Student Account Created Proceed To Log In";
-                      
-                      //echo "<script>toastr.success('Have Fun')</script>";
-            }
-            else {
-              $err = "Please Try Again Or Try Later";
-            }
-			
-			
-		}
+    if ($stmt) {
+        $success = "Student Account Created Proceed To Log In";
+
+        //echo "<script>toastr.success('Have Fun')</script>";
+    } else {
+        $err = "Please Try Again Or Try Later";
+    }
+}
 ?>
 <!DOCTYPE html>
 <html dir="ltr">
@@ -52,27 +47,25 @@
     <script src="dist/js/swal.js"></script>
 
     <!--Inject SWAL-->
-    <?php if(isset($success)) {?>
-    <!--This code for injecting an alert-->
-            <script>
-                        setTimeout(function ()
-                        {
-                            swal("Success","<?php echo $success;?>","success");
-                        },
-                            100);
-            </script>
+    <?php if (isset($success)) { ?>
+        <!--This code for injecting an alert-->
+        <script>
+            setTimeout(function() {
+                    swal("Success", "<?php echo $success; ?>", "success");
+                },
+                100);
+        </script>
 
     <?php } ?>
 
-    <?php if(isset($err)) {?>
-    <!--This code for injecting an alert-->
-            <script>
-                        setTimeout(function ()
-                        {
-                            swal("Failed","<?php echo $err;?>","error");
-                        },
-                            100);
-            </script>
+    <?php if (isset($err)) { ?>
+        <!--This code for injecting an alert-->
+        <script>
+            setTimeout(function() {
+                    swal("Failed", "<?php echo $err; ?>", "error");
+                },
+                100);
+        </script>
 
     <?php } ?>
 </head>
@@ -94,19 +87,18 @@
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
-            style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
             <div class="auth-box row text-center">
                 <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(assets/images/big/3.jpg);">
                 </div>
-                
+
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
                         <div class="text-center">
                             <img src="assets/images/logo-text.png" alt="logo">
                         </div>
                         <h2 class="mt-3 text-center">Sign Up for Free</h2>
-                        <form method = 'POST' class="mt-4">
+                        <form method='POST' class="mt-4">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
@@ -115,17 +107,17 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input required = "required" class="form-control" name="s_regno" type="text" placeholder="Registration Number">
+                                        <input required="required" class="form-control" name="s_regno" type="text" placeholder="Registration Number">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input required = "required" class="form-control" name="s_email" type="email" placeholder="Email Address">
+                                        <input required="required" class="form-control" name="s_email" type="email" placeholder="Email Address">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input class="form-control" require = "required" name="s_pwd" type="password" placeholder="Password">
+                                        <input class="form-control" require="required" name="s_pwd" type="password" placeholder="Password">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 text-center">
