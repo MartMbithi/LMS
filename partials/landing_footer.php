@@ -20,10 +20,9 @@
             <div class="col-md-6">
                 <ul class="footer-nav">
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="pages_courses.php">Courses</a></li>
-                    <li><a href="student/pages_std_index.php">Student</a></li>
-                    <li><a href="Instructors/pages_ins_index.php">Instructor</a></li>
-                    <li><a href="admin/pages_admin_index.php">Admin</a></li>
+                    <li><a href="pages_std_index.php">Student</a></li>
+                    <li><a href="pages_ins_index.php">Instructor</a></li>
+                    <li><a href="ages_admin_index.php">Admin</a></li>
 
                 </ul>
             </div>

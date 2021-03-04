@@ -77,8 +77,6 @@ require_once("../partials/landing_head.php");
                         </div>
                     </div>
                     <!-- /feature -->
-
-
                 </div>
 
                 <div class="col-md-6">
@@ -101,14 +99,9 @@ require_once("../partials/landing_head.php");
                         </div>
                     </div>
                     <!-- /feature -->
-
                 </div>
-
-
-
             </div>
             <!-- row -->
-
         </div>
         <!-- container -->
     </div>
@@ -145,7 +138,7 @@ require_once("../partials/landing_head.php");
                         <div class="col-md-3 col-sm-6 col-xs-6">
                             <div class="course">
                                 <a href="pages_courses.php?cc_id=<?php echo $row->cc_id; ?>" class="course-img">
-                                    <img src="admin/assets/images/course_cat/<?php echo $row->cc_dpic; ?>" alt="">
+                                    <img src="../public/uploads/sys_data/course_cat/<?php echo $row->cc_dpic; ?>" alt="">
                                     <i class="course-link-icon fa fa-link"></i>
                                 </a>
                                 <a class="course-title" href="#"><?php echo $row->cc_name; ?></a>
@@ -163,20 +156,15 @@ require_once("../partials/landing_head.php");
 
             </div>
             <!-- /courses -->
-
-
-
         </div>
         <!-- container -->
-
     </div>
     <!-- /Courses -->
-
     <!-- Contact CTA -->
     <div id="contact-cta" class="section">
 
         <!-- Backgound Image -->
-        <div class="bg-image bg-parallax overlay" style="background-image:url(./img/cta2-background.jpg)"></div>
+        <div class="bg-image bg-parallax overlay" style="background-image:url(../public/uploads/sys_logo/images/cta2-background.jpg)"></div>
         <!-- Backgound Image -->
 
         <!-- container -->
@@ -193,10 +181,8 @@ require_once("../partials/landing_head.php");
 
             </div>
             <!-- /row -->
-
         </div>
         <!-- /container -->
-
     </div>
     <!-- /Contact CTA -->
 
@@ -210,11 +196,8 @@ require_once("../partials/landing_head.php");
     </div>
     <!-- /preloader -->
 
-
     <!-- Scripts -->
     <?php require_once('../partials/landing_scripts.php'); ?>
-
-
 </body>
 
 </html>
