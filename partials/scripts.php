@@ -1,9 +1,27 @@
-<!-- Jquery -->
-<script src="../public/libs/jquery/dist/jquery.min.js "></script>
-<!-- Popper Js -->
-<script src="../public/libs/popper.js/dist/umd/popper.min.js "></script>
-<!-- Boostrap -->
-<script src="../public/libs/bootstrap/dist/js/bootstrap.min.js "></script>
+<script src="../public/libs/jquery/dist/jquery.min.js"></script>
+<script src="../public/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src="../public/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- apps -->
+<!-- apps -->
+<script src="../public/js/app-style-switcher.js"></script>
+<script src="../public/js/feather.min.js"></script>
+<script src="../public/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<script src="../public/js/sidebarmenu.js"></script>
+<!--Custom JavaScript -->
+<script src="../public/js/custom.min.js"></script>
+<!--This page JavaScript -->
+<script src="../public/c3/d3.min.js"></script>
+<script src="../public/libs/c3/c3.min.js"></script>
+<script src="../public/libs/chartist/dist/chartist.min.js"></script>
+<script src="../public/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+<script src="../public/libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="../public/libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+<script src="../public/js/pages/dashboards/dashboard1.min.js"></script>
+
+<!--This page plugins -->
+<script src="../public/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../public/js/pages/datatable/datatable-basic.init.js"></script>
+
 <script type="text/javascript">
     /* Time API */
     function display_c() {
