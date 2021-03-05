@@ -168,6 +168,14 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="settings.php" class="nav-link">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            System Settings
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="logout.php" class="nav-link">
                         <i class="nav-icon fas fa-power-off"></i>
                         <p>

@@ -15,6 +15,18 @@ while ($admin = $res->fetch_object()) {
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="dashboard.php" class="nav-link">Home</a>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="instructors.php" class="nav-link">Instructors</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="students.php" class="nav-link">Students</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="enrollments.php" class="nav-link">Enrollments</a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <a href="teaching_allocations.php" class="nav-link">Teaching Allocations</a>
+            </li>
         </ul>
 
         <!-- Right navbar links -->
