@@ -28,3 +28,8 @@
     </script>
 
 <?php } ?>
+
+<!-- overlayScrollbars -->
+<script src="../public/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- Dashboard -->
+<script src="../public/js/pages/dashboard2.js"></script>
