@@ -47,7 +47,7 @@ require_once('../partials/head.php');
                                 <div class="info-box-content">
                                     <span class="info-box-text">Courses</span>
                                     <span class="info-box-number">
-                                        <?php echo $cse; ?>
+                                        <?php echo $courses; ?>
                                     </span>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@ require_once('../partials/head.php');
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Units</span>
-                                    <span class="info-box-number"><?php echo $units; ?></span>
+                                    <span class="info-box-number"><?php echo $course_categories; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@ require_once('../partials/head.php');
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Instructors</span>
-                                    <span class="info-box-number"><?php echo $ins; ?></span>
+                                    <span class="info-box-number"><?php echo $instructors; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@ require_once('../partials/head.php');
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Students Enrollments</span>
-                                    <span class="info-box-number"><?php echo $std_en; ?></span>
+                                    <span class="info-box-number"><?php echo $s_enroll; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@ require_once('../partials/head.php');
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Billings</span>
-                                    <span class="info-box-number"><?php echo $bil; ?></span>
+                                    <span class="info-box-number"><?php echo $bills; ?></span>
                                 </div>
                             </div>
                         </div>
