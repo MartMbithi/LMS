@@ -19,7 +19,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="dashboard.php" class="nav-link">
+                    <a href="courses.php" class="nav-link">
                         <i class="nav-icon fas fa-book-open"></i>
                         <p>
                             Courses
@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="dashboard.php" class="nav-link">
+                    <a href="units.php" class="nav-link">
                         <i class="nav-icon fas fa-book-reader"></i>
                         <p>
                             Units

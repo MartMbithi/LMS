@@ -1,0 +1,9 @@
+{
+    
+
+    "license": "MIT",
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.15",
+        "coderatio/simple-backup": "^1.0"
+    }
+}
