@@ -48,10 +48,11 @@ $stmt->close();
  $stmt->fetch();
  $stmt->close();
 
- /* Payments */
+ /* Assigns */
  $result = "SELECT COUNT(*) FROM  lms_units_assaigns ";
  $stmt = $mysqli->prepare($result);
  $stmt->execute();
  $stmt->bind_result($ins_all);
  $stmt->fetch();
  $stmt->close();
+

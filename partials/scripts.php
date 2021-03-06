@@ -51,8 +51,6 @@
     });
   });
 </script>
-<!-- CK Editor CDN -->
-<script src="https://cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
 <!-- Init CK -->
 <script>
   CKEDITOR.replace('editor');

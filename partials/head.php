@@ -22,4 +22,6 @@
   <!-- Bootstrap Select CSS -->
   <link rel="stylesheet" href="../public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
   <link rel="stylesheet" href="../public/plugins/select2/css/select2.min.css">
+  <!-- CK Editor CDN -->
+  <script src="https://cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
 </head>

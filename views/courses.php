@@ -164,9 +164,9 @@ require_once('../partials/head.php');
             <section class="content">
                 <div class="container-fluid">
                     <div class="container">
-                        <div class="text-right">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#import-modal">Import Courses Records </button>
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add-modal">Add Course</button>
+                        <div class="text-right text-dark">
+                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#import-modal">Import Courses Records </button>
+                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#add-modal">Add Course</button>
                         </div>
                     </div>
                     <hr>
@@ -201,7 +201,7 @@ require_once('../partials/head.php');
                                                     </div>
                                                 </div>
                                                 <div class="text-right">
-                                                    <button type="submit" name="upload" class="btn btn-primary">Upload File</button>
+                                                    <button type="submit" name="upload" class="btn btn-outline-warning">Upload File</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -273,7 +273,7 @@ require_once('../partials/head.php');
                                                 </div>
                                                 <hr>
                                                 <div class="text-right">
-                                                    <button type="submit" name="add_course_cat" class="btn btn-outline-primary">Add Course</button>
+                                                    <button type="submit" name="add_course_cat" class="btn btn-outline-warning">Add Course</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -289,15 +289,15 @@ require_once('../partials/head.php');
                                 <table id="dash-2" class="table table-striped table-bordered display " style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Code</th>
-                                            <th>Name</th>
-                                            <th>Dept Head</th>
-                                            <th>Action</th>
+                                            <th>Course Code</th>
+                                            <th>Course Name</th>
+                                            <th>Head Of Department</th>
+                                            <th>Manage Course</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $ret = "SELECT  * FROM  lms_course_categories";
+                                        $ret = "SELECT  * FROM  lms_course_categories ";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
@@ -305,16 +305,17 @@ require_once('../partials/head.php');
                                         ?>
                                             <tr>
                                                 <td><?php echo $courses->cc_code; ?></td>
-
                                                 <td><?php echo $courses->cc_name; ?></td>
                                                 <td><?php echo $courses->cc_dept_head; ?></td>
                                                 <td>
-                                                    <a class="badge badge-success" href="pages_admin_view_single_course_cat.php?cc_id=<?php echo $courses->cc_id; ?>">
-                                                        <i class="fas fa-eye"></i><i class="fas fa-archive"></i> View
+                                                    <a class="badge badge-warning" href="view_course.php?view=<?php echo $courses->cc_id; ?>">
+                                                        <i class="fas fa-external-link-alt"></i>
+                                                        View
                                                     </a>
 
                                                     <a class="badge badge-warning" data-toggle="modal" href="#update-<?php echo $courses->cc_id; ?>">
-                                                        <i class="fas fa-edit"></i><i class="fas fa-archive"></i> Edit
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                        Update
                                                     </a>
                                                     <!-- Update Modal -->
                                                     <div class="modal fade" id="update-<?php echo $courses->cc_id; ?>">
@@ -360,12 +361,12 @@ require_once('../partials/head.php');
                                                                         <div class="row">
                                                                             <div class="form-group col-md-12">
                                                                                 <label>Couse Description</label>
-                                                                                <textarea type="text" name="cc_desc" rows='20' class="form-control" id="editor"><?php echo $courses->cc_desc; ?></textarea>
+                                                                                <textarea type="text" name="cc_desc" rows='20' class="form-control" id="<?php echo $courses->cc_id; ?>"><?php echo $courses->cc_desc; ?></textarea>
                                                                             </div>
                                                                         </div>
                                                                         <hr>
                                                                         <div class="text-right">
-                                                                            <button type="submit" name="update_course_cat" class="btn btn-outline-primary">Update Course</button>
+                                                                            <button type="submit" name="update_course_cat" class="btn btn-outline-warning">Update Course</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -377,8 +378,9 @@ require_once('../partials/head.php');
                                                     </div>
                                                     <!-- End Update Modal -->
 
-                                                    <a class="badge badge-danger" data-toggle="modal" href="#delete-<?php echo $courses->cc_id; ?>">
-                                                        <i class="fas fa-eye"></i><i class="fas fa-archive"></i> Delete
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $courses->cc_id; ?>">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                        Delete
                                                     </a>
                                                     <!-- Delete Modal -->
                                                     <div class="modal fade" id="delete-<?php echo $courses->cc_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -393,14 +395,20 @@ require_once('../partials/head.php');
                                                                 <div class="modal-body text-center text-danger">
                                                                     <h4>Delete <?php echo $courses->cc_code; ?> - <?php echo $courses->cc_name; ?> Record ?</h4>
                                                                     <br>
-                                                                    <button type="button" class="text-center btn btn-success" data-dismiss="modal">No</button>
-                                                                    <a href="courses.php?delete=<?php echo $courses->cc_id; ?>" class="text-center btn btn-danger"> Delete </a>
+                                                                    <button type="button" class="text-center btn btn-outline-warning" data-dismiss="modal">No</button>
+                                                                    <a href="courses.php?delete=<?php echo $courses->cc_id; ?>" class="text-center btn btn-outline-warning"> Delete </a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <!-- End Delete Modal -->
                                                 </td>
+
+                                                <!-- CK Editors -->
+                                                <script>
+                                                    CKEDITOR.replace('<?php echo $courses->cc_id;?>');
+                                                </script>
+                                                <!-- End Editors -->
                                             </tr>
                                         <?php
                                         } ?>
