@@ -59,14 +59,40 @@
 <!-- File Uploads  -->
 <script src="../public/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <script>
-    $(document).ready(function() {
-        bsCustomFileInput.init();
-    });
+  $(document).ready(function() {
+    bsCustomFileInput.init();
+  });
 </script>
 <!-- Select 2  -->
 <script src="../public/plugins/select2/js/select2.full.min.js"></script>
 <script>
-    $('.select2bs4').select2({
-        theme: 'bootstrap4'
-    })
+  $('.select2bs4').select2({
+    theme: 'bootstrap4'
+  })
+</script>
+<!-- Ajaxes -->
+<script>
+  /* Course Details */
+  function GetCourseDetails(val) {
+    $.ajax({
+
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Course_Code=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Course_Id').val(data);
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Course_Id=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Course_Name').val(data);
+      }
+    });
+  }
 </script>

@@ -116,9 +116,8 @@ if (isset($_POST['update_course_cat'])) {
 /* Delete Course */
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $adn = "DELETE FROM lms_course_categories WHERE cc_id=?";
-    $stmt = $conn->prepare($adn);
-    $stmt->bind_param('s', $id);
+    $adn = "DELETE FROM lms_course_categories WHERE cc_id= '$id' ";
+    $stmt = $mysqli->prepare($adn);
     $stmt->execute();
     $stmt->close();
     if ($stmt) {
