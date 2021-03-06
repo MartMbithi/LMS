@@ -127,6 +127,82 @@ if (isset($_GET['delete'])) {
         $info = "Please Try Again Or Try Later";
     }
 }
+
+/* Import Courses Via PhpOffice - Excel Sheet */
+
+use DevLanDataAPI\DataSource;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+
+require_once('../config/DataSource.php');
+$db = new DataSource();
+$conn = $db->getConnection();
+require_once('../vendor/autoload.php');
+
+if (isset($_POST["upload"])) {
+
+    $allowedFileType = [
+        'application/vnd.ms-excel',
+        'text/xls',
+        'text/xlsx',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+
+    /* Where Magic Happens */
+    if (in_array($_FILES["file"]["type"], $allowedFileType)) {
+
+        $targetPath = '../public/sys_data/uploads/xls/' . $_FILES['file']['name'];
+        move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
+
+        $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+
+        $spreadSheet = $Reader->load($targetPath);
+        $excelSheet = $spreadSheet->getActiveSheet();
+        $spreadSheetAry = $excelSheet->toArray();
+        $sheetCount = count($spreadSheetAry);
+
+        for ($i = 1; $i <= $sheetCount; $i++) {
+
+            $id = "";
+            if (isset($spreadSheetAry[$i][0])) {
+                $id = mysqli_real_escape_string($conn, $spreadSheetAry[$i][0]);
+            }
+
+            $cc_name = "";
+            if (isset($spreadSheetAry[$i][1])) {
+                $cc_name = mysqli_real_escape_string($conn, $spreadSheetAry[$i][1]);
+            }
+
+            $cc_code = "";
+            if (isset($spreadSheetAry[$i][2])) {
+                $cc_code = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+            }
+
+            $cc_dept_head = "";
+            if (isset($spreadSheetAry[$i][3])) {
+                $cc_dept_head = mysqli_real_escape_string($conn, $spreadSheetAry[$i][3]);
+            }
+
+            
+            if (!empty($cc_name) || !empty($cc_code) || !empty($cc_dept_head)) {
+                $query = "INSERT INTO lms_course_categories (cc_name, cc_code, cc_dept_head) VALUES(?,?,?)";
+                $paramType = "sss";
+                $paramArray = array(
+                    $cc_name,
+                    $cc_code,
+                    $cc_dept_head                    
+                );
+                $insertId = $db->insert($query, $paramType, $paramArray);
+                if (!empty($insertId)) {
+                    $err = "Error Occured While Importing Data";
+                } else {
+                    $success = "Data Imported" && header("refresh:1; url=courses.php");
+                }
+            }
+        }
+    } else {
+        $info = "Invalid File Type. Upload Excel File.";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
@@ -406,7 +482,7 @@ require_once('../partials/head.php');
 
                                                 <!-- CK Editors -->
                                                 <script>
-                                                    CKEDITOR.replace('<?php echo $courses->cc_id;?>');
+                                                    CKEDITOR.replace('<?php echo $courses->cc_id; ?>');
                                                 </script>
                                                 <!-- End Editors -->
                                             </tr>
