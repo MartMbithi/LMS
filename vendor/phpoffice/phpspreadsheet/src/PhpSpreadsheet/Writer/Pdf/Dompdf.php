@@ -59,7 +59,7 @@ class Dompdf extends Pdf
 
         //  Create PDF
         $pdf = $this->createExternalWriterInstance();
-        $pdf->setPaper($paperSize, $orientation);
+        $pdf->setPaper(strtolower($paperSize), $orientation);
 
         $pdf->loadHtml($this->generateHTMLAll());
         $pdf->render();

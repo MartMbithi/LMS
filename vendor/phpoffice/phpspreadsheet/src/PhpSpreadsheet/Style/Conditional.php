@@ -3,7 +3,6 @@
 namespace PhpOffice\PhpSpreadsheet\Style;
 
 use PhpOffice\PhpSpreadsheet\IComparable;
-use PhpOffice\PhpSpreadsheet\Style\ConditionalFormatting\ConditionalDataBar;
 
 class Conditional implements IComparable
 {
@@ -14,7 +13,6 @@ class Conditional implements IComparable
     const CONDITION_EXPRESSION = 'expression';
     const CONDITION_CONTAINSBLANKS = 'containsBlanks';
     const CONDITION_NOTCONTAINSBLANKS = 'notContainsBlanks';
-    const CONDITION_DATABAR = 'dataBar';
 
     // Operator types
     const OPERATOR_NONE = '';
@@ -65,11 +63,6 @@ class Conditional implements IComparable
      * @var string[]
      */
     private $condition = [];
-
-    /**
-     * @var ConditionalDataBar
-     */
-    private $dataBar;
 
     /**
      * Style.
@@ -196,7 +189,7 @@ class Conditional implements IComparable
     /**
      * Set Conditions.
      *
-     * @param bool|float|int|string|string[] $pValue Condition
+     * @param string[] $pValue Condition
      *
      * @return $this
      */
@@ -244,28 +237,6 @@ class Conditional implements IComparable
     public function setStyle(?Style $pValue = null)
     {
         $this->style = $pValue;
-
-        return $this;
-    }
-
-    /**
-     * get DataBar.
-     *
-     * @return ConditionalDataBar | null
-     */
-    public function getDataBar()
-    {
-        return $this->dataBar;
-    }
-
-    /**
-     * set DataBar.
-     *
-     * @return $this
-     */
-    public function setDataBar(ConditionalDataBar $dataBar)
-    {
-        $this->dataBar = $dataBar;
 
         return $this;
     }

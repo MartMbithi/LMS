@@ -27,15 +27,15 @@ class TextData
     {
         $character = Functions::flattenSingleValue($character);
 
-        if (!is_numeric($character)) {
-            return Functions::VALUE();
-        }
-        $character = (int) $character;
-        if ($character < 1 || $character > 255) {
+        if ((!is_numeric($character)) || ($character < 0)) {
             return Functions::VALUE();
         }
 
-        return iconv('UCS-4LE', 'UTF-8', pack('V', $character));
+        if (function_exists('iconv')) {
+            return iconv('UCS-4LE', 'UTF-8', pack('V', $character));
+        }
+
+        return mb_convert_encoding('&#' . (int) $character . ';', 'UTF-8', 'HTML-ENTITIES');
     }
 
     /**
@@ -160,9 +160,9 @@ class TextData
 
         // Validate parameters
         if (!is_numeric($value) || !is_numeric($decimals)) {
-            return Functions::VALUE();
+            return Functions::NAN();
         }
-        $decimals = (int) $decimals;
+        $decimals = floor($decimals);
 
         $mask = '$#,##0';
         if ($decimals > 0) {
@@ -172,9 +172,8 @@ class TextData
             if ($value < 0) {
                 $round = 0 - $round;
             }
-            $value = MathTrig\Mround::funcMround($value, $round);
+            $value = MathTrig::MROUND($value, $round);
         }
-        $mask = "$mask;($mask)";
 
         return NumberFormat::toFormattedString($value, $mask);
     }
@@ -266,7 +265,7 @@ class TextData
 
         // Validate parameters
         if (!is_numeric($value) || !is_numeric($decimals)) {
-            return Functions::VALUE();
+            return Functions::NAN();
         }
         $decimals = (int) floor($decimals);
 
@@ -672,26 +671,5 @@ class TextData
         }
 
         return implode($delimiter, $aArgs);
-    }
-
-    /**
-     * REPT.
-     *
-     * Returns the result of builtin function round after validating args.
-     *
-     * @param string $str Should be numeric
-     * @param mixed $number Should be int
-     *
-     * @return string
-     */
-    public static function builtinREPT($str, $number)
-    {
-        $number = Functions::flattenSingleValue($number);
-
-        if (!is_numeric($number) || $number < 0) {
-            return Functions::VALUE();
-        }
-
-        return str_repeat($str, $number);
     }
 }

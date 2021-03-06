@@ -373,9 +373,7 @@ class Spreadsheet
      */
     private function getExtensionOnly($path)
     {
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
-
-        return is_array($extension) ? '' : $extension;
+        return pathinfo($path, PATHINFO_EXTENSION);
     }
 
     /**
@@ -667,7 +665,7 @@ class Spreadsheet
         // Adjust active sheet index if necessary
         if (
             ($this->activeSheetIndex >= $pIndex) &&
-            ($this->activeSheetIndex > 0 || $numSheets <= 1)
+            ($pIndex > count($this->workSheetCollection) - 1)
         ) {
             --$this->activeSheetIndex;
         }

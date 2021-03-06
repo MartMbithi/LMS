@@ -24,7 +24,7 @@ class Tcpdf extends Pdf
      *
      * @param string $orientation Page orientation
      * @param string $unit Unit measure
-     * @param array|string $paperSize Paper size
+     * @param string $paperSize Paper size
      *
      * @return \TCPDF implementation
      */

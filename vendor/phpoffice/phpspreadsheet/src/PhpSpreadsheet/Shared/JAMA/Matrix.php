@@ -1164,7 +1164,7 @@ class Matrix
      *
      * @return Matrix ... Solution if A is square, least squares solution otherwise
      */
-    public function solve(self $B)
+    public function solve($B)
     {
         if ($this->m == $this->n) {
             $LU = new LUDecomposition($this);

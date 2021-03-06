@@ -2,7 +2,6 @@
 
 namespace PhpOffice\PhpSpreadsheet\Writer\Xls;
 
-use GdImage;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Cell\DataValidation;
@@ -1715,7 +1714,9 @@ class Worksheet extends BIFFwriter
         $length = 0x0022; // Number of bytes to follow
 
         $iPaperSize = $this->phpSheet->getPageSetup()->getPaperSize(); // Paper size
-        $iScale = $this->phpSheet->getPageSetup()->getScale() ?: 100; // Print scaling factor
+
+        $iScale = $this->phpSheet->getPageSetup()->getScale() ?
+            $this->phpSheet->getPageSetup()->getScale() : 100; // Print scaling factor
 
         $iPageStart = 0x01; // Starting page number
         $iFitWidth = (int) $this->phpSheet->getPageSetup()->getFitToWidth(); // Fit to number of pages wide
@@ -2253,7 +2254,7 @@ class Worksheet extends BIFFwriter
      */
     public function insertBitmap($row, $col, $bitmap, $x = 0, $y = 0, $scale_x = 1, $scale_y = 1): void
     {
-        $bitmap_array = (is_resource($bitmap) || $bitmap instanceof GdImage ? $this->processBitmapGd($bitmap) : $this->processBitmap($bitmap));
+        $bitmap_array = (is_resource($bitmap) ? $this->processBitmapGd($bitmap) : $this->processBitmap($bitmap));
         [$width, $height, $size, $data] = $bitmap_array;
 
         // Scale the frame of the image.
@@ -2459,7 +2460,7 @@ class Worksheet extends BIFFwriter
     /**
      * Convert a GD-image into the internal format.
      *
-     * @param GdImage|resource $image The image to process
+     * @param resource $image The image to process
      *
      * @return array Array with data and properties of the bitmap
      */

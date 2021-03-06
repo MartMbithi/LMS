@@ -130,7 +130,7 @@ if (isset($_GET['delete'])) {
 
 /* Import Courses Via PhpOffice - Excel Sheet */
 
-use DevLanDataAPI\DataSource;
+use MartDevelopersIncAPI\DataSource;
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 require_once('../config/DataSource.php');
@@ -162,14 +162,10 @@ if (isset($_POST["upload"])) {
 
         for ($i = 1; $i <= $sheetCount; $i++) {
 
-            $id = "";
-            if (isset($spreadSheetAry[$i][0])) {
-                $id = mysqli_real_escape_string($conn, $spreadSheetAry[$i][0]);
-            }
 
             $cc_name = "";
-            if (isset($spreadSheetAry[$i][1])) {
-                $cc_name = mysqli_real_escape_string($conn, $spreadSheetAry[$i][1]);
+            if (isset($spreadSheetAry[$i][0])) {
+                $cc_name = mysqli_real_escape_string($conn, $spreadSheetAry[$i][0]);
             }
 
             $cc_code = "";
@@ -178,8 +174,8 @@ if (isset($_POST["upload"])) {
             }
 
             $cc_dept_head = "";
-            if (isset($spreadSheetAry[$i][3])) {
-                $cc_dept_head = mysqli_real_escape_string($conn, $spreadSheetAry[$i][3]);
+            if (isset($spreadSheetAry[$i][1])) {
+                $cc_dept_head = mysqli_real_escape_string($conn, $spreadSheetAry[$i][1]);
             }
 
             
@@ -193,9 +189,9 @@ if (isset($_POST["upload"])) {
                 );
                 $insertId = $db->insert($query, $paramType, $paramArray);
                 if (!empty($insertId)) {
-                    $err = "Error Occured While Importing Data";
+                    $success = "Courses Data Imported";
                 } else {
-                    $success = "Data Imported" && header("refresh:1; url=courses.php");
+                    $err = "Data Import Failed";
                 }
             }
         }
@@ -254,7 +250,7 @@ require_once('../partials/head.php');
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">
-                                                Allowed file types: XLS, XLSX. Please, <a href="public/templates/sample_births.xlsx">Download</a> The Sample File.
+                                                Allowed file types: XLS, XLSX. Please, <a href="../public/sys_data/uploads/xls/Courses_Template.xlsx">Download</a> The Sample File.
                                             </h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>

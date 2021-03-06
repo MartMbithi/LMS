@@ -711,7 +711,7 @@ class Html
                 } elseif (strpos(trim($attributeValue), '#') === 0) {
                     $this->$attributeName = ltrim($attributeValue, '#');
                 } else {
-                    $this->$attributeName = static::colourNameLookup($attributeValue);
+                    $this->$attributeName = $this->colourNameLookup($attributeValue);
                 }
             } else {
                 $this->$attributeName = $attributeValue;

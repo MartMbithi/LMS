@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2020 iCampus  -  DevLan
+ * Copyright (C) 2020 MartDevelopers Inc - 
  *
  * Distributed under MIT license with an exception that,
  * you don’t have to include the full MIT License in your code.
@@ -9,7 +9,7 @@
  * Though not mandatory, you are requested to attribute this URL in your code or website.
  */
 
-namespace DevLanDataAPI;
+namespace MartDevelopersIncAPI;
 
 /**
  * Generic datasource class for handling DB operations.
