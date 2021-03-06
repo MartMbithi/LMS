@@ -97,6 +97,7 @@ require_once('../partials/head.php');
                                             <ul class="nav nav-pills">
                                                 <li class="nav-item"><a class="nav-link active" href="#details" data-toggle="tab"><?php echo $unit->c_name; ?> Details</a></li>
                                                 <li class="nav-item"><a class="nav-link" href="#allocated_lec" data-toggle="tab">Allocated Lecturer Details</a></li>
+                                                <li class="nav-item"><a class="nav-link" href="#enrolled_students" data-toggle="tab">Enrollments </a></li>
                                             </ul>
                                         </div>
                                         <div class="card-body">
@@ -133,28 +134,30 @@ require_once('../partials/head.php');
                                                 </div>
 
                                                 <div class="tab-pane" id="enrolled_students">
-                                                    <table id="dash-1" class="table table-striped table-bordered display " style="width:100%">
+                                                    <table id="dash-2" class="table table-striped table-bordered display" style="width:100%">
                                                         <thead>
                                                             <tr>
-                                                                <th>Admission Number</th>
+                                                                <th>Instructor Name</th>
                                                                 <th>Student Name</th>
-                                                                <th>Date Enrolled</th>
+                                                                <th>Enroll date</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <?php
-                                                            $ret = "SELECT  * FROM  lms_units_assaigns WHERE c_id = '$view' ";
+                                                            $ret = "SELECT  * FROM  lms_enrollments WHERE c_id = '$view' ";
                                                             $stmt = $mysqli->prepare($ret);
                                                             $stmt->execute(); //ok
                                                             $res = $stmt->get_result();
-                                                            while ($lec = $res->fetch_object()) {
+                                                            while ($enrollments = $res->fetch_object()) {
                                                             ?>
                                                                 <tr>
-                                                                    <td><?php echo $lec->i_number; ?></td>
-                                                                    <td><?php echo $lec->i_name; ?></td>
+                                                                    <td><?php echo $enrollments->i_name; ?></td>
+                                                                    <td><?php echo $enrollments->s_name; ?></td>
+                                                                    <td><?php echo date("d M Y", strtotime($enrollments->en_date)); ?></td>
                                                                 </tr>
-                                                            <?php
-                                                            } ?>
+
+                                                            <?php } ?>
+
                                                         </tbody>
                                                     </table>
                                                 </div>
