@@ -126,7 +126,36 @@ require_once('../partials/head.php');
                                     <h5 class="card-title">Allocations Reports Recarp</h5>
                                 </div>
                                 <div class="card-body">
+                                    <table id="dash-2" class="table table-striped table-bordered display " style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Unit Code</th>
+                                                <th>Unit Name</th>
+                                                <th>Course</th>
+                                                <th>Instructor Number</th>
+                                                <th>Instructor Name</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
+                                            <?php
+                                            $ret = "SELECT  * FROM  lms_units_assaigns ";
+                                            $stmt = $mysqli->prepare($ret);
+                                            $stmt->execute(); //ok
+                                            $res = $stmt->get_result();
+                                            while ($row = $res->fetch_object()) {
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $row->c_code; ?></td>
+                                                    <td><?php echo $row->c_name; ?></td>
+                                                    <td><?php echo $row->c_category; ?></td>
+                                                    <td><?php echo $row->i_number; ?></td>
+                                                    <td><?php echo $row->i_name; ?></td>
+                                                </tr>
+                                            <?php } ?>
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +165,36 @@ require_once('../partials/head.php');
                                     <h5 class="card-title">Enrollement Reports Recarp</h5>
                                 </div>
                                 <div class="card-body">
+                                    <table id="dash-1" class="table table-striped table-bordered display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Unit Code</th>
+                                                <th>Unit Name</th>
+                                                <th>Instructor Name</th>
+                                                <th>Student Name</th>
+                                                <th>Enroll date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $ret = "SELECT  * FROM  lms_enrollments";
+                                            $stmt = $mysqli->prepare($ret);
+                                            $stmt->execute(); //ok
+                                            $res = $stmt->get_result();
+                                            while ($row = $res->fetch_object()) {
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo $row->s_unit_code; ?></td>
+                                                    <td><?php echo $row->s_unit_name; ?></td>
+                                                    <td><?php echo $row->i_name; ?></td>
+                                                    <td><?php echo $row->s_name; ?></td>
+                                                    <td><?php echo date("d M Y", strtotime($row->en_date)); ?></td>
+                                                </tr>
 
+                                            <?php } ?>
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
