@@ -18,6 +18,13 @@ if (isset($_POST['update_question_bank'])) {
         $err = "Question Description Cannot Be Empty";
     }
 
+    if (isset($_POST['q_code']) && !empty($_POST['q_code'])) {
+        $q_code = $_POST['q_code'];
+    } else {
+        $error = 1;
+        $err = "Question Code Cannot Be Empty";
+    }
+
     if (isset($_POST['q_id']) && !empty($_POST['q_id'])) {
         $q_id = mysqli_real_escape_string($mysqli, trim($_POST['q_id']));
     } else {
@@ -119,7 +126,7 @@ require_once('../partials/head.php');
                                                 <td><?php echo $questions->c_code; ?></td>
                                                 <td><?php echo $questions->c_name; ?></td>
                                                 <td>
-                                                    <a class="badge badge-warning" data-toggle="modal" href="#add-<?php echo $questions->q_id; ?>">
+                                                    <a class="badge badge-warning" href="view_bank.php?view=<?php echo $questions->q_id; ?>">
                                                         <i class="fas fa-external-link-alt"></i>
                                                         View Bank
                                                     </a>
@@ -142,9 +149,11 @@ require_once('../partials/head.php');
                                                                     <form method="post" enctype="multipart/form-data">
 
                                                                         <div class="row">
-                                                                            <div class="form-group col-md-6">
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="exampleInputEmail1">Questions Bank Code</label>
                                                                                 <!-- Hidden Values -->
                                                                                 <input type="hidden" name="q_id" value="<?php echo $questions->q_id; ?>" readonly required class="form-control">
+                                                                                <input type="text" name="q_code" value="<?php echo $questions->q_code; ?>" required class="form-control">
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -155,7 +164,7 @@ require_once('../partials/head.php');
                                                                         </div>
                                                                         <hr>
                                                                         <div class="text-right">
-                                                                            <button type="submit" name="edit_question_bank" class="btn btn-outline-warning">Update Questions.</button>
+                                                                            <button type="submit" name="update_question_bank" class="btn btn-outline-warning">Update Questions.</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
