@@ -34,13 +34,28 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="exams_engine.php" class="nav-link">
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-laptop-code"></i>
                         <p>
                             Exams Engine
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="questions_bank.php" class="nav-link">
+                                <i class="fas fa-chevron-right nav-icon"></i>
+                                <p>Questions Bank</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="answers_bank.php" class="nav-link">
+                                <i class="fas fa-chevron-right nav-icon"></i>
+                                <p>Answers Bank</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="study_materials.php" class="nav-link">
