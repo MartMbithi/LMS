@@ -117,7 +117,7 @@ require_once('../partials/head.php');
                 <div class="container-fluid">
                     <div class="container">
                         <div class="text-right text-dark">
-                            <a class="btn btn-warning"  href="manage_questions_bank.php">Manage Questions Bank</a>
+                            <a class="btn btn-warning" href="questions_bank.php">Add Questions Bank</a>
                         </div>
                     </div>
                     <hr>
@@ -127,39 +127,39 @@ require_once('../partials/head.php');
                                 <table id="dash-1" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                     <thead>
                                         <tr>
+                                            <th>Question Bank Code</th>
                                             <th>Unit Code</th>
                                             <th>Unit Name</th>
-                                            <th>Course</th>
-                                            <th>Instructor Number</th>
-                                            <th>Instructor Name</th>
-                                            <th>Manage Unit</th>
+                                            <th>Manage Question Bank</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $ret = "SELECT  *  FROM  lms_units_assaigns  ";
+                                        $ret = "SELECT  *  FROM  lms_questions  ";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
-                                        while ($units = $res->fetch_object()) {
+                                        while ($questions = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $units->c_code; ?></td>
-                                                <td><?php echo $units->c_name; ?></td>
-                                                <td><?php echo $units->c_category; ?></td>
-                                                <td><?php echo $units->i_number; ?></td>
-                                                <td><?php echo $units->i_name; ?></td>
+                                                <td><?php echo $questions->q_code; ?></td>
+                                                <td><?php echo $questions->c_code; ?></td>
+                                                <td><?php echo $questions->c_name; ?></td>
                                                 <td>
-                                                    <a class="badge badge-warning" data-toggle="modal" href="#add-<?php echo $units->ua_id; ?>">
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#add-<?php echo $questions->q_id; ?>">
                                                         <i class="fas fa-external-link-alt"></i>
-                                                        Create Question Bank
+                                                        View Bank
                                                     </a>
-                                                    <!-- Add Question Bank Modal -->
-                                                    <div class="modal fade" id="add-<?php echo $units->ua_id; ?>">
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#edit-<?php echo $questions->q_id; ?>">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                        Update Bank
+                                                    </a>
+                                                     <!-- Update -->
+                                                     <div class="modal fade" id="edit-<?php echo $questions->q_id; ?>">
                                                         <div class="modal-dialog  modal-lg">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title">Create Questions Bank For <?php echo $units->c_name; ?></h4>
+                                                                    <h4 class="modal-title">Edit Question Bank <?php echo $questions->q_id; ?></h4>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -170,32 +170,19 @@ require_once('../partials/head.php');
 
                                                                         <div class="row">
                                                                             <div class="form-group col-md-6">
-                                                                                <label for="exampleInputEmail1">Unit Name</label>
-                                                                                <input type="text" name="c_name" value="<?php echo $units->c_name; ?>" readonly required class="form-control">
                                                                                 <!-- Hidden Values -->
-                                                                                <input type="hidden" name="c_id" value="<?php echo $units->c_id; ?>" readonly required class="form-control">
-                                                                                <input type="hidden" name="cc_id" value="<?php echo $units->cc_id; ?>" readonly required class="form-control">
-                                                                                <input type="hidden" name="i_id" value="<?php echo $units->i_id; ?>" readonly required class="form-control">
-                                                                            </div>
-                                                                            <div class="form-group col-md-6">
-                                                                                <label for="exampleInputEmail1">Unit Code</label>
-                                                                                <input type="text" name="c_code" readonly value="<?php echo $units->c_code; ?>" required class="form-control">
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-6" style="display:none">
-                                                                                <label for="exampleInputEmail1">Questions Code</label>
-                                                                                <input type="text" name="q_code" readonly value="<?php echo $a; ?>-<?php echo $b; ?>" required class="form-control">
+                                                                                <input type="hidden" name="q_id" value="<?php echo $questions->q_id; ?>" readonly required class="form-control">
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="form-group col-md-12">
                                                                                 <label for="exampleInputEmail1">Questions</label>
-                                                                                <textarea type="text" name="q_details" class="form-control" id="<?php echo $units->ua_id; ?>"></textarea>
+                                                                                <textarea type="text" name="q_details" class="form-control" id="editor-<?php echo $questions->q_id; ?>"><?php echo $questions->q_details;?></textarea>
                                                                             </div>
                                                                         </div>
                                                                         <hr>
                                                                         <div class="text-right">
-                                                                            <button type="submit" name="add_question_bank" class="btn btn-outline-warning">Add Questions.</button>
+                                                                            <button type="submit" name="edit_question_bank" class="btn btn-outline-warning">Update Questions.</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -206,12 +193,17 @@ require_once('../partials/head.php');
                                                         </div>
                                                     </div>
                                                     <!-- End Modal -->
+
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $questions->q_id; ?>">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                        Delete Bank
+                                                    </a>
                                                 </td>
                                             </tr>
                                             <!-- CK Editor -->
 
                                             <script>
-                                                CKEDITOR.replace('<?php echo $units->ua_id; ?>');
+                                                CKEDITOR.replace('editor-<?php echo $questions->q_id; ?>');
                                             </script>
                                         <?php } ?>
 
