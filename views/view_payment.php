@@ -118,9 +118,7 @@ error_reporting(E_ALL);
                                                                                     /* Date Paid */
                                                                                     $date_material_paid = date("D M Y g:ia", strtotime($payment->p_date_paid));
                                                                                     /* Merge All Payment Details */
-                                                                                    $QRcode_Details = "Payment Method : $payment->p_method" .
-                                                                                        " " . "Payment Confirmation Code: $payment->p_code" . " "
-                                                                                        . "Amount Paid : Ksh $payment->p_amt" . " " .  "Date Paid : $date_material_paid";
+                                                                                    $QRcode_Details = "Payment Method : $payment->p_method, " . " " . "Payment Confirmation Code : $payment->p_code, " . " " . "Amount Paid : Ksh $payment->p_amt, " . " " .  "Paid On $date_material_paid.";
                                                                                     $bobj = $barcode->getBarcodeObj('QRCODE,H', $QRcode_Details, -16, -16, 'black', array(
                                                                                         -2,
                                                                                         -2,
