@@ -4,43 +4,12 @@ include('../config/config.php');
 include('../config/checklogin.php');
 admin();
 require_once('../config/codeGen.php');
-/* Add Questions */
-if (isset($_POST['add_question_bank'])) {
+
+/* Update Questions */
+if (isset($_POST['update_question_bank'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
-    if (isset($_POST['cc_id']) && !empty($_POST['cc_id'])) {
-        $cc_id = mysqli_real_escape_string($mysqli, trim($_POST['cc_id']));
-    } else {
-        $error = 1;
-        $err = "Course ID Cannot Be Empty";
-    }
-    if (isset($_POST['c_code']) && !empty($_POST['c_code'])) {
-        $c_code = mysqli_real_escape_string($mysqli, trim($_POST['c_code']));
-    } else {
-        $error = 1;
-        $err = "Code Cannot Be Empty";
-    }
-    if (isset($_POST['c_name']) && !empty($_POST['c_name'])) {
-        $c_name = mysqli_real_escape_string($mysqli, trim($_POST['c_name']));
-    } else {
-        $error = 1;
-        $err = "Name Cannot Be Empty";
-    }
-
-    if (isset($_POST['c_id']) && !empty($_POST['c_id'])) {
-        $c_id = mysqli_real_escape_string($mysqli, trim($_POST['c_id']));
-    } else {
-        $error = 1;
-        $err = "Course ID Cannot Be Empty";
-    }
-
-    if (isset($_POST['i_id']) && !empty($_POST['i_id'])) {
-        $i_id = mysqli_real_escape_string($mysqli, trim($_POST['i_id']));
-    } else {
-        $error = 1;
-        $err = "Instructor ID Cannot Be Empty";
-    }
 
     if (isset($_POST['q_details']) && !empty($_POST['q_details'])) {
         $q_details = $_POST['q_details'];
@@ -49,33 +18,37 @@ if (isset($_POST['add_question_bank'])) {
         $err = "Question Description Cannot Be Empty";
     }
 
-    if (isset($_POST['q_code']) && !empty($_POST['q_code'])) {
-        $q_code = mysqli_real_escape_string($mysqli, trim($_POST['q_code']));
+    if (isset($_POST['q_id']) && !empty($_POST['q_id'])) {
+        $q_id = mysqli_real_escape_string($mysqli, trim($_POST['q_id']));
     } else {
         $error = 1;
-        $err = "Question Code Cannot Be Empty";
+        $err = "Question ID Cannot Be Empty";
     }
 
     if (!$error) {
-        //prevent Double entries
-        $sql = "SELECT * FROM  lms_questions WHERE  q_code='$q_code'  ";
-        $res = mysqli_query($mysqli, $sql);
-        if (mysqli_num_rows($res) > 0) {
-            $row = mysqli_fetch_assoc($res);
-            if ($q_code == $row['q_code']) {
-                $err =  "A Question Bank With $q_code Exists";
-            }
+        $query = "UPDATE lms_questions  SET q_details =?, q_code =? WHERE q_id = '$q_id' ";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('ss', $q_details, $q_code);
+        $stmt->execute();
+        if ($stmt) {
+            $success = "Added" && header("refresh:1; url=manage_questions_bank.php");
         } else {
-            $query = "INSERT INTO lms_questions (c_id, cc_id, c_code, c_name, i_id, q_details, q_code) VALUES (?,?,?,?,?,?,?)";
-            $stmt = $mysqli->prepare($query);
-            $rc = $stmt->bind_param('sssssss', $c_id, $cc_id, $c_code, $c_name, $i_id, $q_details, $q_code);
-            $stmt->execute();
-            if ($stmt) {
-                $success = "Added" && header("refresh:1; url=questions_bank.php");
-            } else {
-                $info = "Please Try Again Or Try Later";
-            }
+            $info = "Please Try Again Or Try Later";
         }
+    }
+}
+
+/* Delete Questions Bank */
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $adn = "DELETE FROM lms_questions WHERE q_id= '$id' ";
+    $stmt = $mysqli->prepare($adn);
+    $stmt->execute();
+    $stmt->close();
+    if ($stmt) {
+        $success = "Deleted" && header("refresh:1; url=manage_questions_bank.php");
+    } else {
+        $info = "Please Try Again Or Try Later";
     }
 }
 require_once('../partials/head.php');
@@ -154,8 +127,8 @@ require_once('../partials/head.php');
                                                         <i class="fas fa-pencil-alt"></i>
                                                         Update Bank
                                                     </a>
-                                                     <!-- Update -->
-                                                     <div class="modal fade" id="edit-<?php echo $questions->q_id; ?>">
+                                                    <!-- Update -->
+                                                    <div class="modal fade" id="edit-<?php echo $questions->q_id; ?>">
                                                         <div class="modal-dialog  modal-lg">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -177,7 +150,7 @@ require_once('../partials/head.php');
                                                                         <div class="row">
                                                                             <div class="form-group col-md-12">
                                                                                 <label for="exampleInputEmail1">Questions</label>
-                                                                                <textarea type="text" name="q_details" class="form-control" id="editor-<?php echo $questions->q_id; ?>"><?php echo $questions->q_details;?></textarea>
+                                                                                <textarea type="text" name="q_details" class="form-control" id="editor-<?php echo $questions->q_id; ?>"><?php echo $questions->q_details; ?></textarea>
                                                                             </div>
                                                                         </div>
                                                                         <hr>
@@ -198,6 +171,26 @@ require_once('../partials/head.php');
                                                         <i class="fas fa-trash-alt"></i>
                                                         Delete Bank
                                                     </a>
+                                                    <!-- Delete Modal -->
+                                                    <div class="modal fade" id="delete-<?php echo $questions->q_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">CONFIRM</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body text-center text-danger">
+                                                                    <h4>Delete <?php echo $questions->q_code; ?> Bank ?</h4>
+                                                                    <br>
+                                                                    <button type="button" class="text-center btn btn-outline-warning" data-dismiss="modal">No</button>
+                                                                    <a href="manage_questions_bank.php?delete=<?php echo $questions->q_id; ?>" class="text-center btn btn-outline-warning"> Delete </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Modal -->
                                                 </td>
                                             </tr>
                                             <!-- CK Editor -->
