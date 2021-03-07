@@ -99,9 +99,11 @@ require_once('../partials/head.php');
                                                                                 <li class="list-group-item">
                                                                                     <b>Course Name </b> <a class="float-right"> <?php echo $course->cc_name; ?></a>
                                                                                 </li>
-                                                                                <li class="list-group-item">
+                                                                                <!-- <li class="list-group-item">
                                                                                     <b>Course H.O.D</b> <a class="float-right"> <?php echo $course->cc_dept_head; ?></a>
                                                                                 </li>
+                                                                                Uncomment If You Think Its Relevant
+                                                                                  -->
                                                                                 <li class="list-group-item">
                                                                                     <b>Unit Code </b> <a class="float-right"> <?php echo $question->c_code; ?></a>
                                                                                 </li>
