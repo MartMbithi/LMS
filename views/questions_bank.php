@@ -27,36 +27,51 @@ if (isset($_POST['add_unit'])) {
         $error = 1;
         $err = "Name Cannot Be Empty";
     }
-    if (isset($_POST['c_category']) && !empty($_POST['c_category'])) {
-        $c_category = mysqli_real_escape_string($mysqli, trim($_POST['c_category']));
+
+    if (isset($_POST['c_id']) && !empty($_POST['c_id'])) {
+        $c_id = mysqli_real_escape_string($mysqli, trim($_POST['c_id']));
     } else {
         $error = 1;
-        $err = "Course Name Cannot Be Empty";
+        $err = "Course ID Cannot Be Empty";
     }
 
-    if (isset($_POST['c_desc']) && !empty($_POST['c_desc'])) {
-        $c_desc = mysqli_real_escape_string($mysqli, trim($_POST['c_desc']));
+    if (isset($_POST['i_id']) && !empty($_POST['i_id'])) {
+        $i_id = mysqli_real_escape_string($mysqli, trim($_POST['i_id']));
     } else {
         $error = 1;
-        $err = "Description Cannot Be Empty";
+        $err = "Instructor ID Cannot Be Empty";
+    }
+
+    if (isset($_POST['q_details']) && !empty($_POST['q_details'])) {
+        $q_details = $_POST['q_details'];
+    } else {
+        $error = 1;
+        $err = "Question Description Cannot Be Empty";
+    }
+
+    if (isset($_POST['q_code']) && !empty($_POST['q_code'])) {
+        $q_code = mysqli_real_escape_string($mysqli, trim($_POST['q_code']));
+    } else {
+        $error = 1;
+        $err = "Question Code Cannot Be Empty";
     }
 
     if (!$error) {
         //prevent Double entries
-        $sql = "SELECT * FROM  lms_course WHERE  c_code='$c_code'  ";
+        $sql = "SELECT * FROM  lms_questions WHERE  q_code='$q_code'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if ($c_code == $row['c_code']) {
-                $err =  "A Unit With $c_code Exists";
+            if ($q_code == $row['q_code']) {
+                $err =  "A Question Bank With $q_code Exists";
             }
         } else {
-            $query = "INSERT INTO lms_course (cc_id, c_name, c_code, c_category, c_desc) VALUES (?,?,?,?,?)";
+            $query = "INSERT INTO lms_questions (c_id, cc_id, c_code, c_name, i_id, q_details, q_code) VALUES (?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
-            $rc = $stmt->bind_param('sssss', $cc_id, $c_name, $c_code, $c_category, $c_desc);
+            $rc = $stmt->bind_param('sssssss', $c_id, $cc_id, $c_code, $c_name, $i_id, $q_details, $q_code);
             $stmt->execute();
             if ($stmt) {
-                $success = "Added" && header("refresh:1; url=units.php");
+                $success = "Added" && header("refresh:1; url=questions_bank.php");
             } else {
                 $info = "Please Try Again Or Try Later";
             }
