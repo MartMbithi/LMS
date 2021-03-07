@@ -9,6 +9,18 @@ if (isset($_POST['add_answers_bank'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
+    if (isset($_POST['q_id']) && !empty($_POST['q_id'])) {
+        $q_id = mysqli_real_escape_string($mysqli, trim($_POST['q_id']));
+    } else {
+        $error = 1;
+        $err = "Question ID Cannot Be Empty";
+    }
+    if (isset($_POST['an_code']) && !empty($_POST['an_code'])) {
+        $an_code = mysqli_real_escape_string($mysqli, trim($_POST['an_code']));
+    } else {
+        $error = 1;
+        $err = "Answer Code Cannot Be Empty";
+    }
     if (isset($_POST['cc_id']) && !empty($_POST['cc_id'])) {
         $cc_id = mysqli_real_escape_string($mysqli, trim($_POST['cc_id']));
     } else {
@@ -49,6 +61,13 @@ if (isset($_POST['add_answers_bank'])) {
         $err = "Question Description Cannot Be Empty";
     }
 
+    if (isset($_POST['ans_details']) && !empty($_POST['ans_details'])) {
+        $ans_details = $_POST['ans_details'];
+    } else {
+        $error = 1;
+        $err = "Question Description Cannot Be Empty";
+    }
+
     if (isset($_POST['q_code']) && !empty($_POST['q_code'])) {
         $q_code = mysqli_real_escape_string($mysqli, trim($_POST['q_code']));
     } else {
@@ -58,20 +77,20 @@ if (isset($_POST['add_answers_bank'])) {
 
     if (!$error) {
         //prevent Double entries
-        $sql = "SELECT * FROM  lms_answers WHERE  an_code='$q_code'  ";
+        $sql = "SELECT * FROM  lms_answers WHERE  an_code='$an_code'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if ($q_code == $row['q_code']) {
-                $err =  "An Answer Bank With $q_code Exists";
+            if ($an_code == $row['an_code']) {
+                $err =  "An Answer Bank With $an_code Exists";
             }
         } else {
-            $query = "INSERT INTO lms_questions (c_id, cc_id, c_code, c_name, i_id, q_details, q_code) VALUES (?,?,?,?,?,?,?)";
+            $query = "INSERT INTO lms_answers (q_code, cc_id, c_id, c_code, i_id, q_id, an_code, c_name, q_details, ans_details) VALUES(?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
-            $rc = $stmt->bind_param('sssssss', $c_id, $cc_id, $c_code, $c_name, $i_id, $q_details, $q_code);
+            $rc = $stmt->bind_param('ssssssssss', $q_code, $cc_id, $c_id, $c_code, $i_id, $q_id, $an_code, $c_name, $q_details, $ans_details);
             $stmt->execute();
             if ($stmt) {
-                $success = "Added" && header("refresh:1; url=questions_bank.php");
+                $success = "Added" && header("refresh:1; url=answers_bank.php");
             } else {
                 $info = "Please Try Again Or Try Later";
             }
@@ -203,7 +222,7 @@ require_once('../partials/head.php');
                                                                         </div>
                                                                         <hr>
                                                                         <div class="text-right">
-                                                                            <button type="submit" name="ans_quiz" class="btn btn-outline-warning">Answer Questions</button>
+                                                                            <button type="submit" name="add_answers_bank" class="btn btn-outline-warning">Answer Questions</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
