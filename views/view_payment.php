@@ -135,7 +135,7 @@ error_reporting(E_ALL);
                                                                                         <b>Scan To Verify Payment Details </b>
                                                                                         <br>
                                                                                         <a class="text-center">
-                                                                                            <img src="<?php echo $targetPath . $timestamp; ?>.png" width="150px" height="150px">
+                                                                                            <img src="<?php echo $targetPath . $timestamp; ?>.png" width="218px" height="218px">
                                                                                         </a>
                                                                                     </div>
                                                                                 </li>
