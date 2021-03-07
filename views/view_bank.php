@@ -37,7 +37,7 @@ require_once('../partials/head.php');
                         <div class="container-fluid">
                             <div class="row mb-2">
                                 <div class="col-sm-6">
-                                    <h1 class="m-0 text-dark">Intergrated LMS - <?php echo $course->cc_name; ?> Questions Bank</h1>
+                                    <h1 class="m-0 text-dark">Intergrated LMS - Questions Bank</h1>
                                 </div><!-- /.col -->
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-sm-right">
@@ -56,61 +56,73 @@ require_once('../partials/head.php');
                     <section class="content">
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-4">
-
-                                    <!-- Course Details -->
-                                    <div class="card card-warning card-outline">
-                                        <div class="card-body box-profile">
-                                            <div class="text-center">
-                                                <?php
-                                                if ($course->cc_dpic == '') {
-                                                    $logo = 'Default.png';
-                                                } else {
-                                                    $logo = $course->cc_dpic;
-                                                }
-                                                ?>
-                                                <img class="img-fluid img-rectangle" src="../public/sys_data/uploads/courses/<?php echo $logo; ?>" alt="Course Logo">
-
-                                            </div>
-
-                                            <h3 class="profile-username text-center"><?php echo $unit->c_code; ?></h3>
-
-                                            <p class="text-muted text-center"><?php echo $unit->c_name; ?></p>
-
-                                            <ul class="list-group list-group-unbordered mb-3">
-                                                <li class="list-group-item">
-                                                    <b>H.O.D</b> <a class="float-right"> <?php echo $course->cc_dept_head; ?></a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Course Code</b> <a class="float-right"> <?php echo $course->cc_code; ?></a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Course Name </b> <a class="float-right"> <?php echo $course->cc_name; ?></a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Unit Code </b> <a class="float-right"> <?php echo $question->c_code; ?></a>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <b>Unit Name </b> <a class="float-right"> <?php echo $question->c_name; ?></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-md-12">
                                     <div class="card card-warning card-outline">
                                         <div class="card-header p-2">
-                                            <h3 class="text-left">
-                                                Questions Bank
+                                            <h3 class="text-center">
+                                                <?php echo $course->cc_name; ?> Questions Bank
                                             </h3>
                                         </div>
                                         <div class="card-body">
                                             <div class="tab-content">
-                                                <div class="active tab-pane" >
+                                                <div class="active tab-pane">
                                                     <div class="" id="Print">
-                                                        <?php echo $question->q_details; ?>
+                                                        <div class="col-md-12">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <!-- Course Details -->
+                                                                    <div class="card card-warning card-outline">
+                                                                        <div class="card-body box-profile">
+                                                                            <div class="text-center">
+                                                                                <?php
+                                                                                if ($course->cc_dpic == '') {
+                                                                                    $logo = 'Default.png';
+                                                                                } else {
+                                                                                    $logo = $course->cc_dpic;
+                                                                                }
+                                                                                ?>
+                                                                                <img class="img-fluid  img-rectangle" src="../public/sys_data/uploads/courses/<?php echo $logo; ?>" alt="Course Logo">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <!-- Course Details -->
+                                                                    <div class="card card-warning card-outline">
+                                                                        <div class="card-body box-profile">
+                                                                            <h3 class="profile-username text-center"><?php echo $unit->c_code; ?></h3>
+                                                                            <p class="text-muted text-center"><?php echo $unit->c_name; ?></p>
+                                                                            <ul class="list-group list-group-unbordered mb-3">
+                                                                                <li class="list-group-item">
+                                                                                    <b>Course Code</b> <a class="float-right"> <?php echo $course->cc_code; ?></a>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <b>Course Name </b> <a class="float-right"> <?php echo $course->cc_name; ?></a>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <b>Course H.O.D</b> <a class="float-right"> <?php echo $course->cc_dept_head; ?></a>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <b>Unit Code </b> <a class="float-right"> <?php echo $question->c_code; ?></a>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <b>Unit Name </b> <a class="float-right"> <?php echo $question->c_name; ?></a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <?php echo $question->q_details; ?>
+                                                        </div>
                                                     </div>
-                                                    <button id="print" onclick="printContent('PrintExamCard');" type="button" class="btn btn-primary">Print</button>
+                                                    <div class="text-right">
+                                                        <button id="print" onclick="printContent('Print');" type="button" class="btn btn-outline-warning">
+                                                            <i class="fas fa-print"></i>
+                                                            Print
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
