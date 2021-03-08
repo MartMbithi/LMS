@@ -30,7 +30,7 @@ class InstalledVersions
     'aliases' => 
     array (
     ),
-    'reference' => '8bc7544153644c3823fbb1b2d6660c9ca08d9d28',
+    'reference' => '560488af3901d915137750bc89b0fe32a3f3e551',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,16 +42,16 @@ class InstalledVersions
       'aliases' => 
       array (
       ),
-      'reference' => '8bc7544153644c3823fbb1b2d6660c9ca08d9d28',
+      'reference' => '560488af3901d915137750bc89b0fe32a3f3e551',
     ),
-    'ezyang/htmlpurifier' => 
+    'coderatio/simple-backup' => 
     array (
-      'pretty_version' => 'v4.13.0',
-      'version' => '4.13.0.0',
+      'pretty_version' => 'v1.0.4',
+      'version' => '1.0.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '08e27c97e4c6ed02f37c5b2b20488046c8d90d75',
+      'reference' => '73975f7be97facb9e694bb8dbd49aa640a53b1e0',
     ),
     'maennchen/zipstream-php' => 
     array (
@@ -73,30 +73,30 @@ class InstalledVersions
     ),
     'markbaker/matrix' => 
     array (
-      'pretty_version' => '2.1.2',
-      'version' => '2.1.2.0',
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '361c0f545c3172ee26c3d596a0aa03f0cef65e6a',
+      'reference' => '9567d9c4c519fbe40de01dbd1e4469dbbb66f46a',
     ),
     'myclabs/php-enum' => 
     array (
-      'pretty_version' => '1.8.0',
-      'version' => '1.8.0.0',
+      'pretty_version' => '1.7.7',
+      'version' => '1.7.7.0',
       'aliases' => 
       array (
       ),
-      'reference' => '46cf3d8498b095bd33727b13fd5707263af99421',
+      'reference' => 'd178027d1e679832db9f38248fcc7200647dc2b7',
     ),
     'phpoffice/phpspreadsheet' => 
     array (
-      'pretty_version' => '1.17.1',
-      'version' => '1.17.1.0',
+      'pretty_version' => '1.15.0',
+      'version' => '1.15.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'c55269cb06911575a126dc225a05c0e4626e5fb4',
+      'reference' => 'a8e8068b31b8119e1daa5b1eb5715a3a8ea8305f',
     ),
     'psr/http-client' => 
     array (
@@ -136,12 +136,30 @@ class InstalledVersions
     ),
     'symfony/polyfill-mbstring' => 
     array (
-      'pretty_version' => 'v1.22.1',
-      'version' => '1.22.1.0',
+      'pretty_version' => 'v1.20.0',
+      'version' => '1.20.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '5232de97ee3b75b0360528dae24e73db49566ab1',
+      'reference' => '39d483bdf39be819deabf04ec872eb0b2410b531',
+    ),
+    'tecnickcom/tc-lib-barcode' => 
+    array (
+      'pretty_version' => '1.15.4',
+      'version' => '1.15.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '34b0224f71ebfe83adcef9f14f3d81965fb55493',
+    ),
+    'tecnickcom/tc-lib-color' => 
+    array (
+      'pretty_version' => '1.14.6',
+      'version' => '1.14.6.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '83cdb57fd900901c6aa2af8cfd67202518fb69b2',
     ),
   ),
 );

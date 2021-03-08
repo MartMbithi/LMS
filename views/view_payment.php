@@ -103,7 +103,32 @@ require_once('../partials/head.php');
                                                                                     <b>Unit Name </b> <a class="float-right"> <?php echo $payment->c_name; ?></a>
                                                                                 </li>
                                                                                 <!-- Load Qr Code Here To Confirm Payment -->
-                                                                                
+                                                                                <li class="list-group-item">
+                                                                                    <?php
+                                                                                    $barcode = new \Com\Tecnick\Barcode\Barcode();
+                                                                                    $targetPath = "../public/sys_data/qr_code/";
+
+                                                                                    if (!is_dir($targetPath)) {
+                                                                                        mkdir($targetPath, 0777, true);
+                                                                                    }
+                                                                                    $bobj = $barcode->getBarcodeObj('QRCODE,H', $payment->p_amt, $payment->p_code, $payment->p_date_paid, -16, -16, 'black', array(
+                                                                                        -2,
+                                                                                        -2,
+                                                                                        -2,
+                                                                                        -2
+                                                                                    ))->setBackgroundColor('#f0f0f0');
+
+                                                                                    $imageData = $bobj->getPngData();
+                                                                                    $timestamp = time();
+
+                                                                                    file_put_contents($targetPath . $timestamp . '.png', $imageData);
+                                                                                    ?>
+                                                                                    <img src="<?php echo $targetPath . $timestamp; ?>.png" width="150px" height="150px">
+                                                                                    <b>Scan To Verify</b>
+                                                                                    <a class="text-center">
+                                                                                        <img src="<?php echo $targetPath . $timestamp; ?>.png" width="150px" height="150px">
+                                                                                    </a>
+                                                                                </li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
