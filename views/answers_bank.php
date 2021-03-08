@@ -217,7 +217,7 @@ require_once('../partials/head.php');
                                                                         <div class="row">
                                                                             <div class="form-group col-md-12">
                                                                                 <label for="exampleInputEmail1">Answers</label>
-                                                                                <textarea type="text" name="ans_details" class="form-control" id="ans-editor-<?php echo $questions->id; ?>"></textarea>
+                                                                                <textarea type="text" name="ans_details" class="form-control" id="ans-editor-<?php echo $questions->q_id; ?>"></textarea>
                                                                             </div>
                                                                         </div>
                                                                         <hr>
@@ -236,7 +236,7 @@ require_once('../partials/head.php');
                                                 </td>
                                                 <!-- CK Editor -->
                                                 <script>
-                                                    CKEDITOR.replace('ans-editor-<?php echo $questions->id; ?>');
+                                                    CKEDITOR.replace('ans-editor-<?php echo $questions->q_id; ?>');
                                                 </script>
                                             </tr>
                                         <?php

@@ -6,7 +6,7 @@ admin();
 require_once('../config/codeGen.php');
 
 /* Update Answers */
-if (isset($_POST['update_question_bank'])) {
+if (isset($_POST['update_ans_bank'])) {
     $error = 0;
 
     if (isset($_POST['ans_details']) && !empty($_POST['ans_details'])) {
@@ -75,14 +75,14 @@ require_once('../partials/head.php');
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Intergrated LMS - Test Questions Bank</h1>
+                            <h1 class="m-0 text-dark">Intergrated LMS - Test Answers Bank</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
                                 <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                                 <li class="breadcrumb-item"><a href="#">Exam Engine</a></li>
-                                <li class="breadcrumb-item active">Units</li>
+                                <li class="breadcrumb-item active">Answers Bank</li>
                             </ol>
                         </div>
                     </div>
@@ -95,7 +95,7 @@ require_once('../partials/head.php');
                 <div class="container-fluid">
                     <div class="container">
                         <div class="text-right text-dark">
-                            <a class="btn btn-warning" href="questions_bank.php">Add Questions Bank</a>
+                            <a class="btn btn-warning" href="questions_bank.php">Add Answers Bank</a>
                         </div>
                     </div>
                     <hr>
@@ -105,39 +105,39 @@ require_once('../partials/head.php');
                                 <table id="dash-1" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Question Bank Code</th>
+                                            <th>Answer Bank Code</th>
                                             <th>Unit Code</th>
                                             <th>Unit Name</th>
-                                            <th>Manage Question Bank</th>
+                                            <th>Manage Answers Bank</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $ret = "SELECT  *  FROM  lms_questions  ";
+                                        $ret = "SELECT  *  FROM  lms_answers  ";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
-                                        while ($questions = $res->fetch_object()) {
+                                        while ($answers = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $questions->q_code; ?></td>
-                                                <td><?php echo $questions->c_code; ?></td>
-                                                <td><?php echo $questions->c_name; ?></td>
+                                                <td><?php echo $answers->an_code; ?></td>
+                                                <td><?php echo $answers->c_code; ?></td>
+                                                <td><?php echo $answers->c_name; ?></td>
                                                 <td>
-                                                    <a class="badge badge-warning" href="view_bank.php?view=<?php echo $questions->q_id; ?>">
+                                                    <a class="badge badge-warning" href="view_answers_bank.php?view=<?php echo $answers->an_id; ?>">
                                                         <i class="fas fa-external-link-alt"></i>
                                                         View Bank
                                                     </a>
-                                                    <a class="badge badge-warning" data-toggle="modal" href="#edit-<?php echo $questions->q_id; ?>">
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#edit-<?php echo $answers->an_id; ?>">
                                                         <i class="fas fa-pencil-alt"></i>
                                                         Update Bank
                                                     </a>
                                                     <!-- Update -->
-                                                    <div class="modal fade" id="edit-<?php echo $questions->q_id; ?>">
+                                                    <div class="modal fade" id="edit-<?php echo $answers->an_id; ?>">
                                                         <div class="modal-dialog  modal-lg">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title">Edit Question Bank <?php echo $questions->q_id; ?></h4>
+                                                                    <h4 class="modal-title">Edit Answers Bank <?php echo $answers->an_id; ?></h4>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -146,23 +146,30 @@ require_once('../partials/head.php');
                                                                     <!-- Form -->
                                                                     <form method="post" enctype="multipart/form-data">
 
-                                                                        <div class="row">
+                                                                        <div class="row" style="display: none;">
                                                                             <div class="form-group col-md-12">
                                                                                 <label for="exampleInputEmail1">Questions Bank Code</label>
                                                                                 <!-- Hidden Values -->
-                                                                                <input type="hidden" name="q_id" value="<?php echo $questions->q_id; ?>" readonly required class="form-control">
-                                                                                <input type="text" name="q_code" value="<?php echo $questions->q_code; ?>" required class="form-control">
+                                                                                <input type="hidden" name="an_id" value="<?php echo $answers->an_id; ?>" readonly required class="form-control">
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="form-group col-md-12">
                                                                                 <label for="exampleInputEmail1">Questions</label>
-                                                                                <textarea type="text" name="q_details" class="form-control" id="editor-<?php echo $questions->q_id; ?>"><?php echo $questions->q_details; ?></textarea>
+                                                                                <p>
+                                                                                    <?php echo $answers->q_details; ?>
+                                                                                </p>
                                                                             </div>
                                                                         </div>
                                                                         <hr>
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="exampleInputEmail1">Answers</label>
+                                                                                <textarea type="text" name="ans_details" class="form-control" id="editor-<?php echo $answers->an_id; ?>"><?php echo $answers->ans_details; ?></textarea>
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="text-right">
-                                                                            <button type="submit" name="update_question_bank" class="btn btn-outline-warning">Update Questions.</button>
+                                                                            <button type="submit" name="update_ans_bank" class="btn btn-outline-warning">Update Answers</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -174,12 +181,12 @@ require_once('../partials/head.php');
                                                     </div>
                                                     <!-- End Modal -->
 
-                                                    <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $questions->q_id; ?>">
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $answers->an_id; ?>">
                                                         <i class="fas fa-trash-alt"></i>
                                                         Delete Bank
                                                     </a>
                                                     <!-- Delete Modal -->
-                                                    <div class="modal fade" id="delete-<?php echo $questions->q_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="delete-<?php echo $answers->an_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -189,10 +196,10 @@ require_once('../partials/head.php');
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body text-center text-danger">
-                                                                    <h4>Delete <?php echo $questions->q_code; ?> Bank ?</h4>
+                                                                    <h4>Delete <?php echo $answers->an_code; ?> Bank ?</h4>
                                                                     <br>
                                                                     <button type="button" class="text-center btn btn-outline-warning" data-dismiss="modal">No</button>
-                                                                    <a href="manage_questions_bank.php?delete=<?php echo $questions->q_id; ?>" class="text-center btn btn-outline-warning"> Delete </a>
+                                                                    <a href="manage_answers_bank.php?delete=<?php echo $answers->an_id; ?>" class="text-center btn btn-outline-warning"> Delete </a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -203,7 +210,7 @@ require_once('../partials/head.php');
                                             <!-- CK Editor -->
 
                                             <script>
-                                                CKEDITOR.replace('editor-<?php echo $questions->q_id; ?>');
+                                                CKEDITOR.replace('editor-<?php echo $answers->an_id; ?>');
                                             </script>
                                         <?php } ?>
 
