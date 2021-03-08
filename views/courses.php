@@ -4,7 +4,6 @@ include('../config/config.php');
 include('../config/checklogin.php');
 admin();
 require_once('../config/codeGen.php');
-
 /* Add Course */
 if (isset($_POST['add_course_cat'])) {
     //Error Handling and prevention of posting double entries

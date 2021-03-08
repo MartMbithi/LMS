@@ -4,6 +4,7 @@
     "license": "MIT",
     "require": {
         "phpoffice/phpspreadsheet": "^1.15",
-        "coderatio/simple-backup": "^1.0"
+        "coderatio/simple-backup": "^1.0",
+        "tecnickcom/tc-lib-barcode": "^1.15"
     }
 }

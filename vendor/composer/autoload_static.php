@@ -92,6 +92,8 @@ class ComposerStaticInita1d19bcf2032dd363495d62981dac563
         'C' => 
         array (
             'Complex\\' => 8,
+            'Com\\Tecnick\\Color\\' => 18,
+            'Com\\Tecnick\\Barcode\\' => 20,
             'Coderatio\\SimpleBackup\\' => 23,
         ),
     );
@@ -134,6 +136,14 @@ class ComposerStaticInita1d19bcf2032dd363495d62981dac563
         array (
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
         ),
+        'Com\\Tecnick\\Color\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-color/src',
+        ),
+        'Com\\Tecnick\\Barcode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tecnickcom/tc-lib-barcode/src',
+        ),
         'Coderatio\\SimpleBackup\\' => 
         array (
             0 => __DIR__ . '/..' . '/coderatio/simple-backup/src',
@@ -158,6 +168,7 @@ class ComposerStaticInita1d19bcf2032dd363495d62981dac563
         'Coderatio\\SimpleBackup\\Foundation\\TypeAdapterPgsql' => __DIR__ . '/..' . '/coderatio/simple-backup/src/Foundation/Mysqldump.php',
         'Coderatio\\SimpleBackup\\Foundation\\TypeAdapterSqlite' => __DIR__ . '/..' . '/coderatio/simple-backup/src/Foundation/Mysqldump.php',
         'Coderatio\\SimpleBackup\\SimpleBackup' => __DIR__ . '/..' . '/coderatio/simple-backup/src/SimpleBackup.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

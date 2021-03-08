@@ -30,7 +30,7 @@ class InstalledVersions
     'aliases' => 
     array (
     ),
-    'reference' => '560488af3901d915137750bc89b0fe32a3f3e551',
+    'reference' => 'd4f5edcb7629ad1d0fbf1d6efd0242725cdb5118',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ class InstalledVersions
       'aliases' => 
       array (
       ),
-      'reference' => '560488af3901d915137750bc89b0fe32a3f3e551',
+      'reference' => 'd4f5edcb7629ad1d0fbf1d6efd0242725cdb5118',
     ),
     'coderatio/simple-backup' => 
     array (

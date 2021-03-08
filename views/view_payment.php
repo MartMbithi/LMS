@@ -5,6 +5,9 @@ include('../config/checklogin.php');
 admin();
 require_once('../partials/analytics.php');
 require_once('../partials/head.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ?>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -105,13 +108,18 @@ require_once('../partials/head.php');
                                                                                 <!-- Load Qr Code Here To Confirm Payment -->
                                                                                 <li class="list-group-item">
                                                                                     <?php
+                                                                                    require_once('../vendor/autoload.php');
                                                                                     $barcode = new \Com\Tecnick\Barcode\Barcode();
                                                                                     $targetPath = "../public/sys_data/qr_code/";
 
                                                                                     if (!is_dir($targetPath)) {
                                                                                         mkdir($targetPath, 0777, true);
                                                                                     }
-                                                                                    $bobj = $barcode->getBarcodeObj('QRCODE,H', $payment->p_amt, $payment->p_code, $payment->p_date_paid, -16, -16, 'black', array(
+                                                                                    /* Date Paid */
+                                                                                    $date_material_paid = date("D M Y g:ia" ,strtotime($payments->p_date_paid));
+                                                                                    /* Merge All Payment Details */
+                                                                                    $QRcode_Details = "$payment->p_method" . "$payment->p_code" . "$payment->p_amt" . "$date_material_paid";
+                                                                                    $bobj = $barcode->getBarcodeObj('QRCODE,H', $QRcode_Details, -16, -16, 'black', array(
                                                                                         -2,
                                                                                         -2,
                                                                                         -2,
@@ -123,10 +131,10 @@ require_once('../partials/head.php');
 
                                                                                     file_put_contents($targetPath . $timestamp . '.png', $imageData);
                                                                                     ?>
-                                                                                    <img src="<?php echo $targetPath . $timestamp; ?>.png" width="150px" height="150px">
-                                                                                    <b>Scan To Verify</b>
+                                                                                    <b>Scan To Verify </b>
                                                                                     <a class="text-center">
-                                                                                        <img src="<?php echo $targetPath . $timestamp; ?>.png" width="150px" height="150px">
+                                                                                    <img src="<?php echo $targetPath . $timestamp ; ?>.png" width="150px"
+    height="150px">
                                                                                     </a>
                                                                                 </li>
                                                                             </ul>

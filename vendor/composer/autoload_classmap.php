@@ -23,4 +23,5 @@ return array(
     'Coderatio\\SimpleBackup\\Foundation\\TypeAdapterPgsql' => $vendorDir . '/coderatio/simple-backup/src/Foundation/Mysqldump.php',
     'Coderatio\\SimpleBackup\\Foundation\\TypeAdapterSqlite' => $vendorDir . '/coderatio/simple-backup/src/Foundation/Mysqldump.php',
     'Coderatio\\SimpleBackup\\SimpleBackup' => $vendorDir . '/coderatio/simple-backup/src/SimpleBackup.php',
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
 );
