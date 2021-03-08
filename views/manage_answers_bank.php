@@ -16,12 +16,12 @@ if (isset($_POST['update_ans_bank'])) {
         $err = "Question Description Cannot Be Empty";
     }
 
-    if (isset($_POST['an_code']) && !empty($_POST['an_code'])) {
+    /* if (isset($_POST['an_code']) && !empty($_POST['an_code'])) {
         $an_code = mysqli_real_escape_string($mysqli, trim($_POST['an_code']));
     } else {
         $error = 1;
         $err = "Answer Code Cannot Be Empty";
-    }
+    } */
 
     if (isset($_POST['an_id']) && !empty($_POST['an_id'])) {
         $an_id = mysqli_real_escape_string($mysqli, trim($_POST['an_id']));
@@ -30,9 +30,9 @@ if (isset($_POST['update_ans_bank'])) {
         $err = "Answer ID Cannot Be Empty";
     }
     if (!$error) {
-        $query = "UPDATE lms_answers SET ans_details =?, ans_code = ? WHERE an_id = '$an_id' ";
+        $query = "UPDATE lms_answers SET ans_details =? WHERE an_id = '$an_id' ";
         $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('ss', $ans_details, $an_code);
+        $rc = $stmt->bind_param('s', $ans_details);
         $stmt->execute();
         if ($stmt) {
             $success = "Added" && header("refresh:1; url=manage_answers_bank.php");
@@ -134,10 +134,10 @@ require_once('../partials/head.php');
                                                     </a>
                                                     <!-- Update -->
                                                     <div class="modal fade" id="edit-<?php echo $answers->an_id; ?>">
-                                                        <div class="modal-dialog  modal-lg">
+                                                        <div class="modal-dialog  modal-xl">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title">Edit Answers Bank <?php echo $answers->an_id; ?></h4>
+                                                                    <h4 class="modal-title">Edit Answers Bank <?php echo $answers->an_code; ?></h4>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>

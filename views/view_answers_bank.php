@@ -17,12 +17,12 @@ require_once('../partials/head.php');
         <?php
         require_once('../partials/sidebar.php');
         $view = $_GET['view'];
-        $ret = "SELECT  * FROM  lms_questions WHERE q_id = '$view' ";
+        $ret = "SELECT  * FROM  lms_answers WHERE an_id = '$view' ";
         $stmt = $mysqli->prepare($ret);
         $stmt->execute(); //ok
         $res = $stmt->get_result();
-        while ($question = $res->fetch_object()) {
-            $course_id = $question->cc_id;
+        while ($answer = $res->fetch_object()) {
+            $course_id = $answer->cc_id;
             /* Course Details */
             $ret = "SELECT  * FROM  lms_course_categories  WHERE cc_id = '$course_id' ";
             $stmt = $mysqli->prepare($ret);
@@ -37,15 +37,15 @@ require_once('../partials/head.php');
                         <div class="container-fluid">
                             <div class="row mb-2">
                                 <div class="col-sm-6">
-                                    <h1 class="m-0 text-dark">Intergrated LMS - Questions Bank</h1>
+                                    <h1 class="m-0 text-dark">Intergrated LMS - Answers Bank</h1>
                                 </div><!-- /.col -->
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-sm-right">
                                         <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
                                         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
                                         <li class="breadcrumb-item"><a href="questions_bank.php">Exam Engine</a></li>
-                                        <li class="breadcrumb-item"><a href="manage_questions_bank.php">Questions</a></li>
-                                        <li class="breadcrumb-item active"><?php echo $question->q_code; ?></li>
+                                        <li class="breadcrumb-item"><a href="manage_answers_bank.php">Answers</a></li>
+                                        <li class="breadcrumb-item active"><?php echo $answer->an_code; ?></li>
                                     </ol>
                                 </div><!-- /.col -->
                             </div><!-- /.row -->
@@ -60,7 +60,7 @@ require_once('../partials/head.php');
                                     <div class="card card-warning card-outline">
                                         <div class="card-header p-2">
                                             <h3 class="text-center">
-                                                <?php echo $course->cc_name; ?> Questions Bank
+                                                <?php echo $course->cc_name; ?> Answers Bank
                                             </h3>
                                         </div>
                                         <div class="card-body">
@@ -103,18 +103,25 @@ require_once('../partials/head.php');
                                                                                 Uncomment If You Think Its Relevant
                                                                                   -->
                                                                                 <li class="list-group-item">
-                                                                                    <b>Unit Code </b> <a class="float-right"> <?php echo $question->c_code; ?></a>
+                                                                                    <b>Unit Code </b> <a class="float-right"> <?php echo $answer->c_code; ?></a>
                                                                                 </li>
                                                                                 <li class="list-group-item">
-                                                                                    <b>Unit Name </b> <a class="float-right"> <?php echo $question->c_name; ?></a>
+                                                                                    <b>Unit Name </b> <a class="float-right"> <?php echo $answer->c_name; ?></a>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <h2 class="text-center">
+                                                                <u>Questions </u>
+                                                            </h2>
+                                                            <?php echo $answer->q_details; ?>
 
-                                                            <?php echo $question->q_details; ?>
+                                                            <h2 class="text-center">
+                                                                <u>Answers</u>
+                                                            </h2>
+                                                            <?php echo $answer->ans_details; ?>
                                                         </div>
                                                     </div>
                                                     <div class="text-right">
