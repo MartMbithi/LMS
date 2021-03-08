@@ -66,7 +66,7 @@ if (isset($_POST['add_studymaterial'])) {
 
     //Upload study materials.
     $sm_materials = $_FILES["sm_materials"]["name"];
-    move_uploaded_file($_FILES["sm_materials"]["tmp_name"], "../public/uploads/courses/study_materials/" . $_FILES["sm_materials"]["name"]);
+    move_uploaded_file($_FILES["sm_materials"]["tmp_name"], "../public/sys_data/uploads/study_materials/" . $_FILES["sm_materials"]["name"]);
 
     if (!$error) {
         //prevent Double entries
@@ -143,7 +143,7 @@ require_once('../partials/head.php');
                                             <th>Course</th>
                                             <th>Instructor Number</th>
                                             <th>Instructor Name</th>
-                                            <th>Manage Unit</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -187,6 +187,9 @@ require_once('../partials/head.php');
                                                                                 <input type="hidden" name="c_id" value="<?php echo $units->c_id; ?>" readonly required class="form-control">
                                                                                 <input type="hidden" name="cc_id" value="<?php echo $units->cc_id; ?>" readonly required class="form-control">
                                                                                 <input type="hidden" name="i_id" value="<?php echo $units->i_id; ?>" readonly required class="form-control">
+                                                                                <input type="hidden" name="i_name" value="<?php echo $units->i_name; ?>" readonly required class="form-control">
+                                                                                <input type="hidden" name="c_category" value="<?php echo $units->c_category; ?>" readonly required class="form-control">
+
                                                                             </div>
                                                                             <div class="form-group col-md-4">
                                                                                 <label for="exampleInputEmail1">Unit Code</label>
