@@ -38,7 +38,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-laptop-code"></i>
                         <p>
-                            Exams Engine
+                            Tests Engine
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
