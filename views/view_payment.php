@@ -116,9 +116,11 @@ error_reporting(E_ALL);
                                                                                         mkdir($targetPath, 0777, true);
                                                                                     }
                                                                                     /* Date Paid */
-                                                                                    $date_material_paid = date("D M Y g:ia" ,strtotime($payments->p_date_paid));
+                                                                                    $date_material_paid = date("D M Y g:ia", strtotime($payment->p_date_paid));
                                                                                     /* Merge All Payment Details */
-                                                                                    $QRcode_Details = "$payment->p_method" . "$payment->p_code" . "$payment->p_amt" . "$date_material_paid";
+                                                                                    $QRcode_Details = "Payment Method : $payment->p_method" .
+                                                                                        " " . "Payment Confirmation Code: $payment->p_code" . " "
+                                                                                        . "Amount Paid : Ksh $payment->p_amt" . " " .  "Date Paid : $date_material_paid";
                                                                                     $bobj = $barcode->getBarcodeObj('QRCODE,H', $QRcode_Details, -16, -16, 'black', array(
                                                                                         -2,
                                                                                         -2,
@@ -131,11 +133,13 @@ error_reporting(E_ALL);
 
                                                                                     file_put_contents($targetPath . $timestamp . '.png', $imageData);
                                                                                     ?>
-                                                                                    <b>Scan To Verify </b>
-                                                                                    <a class="text-center">
-                                                                                    <img src="<?php echo $targetPath . $timestamp ; ?>.png" width="150px"
-    height="150px">
-                                                                                    </a>
+                                                                                    <div class="text-center">
+                                                                                        <b>Scan To Verify Payment Details </b>
+                                                                                        <br>
+                                                                                        <a class="text-center">
+                                                                                            <img src="<?php echo $targetPath . $timestamp; ?>.png" width="150px" height="150px">
+                                                                                        </a>
+                                                                                    </div>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>
