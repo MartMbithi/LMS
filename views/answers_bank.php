@@ -136,7 +136,7 @@ require_once('../partials/head.php');
                 <div class="container-fluid">
                     <div class="container">
                         <div class="text-right text-dark">
-                            <a class="btn btn-warning" href="manage_questions_bank.php">Manage Answers Bank</a>
+                            <a class="btn btn-warning" href="manage_answers_bank.php">Manage Answers Bank</a>
                         </div>
                     </div>
                     <hr>
@@ -173,10 +173,10 @@ require_once('../partials/head.php');
                                                     </a>
                                                     <!-- Add Answer Bank Modal -->
                                                     <div class="modal fade" id="add-<?php echo $questions->q_id; ?>">
-                                                        <div class="modal-dialog  modal-lg">
+                                                        <div class="modal-dialog  modal-xl">
                                                             <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Create Answers Bank For <?php echo $questions->q_code; ?></h4>
+                                                                <div class="modal-header text-center">
+                                                                    <h4 class="modal-title ">Create Answers Bank For <?php echo $questions->q_code; ?></h4>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -217,7 +217,7 @@ require_once('../partials/head.php');
                                                                         <div class="row">
                                                                             <div class="form-group col-md-12">
                                                                                 <label for="exampleInputEmail1">Answers</label>
-                                                                                <textarea type="text" name="ans_details" class="form-control" id="answer-<?php echo $questions->id; ?>"></textarea>
+                                                                                <textarea type="text" name="ans_details" class="form-control" id="ans-editor-<?php echo $questions->id; ?>"></textarea>
                                                                             </div>
                                                                         </div>
                                                                         <hr>
@@ -236,7 +236,7 @@ require_once('../partials/head.php');
                                                 </td>
                                                 <!-- CK Editor -->
                                                 <script>
-                                                    CKEDITOR.replace('answer-<?php echo $questions->id; ?>');
+                                                    CKEDITOR.replace('ans-editor-<?php echo $questions->id; ?>');
                                                 </script>
                                             </tr>
                                         <?php
@@ -257,7 +257,6 @@ require_once('../partials/head.php');
 
     <!-- Scripts -->
     <?php require_once('../partials/scripts.php'); ?>
-
 </body>
 
 </html>
