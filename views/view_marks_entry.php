@@ -98,91 +98,75 @@ error_reporting(E_ALL); */
                                                                 <div class="col-md-12">
                                                                     <!-- Course Details -->
                                                                     <div class="card card-warning card-outline">
-                                                                        <div class="card-header p-2">
-                                                                            <h3 class="text-center">
-                                                                                PARTIAL TRANSCRIPT
-                                                                            </h3>
-                                                                        </div>
-                                                                        <div class="card-body box-profile">
-                                                                            <ul class="list-group list-group-unbordered mb-3">
-                                                                                <li class="list-group-item">
-                                                                                    <b>Names : </b> <a class="float-right"> <?php echo $mark->s_name; ?></a>
-                                                                                </li>
-                                                                                <li class="list-group-item">
-                                                                                    <b>Reg No : </b> <a class="float-right"> <?php echo $mark->s_regno; ?></a>
-                                                                                </li>
-                                                                                <li class="list-group-item">
-                                                                                    <b>Course: </b> <a class="float-right"> <?php echo $course->cc_name; ?></a>
-                                                                                </li>
-                                                                                <li class="list-group-item">
-                                                                                    <b>Enrolled Unit: </b> <a class="float-right"> <?php echo $unit->c_name; ?></a>
-                                                                                </li>
-                                                                                <!-- Load Qr Code Here To Confirm Transcription -->
-                                                                                <li class="list-group-item">
-                                                                                    <?php
-                                                                                    require_once('../vendor/autoload.php');
-                                                                                    $barcode = new \Com\Tecnick\Barcode\Barcode();
-                                                                                    $targetPath = "../public/sys_data/qr_code/";
+                                                                        <div class="card-body text-center box-profile">
+                                                                            <div class="col-sm-12">
+                                                                                <address>
+                                                                                    <h1>INTERGRATED LMS</h1>
+                                                                                    <h4>PARTIAL TRANSCRIPT</h4>
+                                                                                    <strong>Name : <?php echo $mark->s_name; ?></strong><br>
+                                                                                    Reg No : <?php echo $mark->s_regno; ?><br>
+                                                                                    Enrolled Course : <?php echo $course->cc_name; ?><br>
+                                                                                    Enrolled Unit : <?php echo $unit->c_name; ?><br>
+                                                                                </address>
+                                                                                <br>
+                                                                            </div>
+                                                                            <table class="table">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>CAT 1 Marks</th>
+                                                                                        <th>CAT 2 Marks</th>
+                                                                                        <th>Final Exam</th>
+                                                                                        <th>Average Marks</th>
+                                                                                        <th>Grade</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td><?php echo $mark->c_cat1_marks; ?></td>
+                                                                                        <td><?php echo $mark->c_cat2_marks; ?></td>
+                                                                                        <td><?php echo $mark->c_eos_marks; ?></td>
+                                                                                        <td><?php echo $total_avg; ?></td>
+                                                                                        <td><?php echo $grade; ?></td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <br><br><br>
+                                                                            <p>Scan To Verify</p>
+                                                                            <?php
+                                                                            require_once('../vendor/autoload.php');
+                                                                            $barcode = new \Com\Tecnick\Barcode\Barcode();
+                                                                            $targetPath = "../public/sys_data/qr_code/";
 
-                                                                                    if (!is_dir($targetPath)) {
-                                                                                        mkdir($targetPath, 0777, true);
-                                                                                    }
-                                                                                    /* Date Added */
-                                                                                    $date_added = date("D M Y g:ia", strtotime($mark->c_date_added));
-                                                                                    $QRcode_Details = " VERIFIED," . " This Is  An Official Transcript For " .  $mark->s_regno . "  " . $mark->s_name;
-                                                                                    /* Merge All Payment Details */
-                                                                                    $bobj = $barcode->getBarcodeObj('QRCODE,H', $QRcode_Details, -16, -16, 'black', array(
-                                                                                        -2,
-                                                                                        -2,
-                                                                                        -2,
-                                                                                        -2
-                                                                                    ))->setBackgroundColor('#f0f0f0');
+                                                                            if (!is_dir($targetPath)) {
+                                                                                mkdir($targetPath, 0777, true);
+                                                                            }
+                                                                            /* Date Added */
+                                                                            $date_added = date("D M Y g:ia", strtotime($mark->c_date_added));
+                                                                            $QRcode_Details = " VERIFIED," . " This Is  An Official Transcript For " .  $mark->s_regno . "  " . $mark->s_name;
+                                                                            /* Merge All Payment Details */
+                                                                            $bobj = $barcode->getBarcodeObj('QRCODE,H', $QRcode_Details, -16, -16, 'black', array(
+                                                                                -2,
+                                                                                -2,
+                                                                                -2,
+                                                                                -2
+                                                                            ))->setBackgroundColor('#f0f0f0');
 
-                                                                                    $imageData = $bobj->getPngData();
-                                                                                    $timestamp = time();
-
-                                                                                    file_put_contents($targetPath . $timestamp . '.png', $imageData); ?>
-                                                                                    <div class="text-center">
-                                                                                        <b>Scan To Verify Transcript </b>
-                                                                                        <br>
-                                                                                        <a class="text-center">
-                                                                                            <img src="<?php echo $targetPath . $timestamp; ?>.png" width="218px" height="218px">
-                                                                                        </a>
-                                                                                    </div>
-                                                                                </li>
-                                                                                <table class="table table-striped table-bordered display no-wrap" style="width:100%">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th>CAT 1 Marks</th>
-                                                                                            <th>CAT 2 Marks</th>
-                                                                                            <th>Final Exam</th>
-                                                                                            <th>Average Marks</th>
-                                                                                            <th>Grade</th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        <tr>
-                                                                                            <td><?php echo $mark->c_cat1_marks; ?></td>
-                                                                                            <td><?php echo $mark->c_cat2_marks; ?></td>
-                                                                                            <td><?php echo $mark->c_eos_marks; ?></td>
-                                                                                            <td><?php echo $total_avg; ?></td>
-                                                                                            <td><?php echo $grade; ?></td>
-                                                                                        </tr>
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </ul>
+                                                                            $imageData = $bobj->getPngData();
+                                                                            $timestamp = time();
+                                                                            file_put_contents($targetPath . $timestamp . '.png', $imageData); ?>
+                                                                            <img src="<?php echo $targetPath . $timestamp; ?>.png" width="218px" height="218px">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="text-right">
-                                                        <button id="print" onclick="printContent('Print');" type="button" class="btn btn-outline-warning">
-                                                            <i class="fas fa-print"></i>
-                                                            Print Transcription
-                                                        </button>
-                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <button id="print" onclick="printContent('Print');" type="button" class="btn btn-outline-warning">
+                                                        <i class="fas fa-print"></i>
+                                                        Print Transcription
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

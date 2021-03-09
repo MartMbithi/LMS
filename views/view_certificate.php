@@ -30,15 +30,15 @@ require_once('../partials/head.php');
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark">Intergrated LMS  - Certificate</h1>
+                                <h1 class="m-0 text-dark">Intergrated LMS - Certificate</h1>
                             </div><!-- /.col -->
                             <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                <li class="breadcrumb-item"><a href="certificates.php">Certificates</a></li>
-                                <li class="breadcrumb-item active">Generate</li>
-                            </ol>
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="certificates.php">Certificates</a></li>
+                                    <li class="breadcrumb-item active">Generate</li>
+                                </ol>
                             </div><!-- /.col -->
                         </div><!-- /.row -->
                     </div><!-- /.container-fluid -->
@@ -48,7 +48,9 @@ require_once('../partials/head.php');
                 <section class="content">
                     <div class="container-fluid">
                         <div class="row">
-                            
+                            <div class="container-fluid">
+                               
+                            </div>
                         </div>
                     </div>
                 </section>
