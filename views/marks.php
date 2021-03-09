@@ -148,6 +148,11 @@ require_once('../partials/head.php');
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
+                    <div class="container">
+                        <div class="text-right text-dark">
+                            <a href="manage_marks_entries.php" class="btn btn-outline-warning">Manage Marks Entries</a>
+                        </div>
+                    </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
@@ -170,7 +175,7 @@ require_once('../partials/head.php');
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
                                         while ($enrollment = $res->fetch_object()) {
-                                            $mysqlDateTime = $row->en_date;
+                                            $mysqlDateTime = $enrollment->en_date;
 
                                         ?>
                                             <tr>
@@ -253,7 +258,7 @@ require_once('../partials/head.php');
 
                                                                         </div>
                                                                         <div class="text-right">
-                                                                            <button type="submit" name="add_results" class="btn btn-outline-warning">Add Marks</button>
+                                                                            <button type="submit" name="enter_marks" class="btn btn-outline-warning">Add Marks</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
