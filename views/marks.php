@@ -4,55 +4,107 @@ include('../config/config.php');
 include('../config/checklogin.php');
 admin();
 require_once('../config/codeGen.php');
-/* Add Course */
-if (isset($_POST['add_course_cat'])) {
+
+/* Enter Marks */
+if (isset($_POST['enter_marks'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
-    if (isset($_POST['cc_name']) && !empty($_POST['cc_name'])) {
-        $cc_name = mysqli_real_escape_string($mysqli, trim($_POST['cc_name']));
+    if (isset($_POST['s_id']) && !empty($_POST['s_id'])) {
+        $s_id = mysqli_real_escape_string($mysqli, trim($_POST['s_id']));
     } else {
         $error = 1;
-        $err = "Name Cannot Be Empty";
+        $err = "Student ID Cannont  Be Empty";
     }
-    if (isset($_POST['cc_code']) && !empty($_POST['cc_code'])) {
-        $cc_code = mysqli_real_escape_string($mysqli, trim($_POST['cc_code']));
+    if (isset($_POST['cc_id']) && !empty($_POST['cc_id'])) {
+        $cc_id = mysqli_real_escape_string($mysqli, trim($_POST['cc_id']));
+    } else {
+        $error = 1;
+        $err = "Course ID Cannot Be Empty";
+    }
+    if (isset($_POST['c_id']) && !empty($_POST['c_id'])) {
+        $c_id = mysqli_real_escape_string($mysqli, trim($_POST['c_id']));
+    } else {
+        $error = 1;
+        $err = "Unit ID Cannot Be Empty";
+    }
+    if (isset($_POST['i_id']) && !empty($_POST['i_id'])) {
+        $i_id = mysqli_real_escape_string($mysqli, trim($_POST['i_id']));
+    } else {
+        $error = 1;
+        $err = "Instructor ID Cannot Be Empty";
+    }
+    if (isset($_POST['rs_code']) && !empty($_POST['rs_code'])) {
+        $rs_code = mysqli_real_escape_string($mysqli, trim($_POST['rs_code']));
     } else {
         $error = 1;
         $err = "Code Cannot Be Empty";
     }
-    if (isset($_POST['cc_dept_head']) && !empty($_POST['cc_dept_head'])) {
-        $cc_dept_head = mysqli_real_escape_string($mysqli, trim($_POST['cc_dept_head']));
+    if (isset($_POST['s_name']) && !empty($_POST['s_name'])) {
+        $s_name = mysqli_real_escape_string($mysqli, trim($_POST['s_name']));
     } else {
         $error = 1;
-        $err = "Course HOD Cannot Be Empty";
+        $err = "Student Name Cannot Be Empty";
     }
-    if (isset($_POST['cc_desc']) && !empty($_POST['cc_desc'])) {
-        $cc_desc = mysqli_real_escape_string($mysqli, trim($_POST['cc_desc']));
+    if (isset($_POST['s_regno']) && !empty($_POST['s_regno'])) {
+        $s_regno = mysqli_real_escape_string($mysqli, trim($_POST['s_regno']));
     } else {
         $error = 1;
-        $err = "Description Cannot Be Empty";
+        $err = "Registration Number Cannot Be Empty";
     }
-
-    $cc_dpic = $_FILES["cc_dpic"]["name"];
-    move_uploaded_file($_FILES["cc_dpic"]["tmp_name"], "../public/sys_data/uploads/courses/" . $_FILES["cc_dpic"]["name"]);
+    if (isset($_POST['s_unit_code']) && !empty($_POST['s_unit_code'])) {
+        $s_unit_code = mysqli_real_escape_string($mysqli, trim($_POST['s_unit_code']));
+    } else {
+        $error = 1;
+        $err = "Unit Code Cannot Be Empty";
+    }
+    if (isset($_POST['s_unit_name']) && !empty($_POST['s_unit_name'])) {
+        $s_unit_name = mysqli_real_escape_string($mysqli, trim($_POST['s_unit_name']));
+    } else {
+        $error = 1;
+        $err = "Unit Name Cannot Be Empty";
+    }
+    if (isset($_POST['c_cat1_marks']) && !empty($_POST['c_cat1_marks'])) {
+        $c_cat1_marks = mysqli_real_escape_string($mysqli, trim($_POST['c_cat1_marks']));
+    } else {
+        $error = 1;
+        $err = "Cat One Marks Cannot Be Empty";
+    }
+    if (isset($_POST['c_cat2_marks']) && !empty($_POST['c_cat2_marks'])) {
+        $c_cat2_marks = mysqli_real_escape_string($mysqli, trim($_POST['c_cat2_marks']));
+    } else {
+        $error = 1;
+        $err = "Cat Two Marks Cannot Be Empty";
+    }
+    if (isset($_POST['c_eos_marks']) && !empty($_POST['c_eos_marks'])) {
+        $c_eos_marks = mysqli_real_escape_string($mysqli, trim($_POST['c_eos_marks']));
+    } else {
+        $error = 1;
+        $err = "End Of Semester Marks Cannot Be Empty";
+    }
+    if (isset($_POST['i_name']) && !empty($_POST['i_name'])) {
+        $i_name = mysqli_real_escape_string($mysqli, trim($_POST['i_name']));
+    } else {
+        $error = 1;
+        $err = "Instructor Name Cannot Be Empty";
+    }
 
     if (!$error) {
         //prevent Double entries
-        $sql = "SELECT * FROM  lms_course_categories WHERE  cc_code='$cc_code'  ";
+        $sql = "SELECT * FROM  lms_results WHERE  rs_code='$rs_code'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if ($cc_code == $row['cc_code']) {
-                $err =  "A Course With $cc_code Exists";
+            if ($rs_code == $row['rs_code']) {
+                $err =  "A Marks Entry  With $rs_code Exists";
             }
         } else {
-            $query = "INSERT INTO lms_course_categories (cc_name, cc_code, cc_dept_head, cc_desc, cc_dpic) VALUES (?,?,?,?,?)";
+            $query = "INSERT INTO lms_results (s_id, cc_id, c_id, i_id, rs_code, s_name, s_regno, s_unit_code, s_unit_name, c_cat1_marks, c_cat2_marks,  c_eos_marks, i_name) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
-            $rc = $stmt->bind_param('sssss', $cc_name, $cc_code, $cc_dept_head, $cc_desc, $cc_dpic);
+            $rc = $stmt->bind_param('sssssssssssss', $s_id, $cc_id, $c_id, $i_id, $rs_code, $s_name, $s_regno, $s_unit_code, $s_unit_name, $c_cat1_marks, $c_cat2_marks, $c_eos_marks, $i_name);
             $stmt->execute();
             if ($stmt) {
-                $success = "Added" && header("refresh:1; url=courses.php");
+                $success = "Added" && header("refresh:1; url=marks.php");
             } else {
                 $info = "Please Try Again Or Try Later";
             }
@@ -128,7 +180,7 @@ require_once('../partials/head.php');
                                                 <td><?php echo $enrollment->s_name; ?></td>
                                                 <td><?php echo date("d M Y g:ia", strtotime($mysqlDateTime)); ?></td>
                                                 <td>
-                                                    <a class="badge badge-warning" href="#grade-<?php echo $enrollment->en_id; ?>">
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#grade-<?php echo $enrollment->en_id; ?>">
                                                         <i class="fas fa-check"></i>
                                                         Grade Unit
                                                     </a>
@@ -149,8 +201,11 @@ require_once('../partials/head.php');
                                                                             <div class="form-group col-md-4" style="display:none">
                                                                                 <label>Results Code</label>
                                                                                 <input type="text" name="rs_code" value="<?php echo $a . $b; ?>" required class="form-control">
+                                                                                <input type="text" name="s_id" value="<?php echo $enrollment->s_id; ?>" required class="form-control">
+                                                                                <input type="text" name="cc_id" value="<?php echo $enrollment->cc_id; ?>" required class="form-control">
+                                                                                <input type="text" name="c_id" value="<?php echo $enrollment->c_id; ?>" required class="form-control">
+                                                                                <input type="text" name="i_id" value="<?php echo $enrollment->i_id; ?>" required class="form-control">
                                                                             </div>
-
                                                                             <div class="form-group col-md-4">
                                                                                 <label>Registration Number</label>
                                                                                 <input type="text" name="s_regno" readonly required value="<?php echo $enrollment->s_regno; ?>" class="form-control">
@@ -181,7 +236,6 @@ require_once('../partials/head.php');
                                                                         </div>
 
                                                                         <div class="row">
-
                                                                             <div class="form-group col-md-4">
                                                                                 <label>CAT 1 Marks</label>
                                                                                 <input type="text" name="c_cat1_marks" required class="form-control">
