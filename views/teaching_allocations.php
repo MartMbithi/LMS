@@ -141,9 +141,9 @@ require_once('../partials/head.php');
                                             <form method="post" enctype="multipart/form-data">
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
-                                                        <label>Course Code</label>
-                                                        <select name="c_category" style="width: 100%;" onchange="GetUnitDetails(this.value)" id="Unit_Code" required class="form-control select2bs4">
-                                                            <option>Select Course Code</option>
+                                                        <label>Unit Code</label>
+                                                        <select name="c_code" style="width: 100%;" onchange="GetUnitDetails(this.value)" id="Unit_Code" required class="form-control select2bs4">
+                                                            <option>Select Unit Code</option>
                                                             <?php
                                                             $ret = "SELECT  * FROM  lms_course ";
                                                             $stmt = $mysqli->prepare($ret);
@@ -160,6 +160,9 @@ require_once('../partials/head.php');
                                                         <label>Unit Name</label>
                                                         <input type="text" id="Unit_Name" required class="form-control">
                                                         <input type="hidden" name="c_id" id="Unit_Id" required class="form-control">
+                                                        <input type="hidden" name="cc_id" id="Course_Id" required class="form-control">
+                                                        <input type="hidden" name="c_category" id="Course_Name" required class="form-control">
+
                                                     </div>
                                                 </div>
                                                 <div class="row">
