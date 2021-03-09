@@ -229,29 +229,6 @@
 
 
   }
-   /* Instructor Details */
-   function GetInstructorDetails(val) {
-    $.ajax({
-
-      type: "POST",
-      url: "../partials/ajax.php",
-      data: 'Ins_Number=' + val,
-      success: function(data) {
-        //alert(data);
-        $('#Ins_Name').val(data);
-      }
-    });
-
-    $.ajax({
-      type: "POST",
-      url: "../partials/ajax.php",
-      data: 'Ins_Name=' + val,
-      success: function(data) {
-        //alert(data);
-        $('#Ins_Id').val(data);
-      }
-    });
-  }
 
  /* Student  Details */
  function GetStudentDetails(val) {
