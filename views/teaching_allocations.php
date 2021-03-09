@@ -64,15 +64,23 @@ if (isset($_POST['add_teaching_allocation'])) {
     }
 
     if (!$error) {
-
-        $query = "INSERT INTO lms_units_assaigns (i_number, i_name, i_id, c_code, c_id, cc_id, c_name, c_category) VALUES (?,?,?,?,?,?,?,?)";
-        $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('ssssssss', $i_number, $i_name, $i_id, $c_code, $c_id, $cc_id, $c_name, $c_category);
-        $stmt->execute();
-        if ($stmt) {
-            $success = "Added" && header("refresh:1; url=teaching_allocations.php");
+        $sql = "SELECT * FROM  lms_units_assaigns WHERE  i_number ='$i_number' AND c_code = '$c_code'  ";
+        $res = mysqli_query($mysqli, $sql);
+        if (mysqli_num_rows($res) > 0) {
+            $row = mysqli_fetch_assoc($res);
+            if (($i_number == $row['i_number']) && ($c_code == $row['c_code'])) {
+                $err =  "Can't Allocate $i_name Twice On $c_name ";
+            }
         } else {
-            $info = "Please Try Again Or Try Later";
+            $query = "INSERT INTO lms_units_assaigns (i_number, i_name, i_id, c_code, c_id, cc_id, c_name, c_category) VALUES (?,?,?,?,?,?,?,?)";
+            $stmt = $mysqli->prepare($query);
+            $rc = $stmt->bind_param('ssssssss', $i_number, $i_name, $i_id, $c_code, $c_id, $cc_id, $c_name, $c_category);
+            $stmt->execute();
+            if ($stmt) {
+                $success = "Added" && header("refresh:1; url=teaching_allocations.php");
+            } else {
+                $info = "Please Try Again Or Try Later";
+            }
         }
     }
 }
@@ -168,7 +176,7 @@ require_once('../partials/head.php');
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label>Unit Name</label>
-                                                        <input type="text" id="Unit_Name" required class="form-control">
+                                                        <input type="text" id="Unit_Name" name="c_name" required class="form-control">
                                                         <input type="hidden" name="c_id" id="Unit_Id" required class="form-control">
                                                         <input type="hidden" name="cc_id" id="Course_Id" required class="form-control">
                                                         <input type="hidden" name="c_category" id="Course_Name" required class="form-control">
