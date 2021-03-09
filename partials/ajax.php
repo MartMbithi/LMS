@@ -78,7 +78,7 @@ if (!empty($_POST["Course_Id"])) {
 <?php
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 ?>
-<?php echo htmlentities($row['cc_name']); ?>
+<?php echo htmlentities($row['c_category']); ?>
 <?php
     }
 }
