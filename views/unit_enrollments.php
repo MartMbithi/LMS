@@ -135,13 +135,13 @@ require_once('../partials/head.php');
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Intergrated LMS - Teaching Allocations</h1>
+                            <h1 class="m-0 text-dark">Intergrated LMS - Students Enrollments</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
                                 <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Teaching Allocations</li>
+                                <li class="breadcrumb-item active">Enrollments</li>
                             </ol>
                         </div>
                     </div>
@@ -154,7 +154,7 @@ require_once('../partials/head.php');
                 <div class="container-fluid">
                     <div class="container">
                         <div class="text-right text-dark">
-                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#add-modal">Add Teaching Allocation</button>
+                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#add-modal">Add Student Enrollment</button>
                         </div>
                     </div>
                     <hr>
@@ -176,55 +176,57 @@ require_once('../partials/head.php');
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
                                                         <label>Unit Code</label>
-                                                        <select name="c_code" style="width: 100%;" onchange="GetUnitDetails(this.value)" id="Unit_Code" required class="form-control select2bs4">
+                                                        <select name="s_unit_code" style="width: 100%;" onchange="GetAllocatedUnitDetails(this.value)" id="Allocated_Unit_Code" required class="form-control select2bs4">
                                                             <option>Select Unit Code</option>
                                                             <?php
-                                                            $ret = "SELECT  * FROM  lms_course ";
+                                                            $ret = "SELECT  * FROM  lms_units_assaigns ";
                                                             $stmt = $mysqli->prepare($ret);
                                                             $stmt->execute(); //ok
                                                             $res = $stmt->get_result();
-                                                            while ($unit = $res->fetch_object()) {
+                                                            while ($allocated = $res->fetch_object()) {
                                                             ?>
-                                                                <option><?php echo $unit->c_code; ?></option>
+                                                                <option><?php echo $allocated->c_code; ?></option>
                                                             <?php
                                                             } ?>
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
                                                         <label>Unit Name</label>
-                                                        <input type="text" id="Unit_Name" name="c_name" required class="form-control">
-                                                        <input type="hidden" name="c_id" id="Unit_Id" required class="form-control">
-                                                        <input type="hidden" name="cc_id" id="Course_Id" required class="form-control">
-                                                        <input type="hidden" name="c_category" id="Course_Name" required class="form-control">
-
+                                                        <input type="text" id="Allocated_Unit_Name" name="s_unit_name" required class="form-control">
+                                                        <input type="hidden" name="i_name" id="Allocated_Ins_Name" required class="form-control">
+                                                        <input type="hidden" name="cc_id" id="Allocated_Course_ID" required class="form-control">
+                                                        <input type="hidden" name="c_id" id="Allocated_Unit_ID" required class="form-control">
+                                                        <input type="hidden" name="i_id" id="Allocated_Ins_ID" required class="form-control">
+                                                        <input type="hidden" name="s_course" id="Allocated_Course_Name" required class="form-control">
                                                     </div>
                                                 </div>
+
                                                 <div class="row">
                                                     <div class="form-group col-md-6">
-                                                        <label>Instructor Number</label>
-                                                        <select name="i_number" style="width: 100%;" onchange="GetInstructorDetails(this.value)" id="Ins_Number" required class="form-control select2bs4">
+                                                        <label>Student Admission Number</label>
+                                                        <select name="s_regno" style="width: 100%;" onchange="GetStudentDetails(this.value)" id="Std_Admn" required class="form-control select2bs4">
                                                             <option>Select Instructor Name</option>
                                                             <?php
-                                                            $ret = "SELECT  * FROM  lms_instructor";
+                                                            $ret = "SELECT  * FROM  lms_student";
                                                             $stmt = $mysqli->prepare($ret);
                                                             $stmt->execute(); //ok
                                                             $res = $stmt->get_result();
-                                                            while ($ins = $res->fetch_object()) {
+                                                            while ($std = $res->fetch_object()) {
                                                             ?>
-                                                                <option><?php echo $ins->i_number; ?></option>
+                                                                <option><?php echo $std->s_regno; ?></option>
                                                             <?php
                                                             } ?>
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label>Instructor Name</label>
-                                                        <input type="text" name="i_name" id="Ins_Name" required class="form-control">
-                                                        <input type="hidden" name="i_id" id="Ins_Id" required class="form-control">
+                                                        <label>Student Name</label>
+                                                        <input type="text" name="s_name" id="Std_Name" required class="form-control">
+                                                        <input type="hidden" name="s_id" id="Std_Id" required class="form-control">
                                                     </div>
                                                 </div>
                                                 <hr>
                                                 <div class="text-right">
-                                                    <button type="submit" name="add_teaching_allocation" class="btn btn-outline-warning">Add Teaching Allocation</button>
+                                                    <button type="submit" name="enroll_student" class="btn btn-outline-warning">Enroll Student </button>
                                                 </div>
                                             </form>
                                         </div>

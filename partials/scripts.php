@@ -163,6 +163,120 @@
       }
     });
   }
+
+  /* Allocation Details */
+  function GetAllocatedUnitDetails(val) {
+    $.ajax({
+
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Allocated_Unit_Code=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Allocated_Unit_Name').val(data);
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Allocated_Unit_Name=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Allocated_Ins_Name').val(data);
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Allocated_Ins_Name=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Allocated_Course_ID').val(data);
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Allocated_Course_ID=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Allocated_Unit_ID').val(data);
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Allocated_Unit_ID=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Allocated_Ins_ID').val(data);
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Allocated_Ins_ID=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Allocated_Course_Name').val(data);
+      }
+    });
+
+
+  }
+   /* Instructor Details */
+   function GetInstructorDetails(val) {
+    $.ajax({
+
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Ins_Number=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Ins_Name').val(data);
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Ins_Name=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Ins_Id').val(data);
+      }
+    });
+  }
+
+ /* Student  Details */
+ function GetStudentDetails(val) {
+    $.ajax({
+
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Std_Admn=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Std_Name').val(data);
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "../partials/ajax.php",
+      data: 'Std_Name=' + val,
+      success: function(data) {
+        //alert(data);
+        $('#Std_Id').val(data);
+      }
+    });
+  }
+
 </script>
 <!-- Print Contents Inside A Div -->
 <script>
