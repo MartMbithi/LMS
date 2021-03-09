@@ -6,7 +6,7 @@ admin();
 require_once('../config/codeGen.php');
 
 /* Add Enrollment */
-if (isset($_POST['add_enrollment'])) {
+if (isset($_POST['enroll_student'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
@@ -205,7 +205,7 @@ require_once('../partials/head.php');
                                                     <div class="form-group col-md-6">
                                                         <label>Student Admission Number</label>
                                                         <select name="s_regno" style="width: 100%;" onchange="GetStudentDetails(this.value)" id="Std_Admn" required class="form-control select2bs4">
-                                                            <option>Select Instructor Name</option>
+                                                            <option>Select Admission Number</option>
                                                             <?php
                                                             $ret = "SELECT  * FROM  lms_student";
                                                             $stmt = $mysqli->prepare($ret);
@@ -242,34 +242,40 @@ require_once('../partials/head.php');
                                 <table id="dash-1" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Instructor Name</th>
-                                            <th>Instructor Number</th>
-                                            <th>Allocated Unit Code</th>
-                                            <th>Allocated Unit Name</th>
+                                            <th>Std Name</th>
+                                            <th>Std RegNo</th>
+                                            <th>Unit Code</th>
+                                            <th>Unit Name</th>
+                                            <th>Course</th>
+                                            <th>Instructor</th>
+                                            <th>Date Enrolled</th>
                                             <th>Manage</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $ret = "SELECT  * FROM  lms_units_assaigns ";
+                                        $ret = "SELECT  * FROM  lms_enrollments ";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
-                                        while ($allocations = $res->fetch_object()) {
+                                        while ($enrollments = $res->fetch_object()) {
                                         ?>
                                             <tr>
-                                                <td><?php echo $allocations->i_name; ?></td>
-                                                <td><?php echo $allocations->i_number; ?></td>
-                                                <td><?php echo $allocations->c_code; ?></td>
-                                                <td><?php echo $allocations->c_name; ?></td>
+                                                <td><?php echo $enrollments->s_regno; ?></td>
+                                                <td><?php echo $enrollments->s_name; ?></td>
+                                                <td><?php echo $enrollments->s_unit_code; ?></td>
+                                                <td><?php echo $enrollments->s_unit_name; ?></td>
+                                                <td><?php echo $enrollments->s_course; ?></td>
+                                                <td><?php echo $enrollments->i_name; ?></td>
+                                                <td><?php date('d M Y', strtotime($enrollments->en_date)); ?></td>
                                                 <td>
 
-                                                    <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $allocations->ua_id; ?>">
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $enrollments->en_id; ?>">
                                                         <i class="fas fa-trash-alt"></i>
                                                         Delete
                                                     </a>
                                                     <!-- Delete Modal -->
-                                                    <div class="modal fade" id="delete-<?php echo $allocations->ua_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="delete-<?php echo $enrollments->en_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -279,10 +285,10 @@ require_once('../partials/head.php');
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body text-center text-danger">
-                                                                    <h4>Delete <?php echo $allocations->i_name; ?> - <?php echo $allocations->i_number; ?> Teaching Allocation ?</h4>
+                                                                    <h4>Delete <?php echo $enrollments->s_name . " " . $enrollments->s_unit_name; ?> Enrollment? </h4>
                                                                     <br>
                                                                     <button type="button" class="text-center btn btn-outline-warning" data-dismiss="modal">No</button>
-                                                                    <a href="teaching_allocations.php?delete=<?php echo $allocations->ua_id; ?>" class="text-center btn btn-outline-warning"> Delete </a>
+                                                                    <a href="unit_enrollments.php?delete=<?php echo $enrollments->en_id; ?>" class="text-center btn btn-outline-warning"> Delete </a>
                                                                 </div>
                                                             </div>
                                                         </div>
