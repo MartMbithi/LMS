@@ -24,4 +24,6 @@
   <link rel="stylesheet" href="../public/plugins/select2/css/select2.min.css">
   <!-- CK Editor CDN -->
   <script src="https://cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
+  <!-- Certifcate CSS -->
+  <link rel="stylesheet" href="../public/css/certificate.css">
 </head>

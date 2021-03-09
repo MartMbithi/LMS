@@ -34,6 +34,38 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="teaching_allocations.php" class="nav-link">
+                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                        <p>
+                            Teaching Allocations
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="unit_enrollments.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-check"></i>
+                        <p>
+                            Unit Enrollments
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="billings.php" class="nav-link">
+                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                        <p>
+                            Billings
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="study_materials.php" class="nav-link">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>
+                            Study Materials
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-laptop-code"></i>
@@ -55,30 +87,14 @@
                                 <p>Answers</p>
                             </a>
                         </li>
-
                     </ul>
-                </li>
+                </li>               
+                
                 <li class="nav-item">
-                    <a href="study_materials.php" class="nav-link">
-                        <i class="nav-icon fas fa-file"></i>
-                        <p>
-                            Study Materials
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="billings.php" class="nav-link">
-                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                        <p>
-                            Billings
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="results.php" class="nav-link">
+                    <a href="marks.php" class="nav-link">
                         <i class="nav-icon fas fa-poll-h"></i>
                         <p>
-                            Results
+                            Marks Entry
                         </p>
                     </a>
                 </li>
@@ -87,14 +103,6 @@
                         <i class="nav-icon fas fa-certificate"></i>
                         <p>
                             Certificates
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="forum.php" class="nav-link">
-                        <i class="nav-icon fas fa-comments"></i>
-                        <p>
-                            Forums
                         </p>
                     </a>
                 </li>
@@ -111,22 +119,6 @@
                         <i class="nav-icon fas fa-user-graduate"></i>
                         <p>
                             Students
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="unit_enrollments.php" class="nav-link">
-                        <i class="nav-icon fas fa-user-check"></i>
-                        <p>
-                            Unit Enrollments
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="teaching_allocations.php" class="nav-link">
-                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                        <p>
-                            Teaching Allocations
                         </p>
                     </a>
                 </li>

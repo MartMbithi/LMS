@@ -5,9 +5,7 @@ include('../config/checklogin.php');
 admin();
 require_once('../partials/analytics.php');
 require_once('../partials/head.php');
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 ?>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
