@@ -179,17 +179,17 @@ require_once('../partials/head.php');
 
                                                                             <div class="form-group col-md-4">
                                                                                 <label>Registration Number</label>
-                                                                                <input type="text" name="s_regno" readonly required value="<?php echo $enrollment->s_regno; ?>" class="form-control">
+                                                                                <input type="text" name="s_regno"  required value="<?php echo $enrollment->s_regno; ?>" class="form-control">
                                                                             </div>
 
                                                                             <div class="form-group col-md-4">
                                                                                 <label>Name</label>
-                                                                                <input type="text" name="s_name" readonly value="<?php echo $enrollment->s_name; ?>" required class="form-control">
+                                                                                <input type="text" name="s_name"  value="<?php echo $enrollment->s_name; ?>" required class="form-control">
                                                                             </div>
 
                                                                             <div class="form-group col-md-4">
                                                                                 <label>Instructor Name</label>
-                                                                                <input type="text" name="i_name" readonly value="<?php echo $enrollment->i_name; ?>" required class="form-control">
+                                                                                <input type="text" name="i_name"  value="<?php echo $enrollment->i_name; ?>" required class="form-control">
                                                                             </div>
                                                                         </div>
 
@@ -197,12 +197,12 @@ require_once('../partials/head.php');
 
                                                                             <div class="form-group col-md-6">
                                                                                 <label>Unit Code</label>
-                                                                                <input type="text" name="s_unit_code" readonly value="<?php echo $enrollment->s_unit_code; ?>" required class="form-control">
+                                                                                <input type="text" name="s_unit_code"  value="<?php echo $enrollment->s_unit_code; ?>" required class="form-control">
                                                                             </div>
 
                                                                             <div class="form-group col-md-6">
                                                                                 <label>Unit Name</label>
-                                                                                <input type="text" name="s_unit_name" readonly required value="<?php echo $enrollment->s_unit_name; ?>" class="form-control">
+                                                                                <input type="text" name="s_unit_name"  required value="<?php echo $enrollment->s_unit_name; ?>" class="form-control">
                                                                             </div>
                                                                         </div>
                                                                         <div class="text-right">

@@ -1,0 +1,86 @@
+body,
+html {
+    background-color: #17161e;
+}
+
+p {
+    margin: 0 0 2px !important;
+}
+
+#bannerProp {
+    width: 75px;
+    height: 918px;
+}
+
+.header-large{
+    font-size: 350%;
+    font-weight: 600;
+
+}
+
+.light-bold {
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.show {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 40px;
+    margin-top: -20px;
+    margin-left: -75px;
+    background: #e74c3c;
+    color: #fff;
+    border-radius: 5px;
+    border: 0;
+    border-bottom: 2px solid #c0392b;
+    cursor: pointer;
+}
+
+.show:hover {
+    background: #c0392b;
+}
+
+.show:active {
+    transform: scale(0.9);
+}
+
+.medium-font{
+    font-size: 15px!important;
+}
+
+.margin-prop{
+    margin-bottom: 20px;
+}
+
+#logoProp {
+    width: 85px;
+    height: 75px;
+}
+
+#certifyPos{
+    margin-top: 7px !important;
+    font-size: 12px;
+}
+
+#footerLogo {
+    height: 40px;
+}
+
+#hospLogo {
+    height: 55px;
+}
+
+#signLogo {
+    width: 350px;
+}
+
+#smallFont {
+    font-size: 60%;
+}
+
+#specMargin {
+    margin-bottom: 10px;
+}
