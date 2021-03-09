@@ -75,10 +75,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="results.php" class="nav-link">
+                    <a href="marks.php" class="nav-link">
                         <i class="nav-icon fas fa-poll-h"></i>
                         <p>
-                            Results
+                            Marks Entry
                         </p>
                     </a>
                 </li>
