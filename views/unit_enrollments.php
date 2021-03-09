@@ -267,7 +267,7 @@ require_once('../partials/head.php');
                                                 <td><?php echo $enrollments->s_unit_name; ?></td>
                                                 <td><?php echo $enrollments->s_course; ?></td>
                                                 <td><?php echo $enrollments->i_name; ?></td>
-                                                <td><?php date('d M Y', strtotime($enrollments->en_date)); ?></td>
+                                                <td><?php echo date('d M Y', strtotime($enrollments->en_date)); ?></td>
                                                 <td>
 
                                                     <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $enrollments->en_id; ?>">
