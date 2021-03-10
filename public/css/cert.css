@@ -1,0 +1,22 @@
+/* Css Files For Certificate */
+@import url("https://fonts.googleapis.com/css2?family=Tangerine");
+@import url('https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+.cert_header {
+
+  font-family: "Orbitron", serif;
+  font-size: 55px;
+  text-shadow: 4px 4px 4px rgb(92, 13, 13);
+}
+
+.cert_holder {
+  font-family: "Tangerine", serif;
+  font-size: 48px;
+  text-shadow: 4px 4px 4px #aaa;
+}
+
+.cert_instructor_signature {
+    font-family: "Kaushan Script", serif;
+    font-size: 30px;
+    text-shadow: 4px 4px 4px #aaa;
+  }
