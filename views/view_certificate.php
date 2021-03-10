@@ -67,30 +67,50 @@ require_once('../partials/head.php');
                                                                                     <br>
                                                                                 </div>
                                                                                 <hr>
-                                                                                <h5>
+                                                                                <br><br><br><br><br><br>
+                                                                                <h2>
                                                                                     This Is To Certifiy That
-                                                                                </h5>
-                                                                                <h3 class="cert_holder">
-                                                                                    <i> <?php echo $cert->s_regno . " " . $cert->s_name; ?> </i>
+                                                                                </h2>
+                                                                                <h3 class="cert_holder text-bold">
+                                                                                    <i> <?php echo $cert->s_name; ?> </i>
                                                                                 </h3>
-                                                                                <h5>
+                                                                                <h2>
+                                                                                    Admission Number
+                                                                                </h2>
+                                                                                <h3 class="cert_holder text-bold">
+                                                                                    <i> <?php echo $cert->s_regno; ?> </i>
+                                                                                </h3>
+                                                                                <h2>
                                                                                     Has Completed
-                                                                                </h5>
-                                                                                <h3>
+                                                                                </h2>
+                                                                                <h3 class="cert_holder text-bold">
                                                                                     <i> <?php echo $cert->s_unit_code . " " .  $cert->s_unit_name; ?> </i>
                                                                                 </h3>
-                                                                                <br><br><br>
-                                                                                <div class="text-center">
-                                                                                    <u>
-                                                                                        <h4 class="cert_instructor_signature">
-                                                                                            <?php echo $cert->i_name; ?>
-                                                                                        </h4>
-                                                                                    </u>
+                                                                                <h2>
+                                                                                    Enrolled On
+                                                                                </h2>
+                                                                                <h3 class="cert_holder text-bold">
+                                                                                    <i> <?php echo date('d M Y', strtotime($cert->en_date)); ?> </i>
+                                                                                </h3>
+                                                                                <br><br><br><br><br><br>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">
+                                                                                        <p class="cert_instructor_signature">
+                                                                                            <u><?php echo $cert->i_name; ?></u>
+                                                                                        </p>
+                                                                                        <h4>Intergrated LMS Instructor </h4>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <p class="cert_instructor_signature">
+                                                                                            <u><?php echo date('d M Y', strtotime($cert->date_generated)); ?></u>
+                                                                                        </p>
+                                                                                        <h4>Date Generated </h4>
+                                                                                    </div>
                                                                                 </div>
                                                                                 <br><br><br>
                                                                                 <p>Scan To Verify</p>
                                                                                 <?php
-                                                                                require_once('../vendor/autoload.php');
+                                                                                /* require_once('../vendor/autoload.php');
                                                                                 $barcode = new \Com\Tecnick\Barcode\Barcode();
                                                                                 $targetPath = "../public/sys_data/qr_code/";
                                                                                 if (!is_dir($targetPath)) {
@@ -99,7 +119,7 @@ require_once('../partials/head.php');
                                                                                 /* Date Added */
                                                                                 $date_added = date("D M Y g:ia", strtotime($mark->c_date_added));
                                                                                 $QRcode_Details = " VERIFIED," . " This Is  An Official Transcript For " .  $mark->s_regno . "  " . $mark->s_name;
-                                                                                /* Merge All Payment Details */
+                                                                                /* Merge All Payment Details 
                                                                                 $bobj = $barcode->getBarcodeObj('QRCODE,H', $QRcode_Details, -16, -16, 'black', array(
                                                                                     -2,
                                                                                     -2,
@@ -108,8 +128,8 @@ require_once('../partials/head.php');
                                                                                 ))->setBackgroundColor('#f0f0f0');
 
                                                                                 $imageData = $bobj->getPngData();
-                                                                                $timestamp = time();
-                                                                                file_put_contents($targetPath . $timestamp . '.png', $imageData); ?>
+                                                                                $timestamp = time(); 
+                                                                                file_put_contents($targetPath . $timestamp . '.png', $imageData);*/ ?>
                                                                                 <img src="<?php echo $targetPath . $timestamp; ?>.png" width="100px" height="100px">
                                                                             </div>
                                                                         </div>
@@ -121,7 +141,7 @@ require_once('../partials/head.php');
                                                     <div class="text-right">
                                                         <button id="print" onclick="printContent('Print');" type="button" class="btn btn-outline-warning">
                                                             <i class="fas fa-print"></i>
-                                                            Print Transcription
+                                                            Print Certificate
                                                         </button>
                                                     </div>
                                                 </div>
