@@ -63,17 +63,14 @@ require_once('../partials/head.php');
                                                                         <div class="card card-warning card-outline">
                                                                             <div class="card-body text-center box-profile">
                                                                                 <div class="col-sm-12">
-                                                                                    <address>
-                                                                                        <h1>INTERGRATED LMS</h1>
-                                                                                        <h4>CERTIFICATE OF COMPLETION</h4>
-                                                                                    </address>
+                                                                                    <h4 class="cert_header">CERTIFICATE OF COMPLETION</h4>
                                                                                     <br>
                                                                                 </div>
                                                                                 <hr>
                                                                                 <h5>
                                                                                     This Is To Certifiy That
                                                                                 </h5>
-                                                                                <h3>
+                                                                                <h3 class="cert_holder">
                                                                                     <i> <?php echo $cert->s_regno . " " . $cert->s_name; ?> </i>
                                                                                 </h3>
                                                                                 <h5>
@@ -82,6 +79,14 @@ require_once('../partials/head.php');
                                                                                 <h3>
                                                                                     <i> <?php echo $cert->s_unit_code . " " .  $cert->s_unit_name; ?> </i>
                                                                                 </h3>
+                                                                                <br><br><br>
+                                                                                <div class="text-center">
+                                                                                    <u>
+                                                                                        <h4 class="cert_instructor_signature">
+                                                                                            <?php echo $cert->i_name; ?>
+                                                                                        </h4>
+                                                                                    </u>
+                                                                                </div>
                                                                                 <br><br><br>
                                                                                 <p>Scan To Verify</p>
                                                                                 <?php
@@ -105,7 +110,7 @@ require_once('../partials/head.php');
                                                                                 $imageData = $bobj->getPngData();
                                                                                 $timestamp = time();
                                                                                 file_put_contents($targetPath . $timestamp . '.png', $imageData); ?>
-                                                                                <img src="<?php echo $targetPath . $timestamp; ?>.png" width="218px" height="218px">
+                                                                                <img src="<?php echo $targetPath . $timestamp; ?>.png" width="100px" height="100px">
                                                                             </div>
                                                                         </div>
                                                                     </div>

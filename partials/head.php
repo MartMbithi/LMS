@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../public/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="../public/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- DataTables -->
@@ -25,5 +26,5 @@
   <!-- CK Editor CDN -->
   <script src="https://cdn.ckeditor.com/4.16.0/basic/ckeditor.js"></script>
   <!-- Certifcate CSS -->
-  <link rel="stylesheet" href="../public/css/certificate.css">
+  <link rel="stylesheet" href="../public/css/cert.css">
 </head>

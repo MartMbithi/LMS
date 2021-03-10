@@ -1,0 +1,22 @@
+/* Css Files For Certificate */
+@import url("https://fonts.googleapis.com/css2?family=Tangerine");
+@import url("https://fonts.googleapis.com/css2?family=Redressed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Redressed&display=swap");
+
+.cert_header {
+  font-family: "Redressed", serif;
+  font-size: 58px;
+  text-shadow: 4px 4px 4px rgb(92, 13, 13);
+}
+
+.cert_holder {
+  font-family: "Tangerine", serif;
+  font-size: 48px;
+  text-shadow: 4px 4px 4px #aaa;
+}
+
+.cert_instructor_signature {
+    font-family: "Dancing Script", serif;
+    font-size: 48px;
+    text-shadow: 4px 4px 4px #aaa;
+  }
