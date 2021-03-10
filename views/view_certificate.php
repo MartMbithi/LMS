@@ -108,7 +108,7 @@ require_once('../partials/head.php');
                                                                                     </div>
                                                                                 </div>
                                                                                 <br><br><br>
-                                                                                <p>Scan To Verify</p>
+                                                                                <p>To Verify This Certificate, Scan Below QR Code</p>
                                                                                 <?php
                                                                                 require_once('../vendor/autoload.php');
                                                                                 $barcode = new \Com\Tecnick\Barcode\Barcode();
@@ -133,7 +133,7 @@ require_once('../partials/head.php');
                                                                                 $imageData = $bobj->getPngData();
                                                                                 $timestamp = time(); 
                                                                                 file_put_contents($targetPath . $timestamp . '.png', $imageData);?>
-                                                                                <img src="<?php echo $targetPath . $timestamp; ?>.png" width="100px" height="100px">
+                                                                                <img src="<?php echo $targetPath . $timestamp; ?>.png" width="150px" height="150px">
                                                                             </div>
                                                                         </div>
                                                                     </div>
