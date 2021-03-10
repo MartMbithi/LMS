@@ -110,16 +110,19 @@ require_once('../partials/head.php');
                                                                                 <br><br><br>
                                                                                 <p>Scan To Verify</p>
                                                                                 <?php
-                                                                                /* require_once('../vendor/autoload.php');
+                                                                                require_once('../vendor/autoload.php');
                                                                                 $barcode = new \Com\Tecnick\Barcode\Barcode();
                                                                                 $targetPath = "../public/sys_data/qr_code/";
                                                                                 if (!is_dir($targetPath)) {
                                                                                     mkdir($targetPath, 0777, true);
                                                                                 }
                                                                                 /* Date Added */
-                                                                                $date_added = date("D M Y g:ia", strtotime($mark->c_date_added));
-                                                                                $QRcode_Details = " VERIFIED," . " This Is  An Official Transcript For " .  $mark->s_regno . "  " . $mark->s_name;
-                                                                                /* Merge All Payment Details 
+                                                                                $date_added = date("D M Y g:ia", strtotime($cert->date_generated));
+                                                                                $QRcode_Details = " VERIFIED," . "
+                                                                                This Is  An Original Certificate Awarded To " .  $cert->s_regno . "  " . $cert->s_name
+                                                                                . " " . " For Completing $cert->s_unit_code $cert->s_unit_name Course."
+                                                                                ;
+                                                                                /* Merge All Payment Details */
                                                                                 $bobj = $barcode->getBarcodeObj('QRCODE,H', $QRcode_Details, -16, -16, 'black', array(
                                                                                     -2,
                                                                                     -2,
@@ -129,7 +132,7 @@ require_once('../partials/head.php');
 
                                                                                 $imageData = $bobj->getPngData();
                                                                                 $timestamp = time(); 
-                                                                                file_put_contents($targetPath . $timestamp . '.png', $imageData);*/ ?>
+                                                                                file_put_contents($targetPath . $timestamp . '.png', $imageData);?>
                                                                                 <img src="<?php echo $targetPath . $timestamp; ?>.png" width="100px" height="100px">
                                                                             </div>
                                                                         </div>
