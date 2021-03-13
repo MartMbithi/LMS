@@ -196,7 +196,7 @@ require_once('../partials/head.php');
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">
-                                                Allowed file types: XLS, XLSX. Please, <a href="../public/sys_data/uploads/xls/Courses_Template.xlsx">Download</a> The Sample File.
+                                                Allowed file types: XLS, XLSX. Please, <a href="../public/sys_data/uploads/xls/Instructors.xlsx">Download</a> The Sample File.
                                             </h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -281,7 +281,7 @@ require_once('../partials/head.php');
                                                 </div>
                                                 <hr>
                                                 <div class="text-right">
-                                                    <button type="submit" name="add_ins" class="btn btn-outline-primary">Add Instructor</button>
+                                                    <button type="submit" name="add_ins" class="btn btn-outline-warning">Add Instructor</button>
                                                 </div>
                                             </form>
                                         </div>
