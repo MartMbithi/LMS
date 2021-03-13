@@ -246,34 +246,39 @@ if (isset($_POST["upload"])) {
 
             $s_phoneno = "";
             if (isset($spreadSheetAry[$i][3])) {
-                $s_phoneno = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+                $s_phoneno = mysqli_real_escape_string($conn, $spreadSheetAry[$i][3]);
             }
 
             $s_dob = "";
             if (isset($spreadSheetAry[$i][4])) {
-                $s_dob = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+                $s_dob = mysqli_real_escape_string($conn, $spreadSheetAry[$i][4]);
             }
 
             $s_gender = "";
             if (isset($spreadSheetAry[$i][5])) {
-                $s_gender = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+                $s_gender = mysqli_real_escape_string($conn, $spreadSheetAry[$i][5]);
             }
 
             $s_acc_stats = "";
             if (isset($spreadSheetAry[$i][5])) {
-                $s_acc_stats = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+                $s_acc_stats = mysqli_real_escape_string($conn, $spreadSheetAry[$i][6]);
+            }
+
+            $s_course = "";
+            if (isset($spreadSheetAry[$i][6])) {
+                $s_course = mysqli_real_escape_string($conn, $spreadSheetAry[$i][7]);
             }
 
             /* Convert Student Password To Bunch Of Jumble Mumble */
-            $s_acc_stats = "";
-            if (isset($spreadSheetAry[$i][6])) {
-                $s_acc_stats = mysqli_real_escape_string($conn, $spreadSheetAry[$i][6]);
+            $s_pwd = "";
+            if (isset($spreadSheetAry[$i][8])) {
+                $s_pwd = sha1(md5(mysqli_real_escape_string($conn, $spreadSheetAry[$i][8])));
             }
 
 
             if (!empty($s_email) || !empty($s_regno) || !empty($s_phoneno)) {
                 $query = "INSERT INTO lms_student (s_regno, s_course, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats) VALUES (?,?,?,?,?,?,?,?,?)";
-                $paramType = "s,s,s,s,s,s,s,s,s";
+                $paramType = "sssssssss";
                 $paramArray = array(
                     $s_regno,
                     $s_course,
@@ -348,7 +353,7 @@ require_once('../partials/head.php');
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">
-                                                Allowed file types: XLS, XLSX. Please, <a href="../public/sys_data/uploads/xls/Students.xlsx">Download</a> The Sample File.
+                                                Allowed file types: XLS, XLSX. Please, <a href="../public/sys_data/uploads/xls/Students_Template.xlsx">Download</a> The Sample File.
                                             </h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -488,6 +493,7 @@ require_once('../partials/head.php');
                                         <tr>
                                             <th>Name</th>
                                             <th>RegNo</th>
+                                            <th>Email</th>
                                             <th>Contact</th>
                                             <th>Account Status</th>
                                             <th>DOB</th>
@@ -508,6 +514,7 @@ require_once('../partials/head.php');
                                             <tr>
                                                 <td><?php echo $students->s_name; ?></td>
                                                 <td><?php echo $students->s_regno; ?></td>
+                                                <td><?php echo $students->s_email; ?></td>
                                                 <td><?php echo $students->s_phoneno; ?></td>
                                                 <td><?php echo $students->s_acc_stats; ?></td>
                                                 <td><?php echo date('d M Y', strtotime($students->s_dob)); ?></td>
