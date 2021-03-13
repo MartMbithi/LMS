@@ -46,7 +46,7 @@ if (isset($_POST['add_ins'])) {
     }
 
     $i_dpic = $_FILES["i_dpic"]["name"];
-    move_uploaded_file($_FILES["i_dpic"]["tmp_name"], "../public/uploads/users/" . $_FILES["i_dpic"]["name"]); //move uploaded image
+    move_uploaded_file($_FILES["i_dpic"]["tmp_name"], "../public/sys_data/uploads/users/" . $_FILES["i_dpic"]["name"]); //move uploaded image
 
     if (!$error) {
         //prevent Double entries
@@ -111,15 +111,10 @@ if (isset($_POST['update_ins'])) {
         $err = "Phone Cannot Be Empty";
     }
 
-    if (isset($_POST['i_pwd']) && !empty($_POST['i_pwd'])) {
-        $i_pwd = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['i_pwd']))));
-    } else {
-        $error = 1;
-        $err = "Password Cannot Be Empty";
-    }
+
 
     $i_dpic = $_FILES["i_dpic"]["name"];
-    move_uploaded_file($_FILES["i_dpic"]["tmp_name"], "../public/uploads/users/" . $_FILES["i_dpic"]["name"]); //move uploaded image
+    move_uploaded_file($_FILES["i_dpic"]["tmp_name"], "../public/sys_data/uploads/users/" . $_FILES["i_dpic"]["name"]); //move uploaded image
 
     if (!$error) {
 
@@ -250,48 +245,44 @@ require_once('../partials/head.php');
                                             <!-- Form -->
                                             <form method="post" enctype="multipart/form-data">
                                                 <div class="row">
-                                                    <div class="form-group col-md-6" style="display:none">
+                                                    <div class="form-group col-md-6">
                                                         <label for="exampleInputEmail1">Instructor Number</label>
-                                                        <?php
-                                                        $length = 8;
-                                                        $inumber =  substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 1, $length);
-                                                        ?>
-                                                        <input type="text" name="i_number" value="<?php echo $inumber; ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                        <input type="text" name="i_number" value="<?php echo $a . " " . $b; ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                                     </div>
-                                                    <div class="form-group col-md-4">
+                                                    <div class="form-group col-md-6">
                                                         <label for="exampleInputEmail1">Instructor Full Name</label>
                                                         <input type="text" name="i_name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                                     </div>
 
-                                                    <div class="form-group col-md-4">
+                                                    <div class="form-group col-md-6">
                                                         <label for="exampleInputEmail1">Email Address</label>
                                                         <input type="email" name="i_email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                                     </div>
 
-                                                    <div class="form-group col-md-4">
+                                                    <div class="form-group col-md-6">
                                                         <label for="exampleInputEmail1">Phone Number</label>
                                                         <input type="text" name="i_phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                                     </div>
-
                                                 </div>
-
                                                 <div class="row">
-
                                                     <div class="form-group col-md-6">
                                                         <label for="exampleInputEmail1">Password</label>
                                                         <input type="password" name="i_pwd" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                                     </div>
-
                                                     <div class="form-group col-md-6">
-                                                        <label for="exampleInputEmail1">Instructor Passport</label>
-                                                        <input type="file" name="i_dpic" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                        <label for="exampleInputFile">Instructor Passport</label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input required name="i_dpic" accept=".png, .jpg" type="file" class="custom-file-input" id="exampleInputFile">
+                                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
                                                 </div>
-
                                                 <hr>
-
-                                                <button type="submit" name="lms_instructor" class="btn btn-outline-primary">Add Instructor</button>
+                                                <div class="text-right">
+                                                    <button type="submit" name="add_ins" class="btn btn-outline-primary">Add Instructor</button>
+                                                </div>
                                             </form>
                                         </div>
                                         <div class="modal-footer justify-content-between">
@@ -350,7 +341,45 @@ require_once('../partials/head.php');
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <!-- Form -->
+                                                                    <form method="post" enctype="multipart/form-data">
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="exampleInputEmail1">Instructor Number</label>
+                                                                                <input type="text" name="i_number" value="<?php echo $ins->i_number ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                                                <input type="hidden" name="i_id" value="<?php echo $ins->i_id ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 
+                                                                            </div>
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="exampleInputEmail1">Instructor Full Name</label>
+                                                                                <input type="text" name="i_name" value="<?php echo $ins->i_name; ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                                            </div>
+
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="exampleInputEmail1">Email Address</label>
+                                                                                <input type="email" name="i_email" value="<?php echo $ins->i_email; ?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                                            </div>
+
+                                                                            <div class="form-group col-md-6">
+                                                                                <label for="exampleInputEmail1">Phone Number</label>
+                                                                                <input type="text" name="i_phone" value="<?php echo $ins->i_phone; ?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="exampleInputFile">Instructor Passport</label>
+                                                                                <div class="input-group">
+                                                                                    <div class="custom-file">
+                                                                                        <input required name="i_dpic" accept=".png, .jpg" type="file" class="custom-file-input" id="exampleInputFile">
+                                                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr>
+                                                                        <div class="text-right">
+                                                                            <button type="submit" name="update_ins" class="btn btn-outline-primary">Update Instructor</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
                                                                 <div class="modal-footer justify-content-between">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
