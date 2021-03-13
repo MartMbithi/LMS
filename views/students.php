@@ -5,65 +5,95 @@ include('../config/checklogin.php');
 admin();
 require_once('../config/codeGen.php');
 
-/* Add Instructor */
-if (isset($_POST['add_ins'])) {
+/* Add Student */
+if (isset($_POST['add_std'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
-    if (isset($_POST['i_number']) && !empty($_POST['i_number'])) {
-        $i_number = mysqli_real_escape_string($mysqli, trim($_POST['i_number']));
+
+    if (isset($_POST['s_regno']) && !empty($_POST['s_regno'])) {
+        $s_regno = mysqli_real_escape_string($mysqli, trim($_POST['s_regno']));
     } else {
         $error = 1;
-        $err = "Number Cannot Be Empty";
+        $err = "Admo Number Cannot Be Empty";
     }
 
-    if (isset($_POST['i_name']) && !empty($_POST['i_name'])) {
-        $i_name = mysqli_real_escape_string($mysqli, trim($_POST['i_name']));
+    if (isset($_POST['s_name']) && !empty($_POST['s_name'])) {
+        $s_name = mysqli_real_escape_string($mysqli, trim($_POST['s_name']));
     } else {
         $error = 1;
         $err = "Name Cannot Be Empty";
     }
 
-    if (isset($_POST['i_email']) && !empty($_POST['i_email'])) {
-        $i_email = mysqli_real_escape_string($mysqli, trim($_POST['i_email']));
+    if (isset($_POST['s_email']) && !empty($_POST['s_email'])) {
+        $s_email = mysqli_real_escape_string($mysqli, trim($_POST['s_email']));
     } else {
         $error = 1;
         $err = "Email Cannot Be Empty";
     }
 
-    if (isset($_POST['i_phone']) && !empty($_POST['i_phone'])) {
-        $i_phone = mysqli_real_escape_string($mysqli, trim($_POST['i_phone']));
+    if (isset($_POST['s_phoneno']) && !empty($_POST['s_phoneno'])) {
+        $s_phoneno = mysqli_real_escape_string($mysqli, trim($_POST['s_phoneno']));
     } else {
         $error = 1;
         $err = "Phone Cannot Be Empty";
     }
 
-    if (isset($_POST['i_pwd']) && !empty($_POST['i_pwd'])) {
-        $i_pwd = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['i_pwd']))));
+    if (isset($_POST['s_dob']) && !empty($_POST['s_dob'])) {
+        $s_dob = mysqli_real_escape_string($mysqli, trim($_POST['s_dob']));
+    } else {
+        $error = 1;
+        $err = "DOB Cannot Be Empty";
+    }
+
+    if (isset($_POST['s_gender']) && !empty($_POST['s_gender'])) {
+        $s_gender = mysqli_real_escape_string($mysqli, trim($_POST['s_gender']));
+    } else {
+        $error = 1;
+        $err = "Gender Cannot Be Empty";
+    }
+
+    if (isset($_POST['s_acc_stats']) && !empty($_POST['s_acc_stats'])) {
+        $s_acc_stats = mysqli_real_escape_string($mysqli, trim($_POST['s_acc_stats']));
+    } else {
+        $error = 1;
+        $err = "Account Status Cannot Be Empty";
+    }
+
+    if (isset($_POST['s_course']) && !empty($_POST['s_course'])) {
+        $s_course = mysqli_real_escape_string($mysqli, trim($_POST['s_course']));
+    } else {
+        $error = 1;
+        $err = "Student Course  Cannot Be Empty";
+    }
+
+
+    if (isset($_POST['s_pwd']) && !empty($_POST['s_pwd'])) {
+        $s_pwd = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['s_pwd']))));
     } else {
         $error = 1;
         $err = "Password Cannot Be Empty";
     }
 
-    $i_dpic = $_FILES["i_dpic"]["name"];
-    move_uploaded_file($_FILES["i_dpic"]["tmp_name"], "../public/sys_data/uploads/users/" . $_FILES["i_dpic"]["name"]); //move uploaded image
+    $s_dpic = $_FILES["s_dpic"]["name"];
+    move_uploaded_file($_FILES["s_dpic"]["tmp_name"], "../public/sys_data/uploads/users/" . $_FILES["s_dpic"]["name"]);
 
     if (!$error) {
         //prevent Double entries
-        $sql = "SELECT * FROM  lms_instructor WHERE  i_number='$i_number'  ";
+        $sql = "SELECT * FROM  lms_student WHERE  s_regno = '$s_regno'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if ($i_number == $row['i_number']) {
-                $err =  "An INstructor  With $i_number Already Exists";
+            if ($s_regno == $row['s_regno']) {
+                $err =  "A Student  With $s_regno Already Exists";
             }
         } else {
-            $query = "INSERT INTO lms_instructor (i_number, i_name, i_phone, i_email, i_pwd, i_dpic) VALUES (?,?,?,?,?,?)";
+            $query = "INSERT INTO lms_student (s_regno, s_course, s_name, s_email, s_pwd, s_phoneno, s_dob, s_gender, s_acc_stats, s_dpic) VALUES (?,?,?,?,?,?,?,?,?,?)";
             $stmt = $mysqli->prepare($query);
-            $rc = $stmt->bind_param('ssssss', $i_number, $i_name, $i_phone, $i_email, $i_pwd, $i_dpic);
+            $rc = $stmt->bind_param('ssssssssss', $s_regno, $s_course, $s_name, $s_email, $s_pwd, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic);
             $stmt->execute();
             if ($stmt) {
-                $success = "Added" && header("refresh:1; url=instructors.php");
+                $success = "Added" && header("refresh:1; url=students.php");
             } else {
                 $info = "Please Try Again Or Try Later";
             }
@@ -71,59 +101,86 @@ if (isset($_POST['add_ins'])) {
     }
 }
 
-/* Update Instructor */
-if (isset($_POST['update_ins'])) {
+/* Update Student */
+if (isset($_POST['add_std'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
-    if (isset($_POST['i_id']) && !empty($_POST['i_id'])) {
-        $i_id = mysqli_real_escape_string($mysqli, trim($_POST['i_id']));
+    if (isset($_POST['s_id']) && !empty($_POST['s_id'])) {
+        $s_id = mysqli_real_escape_string($mysqli, trim($_POST['s_id']));
     } else {
         $error = 1;
-        $err = "Instructor ID Cannot Be Empty";
+        $err = "Student ID Cannot Be Empty";
     }
 
-    if (isset($_POST['i_number']) && !empty($_POST['i_number'])) {
-        $i_number = mysqli_real_escape_string($mysqli, trim($_POST['i_number']));
+    if (isset($_POST['s_regno']) && !empty($_POST['s_regno'])) {
+        $s_regno = mysqli_real_escape_string($mysqli, trim($_POST['s_regno']));
     } else {
         $error = 1;
-        $err = "Number Cannot Be Empty";
+        $err = "Admo Number Cannot Be Empty";
     }
 
-    if (isset($_POST['i_name']) && !empty($_POST['i_name'])) {
-        $i_name = mysqli_real_escape_string($mysqli, trim($_POST['i_name']));
+    if (isset($_POST['s_name']) && !empty($_POST['s_name'])) {
+        $s_name = mysqli_real_escape_string($mysqli, trim($_POST['s_name']));
     } else {
         $error = 1;
         $err = "Name Cannot Be Empty";
     }
 
-    if (isset($_POST['i_email']) && !empty($_POST['i_email'])) {
-        $i_email = mysqli_real_escape_string($mysqli, trim($_POST['i_email']));
+    if (isset($_POST['s_email']) && !empty($_POST['s_email'])) {
+        $s_email = mysqli_real_escape_string($mysqli, trim($_POST['s_email']));
     } else {
         $error = 1;
         $err = "Email Cannot Be Empty";
     }
 
-    if (isset($_POST['i_phone']) && !empty($_POST['i_phone'])) {
-        $i_phone = mysqli_real_escape_string($mysqli, trim($_POST['i_phone']));
+    if (isset($_POST['s_phoneno']) && !empty($_POST['s_phoneno'])) {
+        $s_phoneno = mysqli_real_escape_string($mysqli, trim($_POST['s_phoneno']));
     } else {
         $error = 1;
         $err = "Phone Cannot Be Empty";
     }
 
+    if (isset($_POST['s_dob']) && !empty($_POST['s_dob'])) {
+        $s_dob = mysqli_real_escape_string($mysqli, trim($_POST['s_dob']));
+    } else {
+        $error = 1;
+        $err = "DOB Cannot Be Empty";
+    }
+
+    if (isset($_POST['s_gender']) && !empty($_POST['s_gender'])) {
+        $s_gender = mysqli_real_escape_string($mysqli, trim($_POST['s_gender']));
+    } else {
+        $error = 1;
+        $err = "Gender Cannot Be Empty";
+    }
+
+    if (isset($_POST['s_acc_stats']) && !empty($_POST['s_acc_stats'])) {
+        $s_acc_stats = mysqli_real_escape_string($mysqli, trim($_POST['s_acc_stats']));
+    } else {
+        $error = 1;
+        $err = "Account Status Cannot Be Empty";
+    }
+
+    if (isset($_POST['s_course']) && !empty($_POST['s_course'])) {
+        $s_course = mysqli_real_escape_string($mysqli, trim($_POST['s_course']));
+    } else {
+        $error = 1;
+        $err = "Student Course  Cannot Be Empty";
+    }
 
 
-    $i_dpic = $_FILES["i_dpic"]["name"];
-    move_uploaded_file($_FILES["i_dpic"]["tmp_name"], "../public/sys_data/uploads/users/" . $_FILES["i_dpic"]["name"]); //move uploaded image
+    $s_dpic = $_FILES["s_dpic"]["name"];
+    move_uploaded_file($_FILES["s_dpic"]["tmp_name"], "../public/sys_data/uploads/users/" . $_FILES["s_dpic"]["name"]);
 
     if (!$error) {
 
-        $query = "UPDATE lms_instructor SET i_number =?, i_name =?, i_phone =?, i_email =?, i_dpic =? WHERE i_id = ?";
+        $query = "UPDATE lms_student SET s_regno =?, s_course =?, s_name =?, s_email =?,  s_phoneno =?, s_dob =?, s_gender =?, s_acc_stats =?, s_dpic =? WHERE s_id = ?";
         $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('ssssss', $i_number, $i_name, $i_phone, $i_email, $i_dpic, $i_id);
+        $rc = $stmt->bind_param('ssssssssss', $s_regno, $s_course, $s_name, $s_email, $s_phoneno, $s_dob, $s_gender, $s_acc_stats, $s_dpic, $s_id);
         $stmt->execute();
         if ($stmt) {
-            $success = "Updated" && header("refresh:1; url=instructors.php");
+            $success = "Added" && header("refresh:1; url=students.php");
         } else {
             $info = "Please Try Again Or Try Later";
         }
@@ -131,10 +188,11 @@ if (isset($_POST['update_ins'])) {
 }
 
 
-/* Delete Instructor */
+
+/* Delete student  */
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
-    $adn = "DELETE FROM lms_instructor WHERE i_id = '$id'";
+    $adn = "DELETE FROM lms_student WHERE s_id = '$id'";
     $stmt = $mysqli->prepare($adn);
     $stmt->execute();
     $stmt->close();
@@ -164,13 +222,13 @@ require_once('../partials/head.php');
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Intergrated LMS - Instructors</h1>
+                            <h1 class="m-0 text-dark">Intergrated LMS - Students</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
                                 <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Instructors</li>
+                                <li class="breadcrumb-item active">Students</li>
                             </ol>
                         </div>
                     </div>
@@ -183,7 +241,7 @@ require_once('../partials/head.php');
                 <div class="container-fluid">
                     <div class="container">
                         <div class="text-right text-dark">
-                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#import-modal">Import Instructors Records </button>
+                            <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#import-modal">Import Studentrs Records </button>
                             <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#add-modal">Add Instructor</button>
                         </div>
                     </div>
@@ -243,47 +301,7 @@ require_once('../partials/head.php');
                                         </div>
                                         <div class="modal-body">
                                             <!-- Form -->
-                                            <form method="post" enctype="multipart/form-data">
-                                                <div class="row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputEmail1">Instructor Number</label>
-                                                        <input type="text" name="i_number" value="<?php echo $a . " " . $b; ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputEmail1">Instructor Full Name</label>
-                                                        <input type="text" name="i_name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                    </div>
 
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputEmail1">Email Address</label>
-                                                        <input type="email" name="i_email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                    </div>
-
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputEmail1">Phone Number</label>
-                                                        <input type="text" name="i_phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputEmail1">Password</label>
-                                                        <input type="password" name="i_pwd" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="exampleInputFile">Instructor Passport</label>
-                                                        <div class="input-group">
-                                                            <div class="custom-file">
-                                                                <input required name="i_dpic" accept=".png, .jpg" type="file" class="custom-file-input" id="exampleInputFile">
-                                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                <div class="text-right">
-                                                    <button type="submit" name="add_ins" class="btn btn-outline-primary">Add Instructor</button>
-                                                </div>
-                                            </form>
                                         </div>
                                         <div class="modal-footer justify-content-between">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -298,88 +316,53 @@ require_once('../partials/head.php');
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Number</th>
+                                            <th>RegNo</th>
                                             <th>Contact</th>
-                                            <th>Email</th>
+                                            <th>DOB</th>
+                                            <th>Gender</th>
+
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $ret = "SELECT  * FROM  lms_instructor";
+                                        $ret = "SELECT  * FROM  lms_student";
                                         $stmt = $mysqli->prepare($ret);
                                         $stmt->execute(); //ok
                                         $res = $stmt->get_result();
-                                        while ($ins = $res->fetch_object()) {
+                                        while ($students = $res->fetch_object()) {
 
                                         ?>
 
                                             <tr>
-                                                <td><?php echo $ins->i_name; ?></td>
-                                                <td><?php echo $ins->i_number; ?></td>
-                                                <td><?php echo $ins->i_phone; ?></td>
-                                                <td><?php echo $ins->i_email; ?></td>
+                                                <td><?php echo $students->s_name; ?></td>
+                                                <td><?php echo $students->s_regno; ?></td>
+                                                <td><?php echo $students->s_phone_no; ?></td>
+                                                <td><?php echo date('d M Y', strtotime($students->s_dob)); ?></td>
+                                                <td><?php echo $students->s_gender;?></td>
                                                 <td>
-                                                    <a class="badge badge-warning" href="view_instructor.php?view=<?php echo $ins->i_id; ?>">
+                                                    <a class="badge badge-warning" href="view_student.php?view=<?php echo $students->s_id; ?>">
                                                         <i class="fas fa-external-link-alt"></i>
                                                         View
                                                     </a>
 
-                                                    <a class="badge badge-warning" data-toggle="modal" href="#update-<?php echo $ins->i_id; ?>">
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#update-<?php echo $students->s_id; ?>">
                                                         <i class="fas fa-pencil-alt"></i>
                                                         Update
                                                     </a>
                                                     <!-- Update Modal -->
-                                                    <div class="modal fade" id="update-<?php echo $ins->i_id; ?>">
+                                                    <div class="modal fade" id="update-<?php echo $students->s_id; ?>">
                                                         <div class="modal-dialog  modal-lg">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h4 class="modal-title">Update <?php echo $ins->i_name; ?> Details</h4>
+                                                                    <h4 class="modal-title">Update <?php echo $students->s_name; ?> Details</h4>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <!-- Form -->
-                                                                    <form method="post" enctype="multipart/form-data">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-6">
-                                                                                <label for="exampleInputEmail1">Instructor Number</label>
-                                                                                <input type="text" name="i_number" value="<?php echo $ins->i_number ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                                                <input type="hidden" name="i_id" value="<?php echo $ins->i_id ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-
-                                                                            </div>
-                                                                            <div class="form-group col-md-6">
-                                                                                <label for="exampleInputEmail1">Instructor Full Name</label>
-                                                                                <input type="text" name="i_name" value="<?php echo $ins->i_name; ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-6">
-                                                                                <label for="exampleInputEmail1">Email Address</label>
-                                                                                <input type="email" name="i_email" value="<?php echo $ins->i_email; ?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-6">
-                                                                                <label for="exampleInputEmail1">Phone Number</label>
-                                                                                <input type="text" name="i_phone" value="<?php echo $ins->i_phone; ?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-12">
-                                                                                <label for="exampleInputFile">Instructor Passport</label>
-                                                                                <div class="input-group">
-                                                                                    <div class="custom-file">
-                                                                                        <input required name="i_dpic" accept=".png, .jpg" type="file" class="custom-file-input" id="exampleInputFile">
-                                                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <hr>
-                                                                        <div class="text-right">
-                                                                            <button type="submit" name="update_ins" class="btn btn-outline-primary">Update Instructor</button>
-                                                                        </div>
-                                                                    </form>
+                                                                    
                                                                 </div>
                                                                 <div class="modal-footer justify-content-between">
                                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -389,12 +372,12 @@ require_once('../partials/head.php');
                                                     </div>
                                                     <!-- End Update Modal -->
 
-                                                    <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $ins->i_id; ?>">
+                                                    <a class="badge badge-warning" data-toggle="modal" href="#delete-<?php echo $students->s_id; ?>">
                                                         <i class="fas fa-trash-alt"></i>
                                                         Delete
                                                     </a>
                                                     <!-- Delete Modal -->
-                                                    <div class="modal fade" id="delete-<?php echo $ins->i_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="delete-<?php echo $students->s_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -404,10 +387,10 @@ require_once('../partials/head.php');
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body text-center text-danger">
-                                                                    <h4>Delete <?php echo $ins->i_name; ?> Details</h4>
+                                                                    <h4>Delete <?php echo $students->s_name; ?> Details</h4>
                                                                     <br>
                                                                     <button type="button" class="text-center btn btn-outline-warning" data-dismiss="modal">No</button>
-                                                                    <a href="instructors.php?delete=<?php echo $ins->i_id; ?>" class="text-center btn btn-outline-warning"> Delete </a>
+                                                                    <a href="students.php?delete=<?php echo $students->s_id;?>" class="text-center btn btn-outline-warning"> Delete </a>
                                                                 </div>
                                                             </div>
                                                         </div>
