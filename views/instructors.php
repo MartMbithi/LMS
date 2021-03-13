@@ -145,6 +145,91 @@ if (isset($_GET['delete'])) {
         $err = "Try Again Later";
     }
 }
+
+
+/* Bulk Import Instructors */
+
+use MartDevelopersIncAPI\DataSource;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+
+require_once('../config/DataSource.php');
+$db = new DataSource();
+$conn = $db->getConnection();
+require_once('../vendor/autoload.php');
+
+if (isset($_POST["upload"])) {
+
+    $allowedFileType = [
+        'application/vnd.ms-excel',
+        'text/xls',
+        'text/xlsx',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
+
+    /* Where Magic Happens */
+    if (in_array($_FILES["file"]["type"], $allowedFileType)) {
+
+        $targetPath = '../public/sys_data/uploads/xls/' . $_FILES['file']['name'];
+        move_uploaded_file($_FILES['file']['tmp_name'], $targetPath);
+
+        $Reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+
+        $spreadSheet = $Reader->load($targetPath);
+        $excelSheet = $spreadSheet->getActiveSheet();
+        $spreadSheetAry = $excelSheet->toArray();
+        $sheetCount = count($spreadSheetAry);
+
+        for ($i = 1; $i <= $sheetCount; $i++) {
+
+
+            $i_number = "";
+            if (isset($spreadSheetAry[$i][0])) {
+                $i_number = mysqli_real_escape_string($conn, $spreadSheetAry[$i][0]);
+            }
+
+            $i_name = "";
+            if (isset($spreadSheetAry[$i][1])) {
+                $i_name = mysqli_real_escape_string($conn, $spreadSheetAry[$i][1]);
+            }
+
+            $i_email = "";
+            if (isset($spreadSheetAry[$i][2])) {
+                $i_email = mysqli_real_escape_string($conn, $spreadSheetAry[$i][2]);
+            }
+
+            $i_phone = "";
+            if (isset($spreadSheetAry[$i][3])) {
+                $i_phone = mysqli_real_escape_string($conn, $spreadSheetAry[$i][3]);
+            }
+
+            $i_pwd = "";
+            if (isset($spreadSheetAry[$i][4])) {
+                $i_pwd = sha1(md5(mysqli_real_escape_string($conn, $spreadSheetAry[$i][4])));
+            }
+
+
+            if (!empty($i_email) || !empty($i_number) || !empty($i_name)) {
+                $query = "INSERT INTO lms_instructor (i_number, i_name, i_phone, i_email, i_pwd) VALUES (?,?,?,?,?)";
+                $paramType = "sssss";
+                $paramArray = array(
+                    $i_number,
+                    $i_name,
+                    $i_phone,
+                    $i_email,
+                    $i_pwd
+                );
+                $insertId = $db->insert($query, $paramType, $paramArray);
+                if (!empty($insertId)) {
+                    $success = "Instructors Data Imported";
+                } else {
+                    $err = "Data Import Failed";
+                }
+            }
+        }
+    } else {
+        $info = "Invalid File Type. Upload Excel File.";
+    }
+}
 require_once('../partials/head.php');
 ?>
 
