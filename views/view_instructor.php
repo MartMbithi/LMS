@@ -36,7 +36,7 @@ while ($sys = $res->fetch_object()) {
                         <div class="container-fluid">
                             <div class="row mb-2">
                                 <div class="col-sm-6">
-                                    <h1 class="m-0 text-dark">Intergrated LMS - Instructor Profile</h1>
+                                    <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Instructor Profile</h1>
                                 </div><!-- /.col -->
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-sm-right">
