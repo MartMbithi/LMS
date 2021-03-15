@@ -15,12 +15,12 @@ while ($sys = $res->fetch_object()) {
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            <?php require_once('../partials/navbar.php'); ?>
+            <?php require_once('../partials/ins_navbar.php'); ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
             <?php
-            require_once('../partials/sidebar.php');
+            require_once('../partials/ins_sidebar.php');
             $view = $_GET['view'];
             $ret = "SELECT  * FROM  lms_paid_study_materials WHERE psm_id = '$view' ";
             $stmt = $mysqli->prepare($ret);
@@ -46,9 +46,9 @@ while ($sys = $res->fetch_object()) {
                                     </div><!-- /.col -->
                                     <div class="col-sm-6">
                                         <ol class="breadcrumb float-sm-right">
-                                            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item"><a href="billings.php">Billings</a></li>
+                                            <li class="breadcrumb-item"><a href="ins_dashboard.php">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="ins_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="ins_billings.php">Billings</a></li>
                                             <li class="breadcrumb-item active">View Payment</li>
                                         </ol>
                                     </div><!-- /.col -->
@@ -106,7 +106,6 @@ while ($sys = $res->fetch_object()) {
                                                                                     <li class="list-group-item">
                                                                                         <b>Unit Name </b> <a class="float-right"> <?php echo $payment->c_name; ?></a>
                                                                                     </li>
-                                                                                    
                                                                                     <!-- Load Qr Code Here To Confirm Payment -->
                                                                                     <li class="list-group-item">
                                                                                         <?php

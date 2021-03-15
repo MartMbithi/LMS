@@ -77,7 +77,7 @@ while ($sys = $res->fetch_object()) {
 
                                     <div class="info-box-content">
                                         <span class="info-box-text">Billings</span>
-                                        <span class="info-box-number"><?php echo $paid_bills; ?></span>
+                                        <span class="info-box-number">Ksh <?php echo $paid_bills; ?></span>
                                     </div>
                                 </div>
                             </div>

@@ -19,7 +19,7 @@ while ($ins = $res->fetch_object()) {
                 <a href="ins_students.php" class="nav-link">Students</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="ins_enrollments.php" class="nav-link">Enrollments</a>
+                <a href="ins_unit_enrollments.php" class="nav-link">Enrollments</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="ins_teaching_allocations.php" class="nav-link">Teaching Allocations</a>

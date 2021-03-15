@@ -2,7 +2,7 @@
 session_start();
 include('../config/config.php');
 include('../config/checklogin.php');
-admin();
+instructor();
 require_once('../partials/analytics.php');
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";
@@ -10,24 +10,25 @@ $stmt = $mysqli->prepare($ret);
 $stmt->execute(); //ok
 $res = $stmt->get_result();
 while ($sys = $res->fetch_object()) {
-    require_once('../partials/head.php'); ?>
+    require_once('../partials/head.php');
+?>
 
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            <?php require_once('../partials/navbar.php'); ?>
+            <?php require_once('../partials/ins_navbar.php'); ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
             <?php
-            require_once('../partials/sidebar.php');
+            require_once('../partials/ins_sidebar.php');
             $view = $_GET['view'];
-            $ret = "SELECT  * FROM  lms_paid_study_materials WHERE psm_id = '$view' ";
+            $ret = "SELECT  * FROM  lms_answers WHERE an_id = '$view' ";
             $stmt = $mysqli->prepare($ret);
             $stmt->execute(); //ok
             $res = $stmt->get_result();
-            while ($payment = $res->fetch_object()) {
-                $course_id = $payment->cc_id;
+            while ($answer = $res->fetch_object()) {
+                $course_id = $answer->cc_id;
                 /* Course Details */
                 $ret = "SELECT  * FROM  lms_course_categories  WHERE cc_id = '$course_id' ";
                 $stmt = $mysqli->prepare($ret);
@@ -42,14 +43,15 @@ while ($sys = $res->fetch_object()) {
                             <div class="container-fluid">
                                 <div class="row mb-2">
                                     <div class="col-sm-6">
-                                        <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Payments</h1>
+                                        <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Answers Bank</h1>
                                     </div><!-- /.col -->
                                     <div class="col-sm-6">
                                         <ol class="breadcrumb float-sm-right">
-                                            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item"><a href="billings.php">Billings</a></li>
-                                            <li class="breadcrumb-item active">View Payment</li>
+                                            <li class="breadcrumb-item"><a href="ins_dashboard.php">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="ins_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="ins_questions_bank.php">Exam Engine</a></li>
+                                            <li class="breadcrumb-item"><a href="ins_manage_answers_bank.php">Answers</a></li>
+                                            <li class="breadcrumb-item active"><?php echo $answer->an_code; ?></li>
                                         </ol>
                                     </div><!-- /.col -->
                                 </div><!-- /.row -->
@@ -64,7 +66,7 @@ while ($sys = $res->fetch_object()) {
                                         <div class="card card-warning card-outline">
                                             <div class="card-header p-2">
                                                 <h3 class="text-center">
-                                                    <?php echo $course->cc_name; ?> Study Materials Payment Record
+                                                    <?php echo $course->cc_name; ?> Answers Bank
                                                 </h3>
                                             </div>
                                             <div class="card-body">
@@ -83,7 +85,8 @@ while ($sys = $res->fetch_object()) {
                                                                                         $logo = 'Default.png';
                                                                                     } else {
                                                                                         $logo = $course->cc_dpic;
-                                                                                    } ?>
+                                                                                    }
+                                                                                    ?>
                                                                                     <img class="img-fluid  img-rectangle" src="../public/sys_data/uploads/courses/<?php echo $logo; ?>" alt="Course Logo">
                                                                                 </div>
                                                                             </div>
@@ -100,45 +103,16 @@ while ($sys = $res->fetch_object()) {
                                                                                     <li class="list-group-item">
                                                                                         <b>Course Name </b> <a class="float-right"> <?php echo $course->cc_name; ?></a>
                                                                                     </li>
+                                                                                    <!-- <li class="list-group-item">
+                                                                                    <b>Course H.O.D</b> <a class="float-right"> <?php echo $course->cc_dept_head; ?></a>
+                                                                                </li>
+                                                                                Uncomment If You Think Its Relevant
+                                                                                  -->
                                                                                     <li class="list-group-item">
-                                                                                        <b>Unit Code </b> <a class="float-right"> <?php echo $payment->c_code; ?></a>
+                                                                                        <b>Unit Code </b> <a class="float-right"> <?php echo $answer->c_code; ?></a>
                                                                                     </li>
                                                                                     <li class="list-group-item">
-                                                                                        <b>Unit Name </b> <a class="float-right"> <?php echo $payment->c_name; ?></a>
-                                                                                    </li>
-                                                                                    
-                                                                                    <!-- Load Qr Code Here To Confirm Payment -->
-                                                                                    <li class="list-group-item">
-                                                                                        <?php
-                                                                                        require_once('../vendor/autoload.php');
-                                                                                        $barcode = new \Com\Tecnick\Barcode\Barcode();
-                                                                                        $targetPath = "../public/sys_data/qr_code/";
-
-                                                                                        if (!is_dir($targetPath)) {
-                                                                                            mkdir($targetPath, 0777, true);
-                                                                                        }
-                                                                                        /* Date Paid */
-                                                                                        $date_material_paid = date("D M Y g:ia", strtotime($payment->p_date_paid));
-                                                                                        /* Merge All Payment Details */
-                                                                                        $QRcode_Details = "Payment Method : $payment->p_method, " . " " . "Payment Confirmation Code : $payment->p_code, " . " " . "Amount Paid : Ksh $payment->p_amt, " . " " .  "Paid On $date_material_paid.";
-                                                                                        $bobj = $barcode->getBarcodeObj('QRCODE,H', $QRcode_Details, -16, -16, 'black', array(
-                                                                                            -2,
-                                                                                            -2,
-                                                                                            -2,
-                                                                                            -2
-                                                                                        ))->setBackgroundColor('#f0f0f0');
-
-                                                                                        $imageData = $bobj->getPngData();
-                                                                                        $timestamp = time();
-
-                                                                                        file_put_contents($targetPath . $timestamp . '.png', $imageData); ?>
-                                                                                        <div class="text-center">
-                                                                                            <b>Scan To Verify Payment Details </b>
-                                                                                            <br>
-                                                                                            <a class="text-center">
-                                                                                                <img src="<?php echo $targetPath . $timestamp; ?>.png" width="218px" height="218px">
-                                                                                            </a>
-                                                                                        </div>
+                                                                                        <b>Unit Name </b> <a class="float-right"> <?php echo $answer->c_name; ?></a>
                                                                                     </li>
                                                                                 </ul>
                                                                             </div>
@@ -146,36 +120,14 @@ while ($sys = $res->fetch_object()) {
                                                                     </div>
                                                                 </div>
                                                                 <h2 class="text-center">
-                                                                    <u>Payment Details </u>
+                                                                    <u>Questions </u>
                                                                 </h2>
-                                                                <table class="table table-striped table-bordered display no-wrap" style="width:100%">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th>Payment Means</th>
-                                                                            <th>Payment Code</th>
-                                                                            <th>Amount Paid</th>
-                                                                            <th>Date Paid</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <?php
-                                                                        $ret = "SELECT  * FROM  lms_paid_study_materials WHERE psm_id = '$view' ";
-                                                                        $stmt = $mysqli->prepare($ret);
-                                                                        $stmt->execute(); //ok
-                                                                        $res = $stmt->get_result();
-                                                                        while ($payments = $res->fetch_object()) {
-                                                                            $mysqlDateTime = $payments->p_date_paid; ?>
-                                                                            <tr>
-                                                                                <td><?php echo $payments->p_method; ?></td>
-                                                                                <td><?php echo $payments->p_code; ?></td>
-                                                                                <td>Ksh <?php echo $payments->p_amt; ?></td>
-                                                                                <td><?php echo date("d M Y g:ia", strtotime($mysqlDateTime)); ?></td>
-                                                                            </tr>
-                                                                        <?php
-                                                                        } ?>
+                                                                <?php echo $answer->q_details; ?>
 
-                                                                    </tbody>
-                                                                </table>
+                                                                <h2 class="text-center">
+                                                                    <u>Answers</u>
+                                                                </h2>
+                                                                <?php echo $answer->ans_details; ?>
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
@@ -205,5 +157,4 @@ while ($sys = $res->fetch_object()) {
     </body>
 
     </html>
-<?php
-} ?>
+<?php } ?>
