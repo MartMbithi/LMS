@@ -54,8 +54,8 @@ while ($sys = $res->fetch_object()) {
                                     <table id="reports" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Std Name</th>
                                                 <th>Std RegNo</th>
+                                                <th>Std Name</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
                                                 <th>Course</th>

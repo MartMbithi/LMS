@@ -190,7 +190,7 @@ while ($sys = $res->fetch_object()) {
                                                                 <div class="row">
                                                                     <div class="form-group col-md-12">
                                                                         <label>LMS Company Tagline</label>
-                                                                        <textarea type="text" name="sys_tagline" class="form-control" id="editor"><?php echo $sys->sys_tagline; ?></textarea>
+                                                                        <textarea type="text" name="sys_tagline" class="form-control" ><?php echo $sys->sys_tagline; ?></textarea>
                                                                     </div>
                                                                 </div>
                                                                 <hr>

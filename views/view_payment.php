@@ -106,6 +106,7 @@ while ($sys = $res->fetch_object()) {
                                                                                     <li class="list-group-item">
                                                                                         <b>Unit Name </b> <a class="float-right"> <?php echo $payment->c_name; ?></a>
                                                                                     </li>
+                                                                                    
                                                                                     <!-- Load Qr Code Here To Confirm Payment -->
                                                                                     <li class="list-group-item">
                                                                                         <?php
@@ -158,7 +159,7 @@ while ($sys = $res->fetch_object()) {
                                                                     </thead>
                                                                     <tbody>
                                                                         <?php
-                                                                        $ret = "SELECT  * FROM  lms_paid_study_materials ";
+                                                                        $ret = "SELECT  * FROM  lms_paid_study_materials WHERE psm_id = '$view' ";
                                                                         $stmt = $mysqli->prepare($ret);
                                                                         $stmt->execute(); //ok
                                                                         $res = $stmt->get_result();

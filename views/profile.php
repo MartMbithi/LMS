@@ -119,7 +119,7 @@ while ($sys = $res->fetch_object()) {
             <!-- Main Sidebar Container -->
             <?php
             require_once('../partials/sidebar.php');
-            $loggedIn = $_SESSION['a_id'];
+            $a_id = $_SESSION['a_id'];
             $ret = "SELECT  * FROM  lms_admin  WHERE a_id= '$a_id'";
             $stmt = $mysqli->prepare($ret);
             $stmt->execute(); //ok
@@ -134,7 +134,7 @@ while ($sys = $res->fetch_object()) {
                         <div class="container-fluid">
                             <div class="row mb-2">
                                 <div class="col-sm-6">
-                                    <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Profile</h1>
+                                    <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Profile</h1>
                                 </div><!-- /.col -->
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-sm-right">

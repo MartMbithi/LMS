@@ -77,7 +77,7 @@ while ($sys = $res->fetch_object()) {
                                             <ol class="breadcrumb float-sm-right">
                                                 <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
                                                 <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                                <li class="breadcrumb-item"><a href="billings.php">Marks Entries</a></li>
+                                                <li class="breadcrumb-item"><a href="marks.php">Marks Entries</a></li>
                                                 <li class="breadcrumb-item active">Generate Transcript</li>
                                             </ol>
                                         </div><!-- /.col -->

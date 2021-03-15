@@ -64,12 +64,12 @@ if (isset($_POST['add_teaching_allocation'])) {
     }
 
     if (!$error) {
-        $sql = "SELECT * FROM  lms_units_assaigns WHERE  i_number ='$i_number' AND c_code = '$c_code'  ";
+        $sql = "SELECT * FROM  lms_units_assaigns WHERE  c_code = '$c_code'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if (($i_number == $row['i_number']) && ($c_code == $row['c_code'])) {
-                $err =  "Can't Allocate $i_name Twice On $c_name ";
+            if ($c_code == $row['c_code']) {
+                $err =  "$c_code - $c_name Already Allocated An Instructor ";
             }
         } else {
             $query = "INSERT INTO lms_units_assaigns (i_number, i_name, i_id, c_code, c_id, cc_id, c_name, c_category) VALUES (?,?,?,?,?,?,?,?)";
@@ -124,7 +124,7 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Teaching Allocations</h1>
+                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Teaching Allocations</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
@@ -192,7 +192,7 @@ while ($sys = $res->fetch_object()) {
                                                         <div class="form-group col-md-6">
                                                             <label>Instructor Number</label>
                                                             <select name="i_number" style="width: 100%;" onchange="GetInstructorDetails(this.value)" id="Ins_Number" required class="form-control select2bs4">
-                                                                <option>Select Instructor Name</option>
+                                                                <option>Select Instructor Number</option>
                                                                 <?php
                                                                 $ret = "SELECT  * FROM  lms_instructor";
                                                                 $stmt = $mysqli->prepare($ret);
