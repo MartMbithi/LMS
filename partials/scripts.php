@@ -97,6 +97,8 @@
 <!-- Init CK -->
 <script>
   CKEDITOR.replace('editor');
+  CKEDITOR.replace('editor1');
+  CKEDITOR.replace('editor2');
 </script>
 
 <!-- File Uploads  -->

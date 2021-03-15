@@ -77,166 +77,170 @@ if (isset($_POST['add_cert'])) {
         }
     }
 }
+/* Persist System Settings  */
+$ret = "SELECT * FROM `lms_sys_setttings` ";
+$stmt = $mysqli->prepare($ret);
+$stmt->execute(); //ok
+$res = $stmt->get_result();
+while ($sys = $res->fetch_object()) {
+    require_once('../partials/head.php'); ?>
 
+    <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+        <div class="wrapper">
+            <!-- Navbar -->
+            <?php require_once('../partials/navbar.php'); ?>
+            <!-- /.navbar -->
 
-require_once('../partials/head.php');
-?>
+            <!-- Main Sidebar Container -->
+            <?php require_once('../partials/sidebar.php'); ?>
 
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-    <div class="wrapper">
-        <!-- Navbar -->
-        <?php require_once('../partials/navbar.php'); ?>
-        <!-- /.navbar -->
-
-        <!-- Main Sidebar Container -->
-        <?php require_once('../partials/sidebar.php'); ?>
-
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Intergrated LMS - Certificates</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Certificates</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.content-header -->
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="container">
-                        <div class="text-right text-dark">
-                            <a href="generate_certificates.php" class="btn btn-outline-warning">Generate Certificates</a>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card-body">
-                                <table id="dash-2" class="table table-striped table-bordered display" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Unit Code</th>
-                                            <th>Unit Name</th>
-                                            <th>Admission Number</th>
-                                            <th>Student Name</th>
-                                            <th>Enroll date</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $ret = "SELECT  * FROM  lms_enrollments";
-                                        $stmt = $mysqli->prepare($ret);
-                                        $stmt->execute(); //ok
-                                        $res = $stmt->get_result();
-                                        while ($enrollment = $res->fetch_object()) {
-                                            $mysqlDateTime = $enrollment->en_date;
-
-                                        ?>
-                                            <tr>
-                                                <td><?php echo $enrollment->s_unit_code; ?></td>
-                                                <td><?php echo $enrollment->s_unit_name; ?></td>
-                                                <td><?php echo $enrollment->s_regno; ?></td>
-                                                <td><?php echo $enrollment->s_name; ?></td>
-                                                <td><?php echo date("d M Y g:ia", strtotime($mysqlDateTime)); ?></td>
-                                                <td>
-                                                    <a class="badge badge-warning" data-toggle="modal" href="#grade-<?php echo $enrollment->en_id; ?>">
-                                                        <i class="fas fa-check"></i>
-                                                        Add Certificate
-                                                    </a>
-                                                    <!-- Grade Modal -->
-                                                    <div class="modal fade" id="grade-<?php echo $enrollment->en_id; ?>">
-                                                        <div class="modal-dialog  modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Add Certficate For <?php echo $enrollment->s_name . " " . $enrollment->s_admno; ?> </h4>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <!-- Form -->
-                                                                    <form method="post" enctype="multipart/form-data">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-4" style="display:none">
-                                                                                <input type="text" name="en_id" value="<?php echo $enrollment->en_id; ?>" required class="form-control">
-                                                                                <input type="text" name="s_id" value="<?php echo $enrollment->s_id; ?>" required class="form-control">
-                                                                                <input type="text" name="i_id" value="<?php echo $enrollment->i_id; ?>" required class="form-control">
-                                                                                <input type="text" name="en_date" value="<?php echo date('d M Y g:ia', strtotime($enrollment->en_date)); ?>" required class="form-control">
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-4">
-                                                                                <label>Registration Number</label>
-                                                                                <input type="text" name="s_regno"  required value="<?php echo $enrollment->s_regno; ?>" class="form-control">
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-4">
-                                                                                <label>Name</label>
-                                                                                <input type="text" name="s_name"  value="<?php echo $enrollment->s_name; ?>" required class="form-control">
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-4">
-                                                                                <label>Instructor Name</label>
-                                                                                <input type="text" name="i_name"  value="<?php echo $enrollment->i_name; ?>" required class="form-control">
-                                                                            </div>
-                                                                        </div>
-
-                                                                        <div class="row">
-
-                                                                            <div class="form-group col-md-6">
-                                                                                <label>Unit Code</label>
-                                                                                <input type="text" name="s_unit_code"  value="<?php echo $enrollment->s_unit_code; ?>" required class="form-control">
-                                                                            </div>
-
-                                                                            <div class="form-group col-md-6">
-                                                                                <label>Unit Name</label>
-                                                                                <input type="text" name="s_unit_name"  required value="<?php echo $enrollment->s_unit_name; ?>" class="form-control">
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="text-right">
-                                                                            <button type="submit" name="add_cert" class="btn btn-outline-warning">Add Cert</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="modal-footer justify-content-between">
-                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Grade Modal -->
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Certificates</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Certificates</li>
+                                </ol>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+                <!-- /.content-header -->
+
+                <!-- Main content -->
+                <section class="content">
+                    <div class="container-fluid">
+                        <div class="container">
+                            <div class="text-right text-dark">
+                                <a href="generate_certificates.php" class="btn btn-outline-warning">Generate Certificates</a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-body">
+                                    <table id="dash-2" class="table table-striped table-bordered display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Unit Code</th>
+                                                <th>Unit Name</th>
+                                                <th>Admission Number</th>
+                                                <th>Student Name</th>
+                                                <th>Enroll date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $ret = "SELECT  * FROM  lms_enrollments";
+                                            $stmt = $mysqli->prepare($ret);
+                                            $stmt->execute(); //ok
+                                            $res = $stmt->get_result();
+                                            while ($enrollment = $res->fetch_object()) {
+                                                $mysqlDateTime = $enrollment->en_date; ?>
+                                                <tr>
+                                                    <td><?php echo $enrollment->s_unit_code; ?></td>
+                                                    <td><?php echo $enrollment->s_unit_name; ?></td>
+                                                    <td><?php echo $enrollment->s_regno; ?></td>
+                                                    <td><?php echo $enrollment->s_name; ?></td>
+                                                    <td><?php echo date("d M Y g:ia", strtotime($mysqlDateTime)); ?></td>
+                                                    <td>
+                                                        <a class="badge badge-warning" data-toggle="modal" href="#grade-<?php echo $enrollment->en_id; ?>">
+                                                            <i class="fas fa-check"></i>
+                                                            Add Certificate
+                                                        </a>
+                                                        <!-- Grade Modal -->
+                                                        <div class="modal fade" id="grade-<?php echo $enrollment->en_id; ?>">
+                                                            <div class="modal-dialog  modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title">Add Certficate For <?php echo $enrollment->s_name . " " . $enrollment->s_admno; ?> </h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <!-- Form -->
+                                                                        <form method="post" enctype="multipart/form-data">
+                                                                            <div class="row">
+                                                                                <div class="form-group col-md-4" style="display:none">
+                                                                                    <input type="text" name="en_id" value="<?php echo $enrollment->en_id; ?>" required class="form-control">
+                                                                                    <input type="text" name="s_id" value="<?php echo $enrollment->s_id; ?>" required class="form-control">
+                                                                                    <input type="text" name="i_id" value="<?php echo $enrollment->i_id; ?>" required class="form-control">
+                                                                                    <input type="text" name="en_date" value="<?php echo date('d M Y g:ia', strtotime($enrollment->en_date)); ?>" required class="form-control">
+                                                                                </div>
+
+                                                                                <div class="form-group col-md-4">
+                                                                                    <label>Registration Number</label>
+                                                                                    <input type="text" name="s_regno" required value="<?php echo $enrollment->s_regno; ?>" class="form-control">
+                                                                                </div>
+
+                                                                                <div class="form-group col-md-4">
+                                                                                    <label>Name</label>
+                                                                                    <input type="text" name="s_name" value="<?php echo $enrollment->s_name; ?>" required class="form-control">
+                                                                                </div>
+
+                                                                                <div class="form-group col-md-4">
+                                                                                    <label>Instructor Name</label>
+                                                                                    <input type="text" name="i_name" value="<?php echo $enrollment->i_name; ?>" required class="form-control">
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row">
+
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label>Unit Code</label>
+                                                                                    <input type="text" name="s_unit_code" value="<?php echo $enrollment->s_unit_code; ?>" required class="form-control">
+                                                                                </div>
+
+                                                                                <div class="form-group col-md-6">
+                                                                                    <label>Unit Name</label>
+                                                                                    <input type="text" name="s_unit_name" required value="<?php echo $enrollment->s_unit_name; ?>" class="form-control">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="text-right">
+                                                                                <button type="submit" name="add_cert" class="btn btn-outline-warning">Add Cert</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- End Grade Modal -->
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                            } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Main Footer -->
+            <?php require_once('../partials/footer.php'); ?>
         </div>
+        <!-- ./wrapper -->
 
-        <!-- Main Footer -->
-        <?php require_once('../partials/footer.php'); ?>
-    </div>
-    <!-- ./wrapper -->
+        <!-- Scripts -->
+        <?php require_once('../partials/scripts.php'); ?>
 
-    <!-- Scripts -->
-    <?php require_once('../partials/scripts.php'); ?>
+    </body>
 
-</body>
-
-</html>
+    </html>
+<?php
+} ?>
