@@ -2,7 +2,7 @@
 session_start();
 include('../config/config.php');
 include('../config/checklogin.php');
-admin();
+instructor();
 require_once('../partials/analytics.php');
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";
@@ -15,12 +15,12 @@ while ($sys = $res->fetch_object()) {
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            <?php require_once('../partials/navbar.php'); ?>
+            <?php require_once('../partials/ins_navbar.php'); ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
             <?php
-            require_once('../partials/sidebar.php');
+            require_once('../partials/ins_sidebar.php');
             $view = $_GET['view'];
             $ret = "SELECT  * FROM  lms_results WHERE rs_id = '$view' ";
             $stmt = $mysqli->prepare($ret);
@@ -75,9 +75,9 @@ while ($sys = $res->fetch_object()) {
                                         </div><!-- /.col -->
                                         <div class="col-sm-6">
                                             <ol class="breadcrumb float-sm-right">
-                                                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                                <li class="breadcrumb-item"><a href="marks.php">Marks Entries</a></li>
+                                                <li class="breadcrumb-item"><a href="ins_dashboard.php">Home</a></li>
+                                                <li class="breadcrumb-item"><a href="ins_dashboard.php">Dashboard</a></li>
+                                                <li class="breadcrumb-item"><a href="ins_marks.php">Marks Entries</a></li>
                                                 <li class="breadcrumb-item active">Generate Transcript</li>
                                             </ol>
                                         </div><!-- /.col -->
