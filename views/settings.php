@@ -177,6 +177,8 @@ require_once('../partials/head.php');
                                                                 <div class=" col-md-12">
                                                                     <label>LMS Company Name</label>
                                                                     <input type="text" name="sys_name" value="<?php echo $sys->sys_name; ?>" required class="form-control">
+                                                                    <input type="hidden" name="sys_id" value="<?php echo $sys->sys_id; ?>" required class="form-control">
+
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -192,10 +194,45 @@ require_once('../partials/head.php');
                                                         </form>
                                                     </div>
                                                     <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel">
-                                                        Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam.
+                                                        <form method="post" enctype="multipart/form-data" role="form">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="form-group col-md-12">
+                                                                        <label for="exampleInputFile">Select File</label>
+                                                                        <div class="input-group">
+                                                                            <div class="custom-file">
+                                                                                <input required name="sys_logo" type="file" class="custom-file-input" id="exampleInputFile">
+                                                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <input type="hidden" name="sys_id" value="<?php echo $sys->sys_id; ?>" required class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-right">
+                                                                <button type="submit" name="update_company_logo" class="btn btn-outline-warning">Upload File</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                     <div class="tab-pane fade" id="custom-tabs-one-messages" role="tabpanel">
-                                                        Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.
+                                                        <form method="post" enctype="multipart/form-data">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-12">
+                                                                    <label>LMS System License</label>
+                                                                    <textarea type="text" name="sys_license" class="form-control" id="editor"><?php echo $sys->sys_license; ?></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="form-group col-md-12">
+                                                                    <label>LMS System Privacy Policy</label>
+                                                                    <textarea type="text" name="sys_privacy_policy" class="form-control" id="editor"><?php echo $sys->sys_privacy_policy; ?></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div class="text-right">
+                                                                <button type="submit" name="update_company_pp" class="btn btn-outline-warning">Submit</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
