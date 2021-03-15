@@ -2,7 +2,7 @@
 session_start();
 include('../config/config.php');
 include('../config/checklogin.php');
-admin();
+instructor();
 require_once('../partials/analytics.php');
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";

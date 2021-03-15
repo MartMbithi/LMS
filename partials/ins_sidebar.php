@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="dashboard.php" class="brand-link">
+    <a href="ins_dashboard.php" class="brand-link">
         <img src="../public/sys_data/logo/<?php echo $sys->sys_logo; ?>" alt="Logo" class="brand-image  elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light"><?php echo $sys->sys_name; ?></span>
     </a>
@@ -34,14 +34,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="ins_billings.php" class="nav-link">
-                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                        <p>
-                            Billings
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="ins_study_materials.php" class="nav-link">
                         <i class="nav-icon fas fa-file"></i>
                         <p>
@@ -49,6 +41,15 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="ins_billings.php" class="nav-link">
+                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                        <p>
+                            Billings
+                        </p>
+                    </a>
+                </li>
+
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-laptop-code"></i>

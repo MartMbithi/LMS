@@ -192,7 +192,7 @@ while ($sys = $res->fetch_object()) {
                                                         <div class="form-group col-md-6">
                                                             <label>Instructor Number</label>
                                                             <select name="i_number" style="width: 100%;" onchange="GetInstructorDetails(this.value)" id="Ins_Number" required class="form-control select2bs4">
-                                                                <option>Select Instructor Name</option>
+                                                                <option>Select Instructor Number</option>
                                                                 <?php
                                                                 $ret = "SELECT  * FROM  lms_instructor";
                                                                 $stmt = $mysqli->prepare($ret);
