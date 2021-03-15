@@ -2,7 +2,7 @@
 session_start();
 include('../config/config.php');
 include('../config/checklogin.php');
-admin();
+instructor();
 require_once('../config/codeGen.php');
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";
@@ -16,11 +16,11 @@ while ($sys = $res->fetch_object()) {
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            <?php require_once('../partials/navbar.php'); ?>
+            <?php require_once('../partials/ins_navbar.php'); ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <?php require_once('../partials/sidebar.php'); ?>
+            <?php require_once('../partials/ins_sidebar.php'); ?>
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
@@ -29,12 +29,12 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Reports</h1>
+                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Reports</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                                    <li class="breadcrumb-item"><a href="ins_dashboard.php">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="ins_dashboard.php">Dashboard</a></li>
                                     <li class="breadcrumb-item active">Enrollments Reports</li>
                                 </ol>
                             </div>
@@ -65,7 +65,8 @@ while ($sys = $res->fetch_object()) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $ret = "SELECT  * FROM  lms_enrollments ";
+                                            $id = $_SESSION['i_id'];
+                                            $ret = "SELECT  * FROM  lms_enrollments WHERE i_id = '$id' ";
                                             $stmt = $mysqli->prepare($ret);
                                             $stmt->execute(); //ok
                                             $res = $stmt->get_result();
