@@ -5,58 +5,110 @@ include('../config/checklogin.php');
 admin();
 require_once('../config/codeGen.php');
 
-/* Update Default System Settings */
-if (isset($_POST['update_sys_details'])) {
+/* Update Default Company Settings */
+if (isset($_POST['update_company_profile'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
-    if (isset($_POST['cc_name']) && !empty($_POST['cc_name'])) {
-        $cc_name = mysqli_real_escape_string($mysqli, trim($_POST['cc_name']));
+    if (isset($_POST['sys_id']) && !empty($_POST['sys_id'])) {
+        $sys_id = mysqli_real_escape_string($mysqli, trim($_POST['sys_id']));
     } else {
         $error = 1;
-        $err = "Name Cannot Be Empty";
+        $err = "ID Cannot Be Empty";
     }
-    if (isset($_POST['cc_code']) && !empty($_POST['cc_code'])) {
-        $cc_code = mysqli_real_escape_string($mysqli, trim($_POST['cc_code']));
+    if (isset($_POST['sys_name']) && !empty($_POST['sys_name'])) {
+        $sys_name = mysqli_real_escape_string($mysqli, trim($_POST['sys_name']));
     } else {
         $error = 1;
-        $err = "Code Cannot Be Empty";
+        $err = "Sys Name Cannot Be Empty";
     }
-    if (isset($_POST['cc_dept_head']) && !empty($_POST['cc_dept_head'])) {
-        $cc_dept_head = mysqli_real_escape_string($mysqli, trim($_POST['cc_dept_head']));
+    if (isset($_POST['sys_tagline']) && !empty($_POST['sys_tagline'])) {
+        $sys_tagline = $_POST['sys_tagline'];
     } else {
         $error = 1;
-        $err = "Course HOD Cannot Be Empty";
-    }
-    if (isset($_POST['cc_desc']) && !empty($_POST['cc_desc'])) {
-        $cc_desc = mysqli_real_escape_string($mysqli, trim($_POST['cc_desc']));
-    } else {
-        $error = 1;
-        $err = "Description Cannot Be Empty";
+        $err = "System Tagline Cannot Be Empty";
     }
 
-    $cc_dpic = $_FILES["cc_dpic"]["name"];
-    move_uploaded_file($_FILES["cc_dpic"]["tmp_name"], "../public/sys_data/uploads/courses/" . $_FILES["cc_dpic"]["name"]);
+
+    /*  $cc_dpic = $_FILES["cc_dpic"]["name"];
+    move_uploaded_file($_FILES["cc_dpic"]["tmp_name"], "../public/sys_data/uploads/courses/" . $_FILES["cc_dpic"]["name"]); */
 
     if (!$error) {
-        //prevent Double entries
-        $sql = "SELECT * FROM  lms_course_categories WHERE  cc_code='$cc_code'  ";
-        $res = mysqli_query($mysqli, $sql);
-        if (mysqli_num_rows($res) > 0) {
-            $row = mysqli_fetch_assoc($res);
-            if ($cc_code == $row['cc_code']) {
-                $err =  "A Course With $cc_code Exists";
-            }
+        $query = "UPDATE lms_sys_setttings  SET sys_name = ?, sys_tagline =? WHERE sys_id =?";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('sss', $sys_name, $sys_tagline, $sys_id);
+        $stmt->execute();
+        if ($stmt) {
+            $success = "Details Updated" && header("refresh:1; url=settings.php");
         } else {
-            $query = "INSERT INTO lms_course_categories (cc_name, cc_code, cc_dept_head, cc_desc, cc_dpic) VALUES (?,?,?,?,?)";
-            $stmt = $mysqli->prepare($query);
-            $rc = $stmt->bind_param('sssss', $cc_name, $cc_code, $cc_dept_head, $cc_desc, $cc_dpic);
-            $stmt->execute();
-            if ($stmt) {
-                $success = "Added" && header("refresh:1; url=courses.php");
-            } else {
-                $info = "Please Try Again Or Try Later";
-            }
+            $info = "Please Try Again Or Try Later";
+        }
+    }
+}
+
+
+/* Update Default System Settings */
+if (isset($_POST['update_company_logo'])) {
+    //Error Handling and prevention of posting double entries
+    $error = 0;
+
+    if (isset($_POST['sys_id']) && !empty($_POST['sys_id'])) {
+        $sys_id = mysqli_real_escape_string($mysqli, trim($_POST['sys_id']));
+    } else {
+        $error = 1;
+        $err = "ID Cannot Be Empty";
+    }
+
+    $sys_logo = $_FILES["sys_logo"]["name"];
+    move_uploaded_file($_FILES["sys_logo"]["tmp_name"], "../public/sys_data/logo/" . $_FILES["sys_logo"]["name"]);
+
+    if (!$error) {
+        $query = "UPDATE lms_sys_setttings  SET sys_logo = ? WHERE sys_id =?";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('ss', $sys_logo, $sys_id);
+        $stmt->execute();
+        if ($stmt) {
+            $success = "Details Updated" && header("refresh:1; url=settings.php");
+        } else {
+            $info = "Please Try Again Or Try Later";
+        }
+    }
+}
+
+
+/* Privacy Policy And Licenseses */
+if (isset($_POST['update_company_pp'])) {
+    //Error Handling and prevention of posting double entries
+    $error = 0;
+
+    if (isset($_POST['sys_id']) && !empty($_POST['sys_id'])) {
+        $sys_id = mysqli_real_escape_string($mysqli, trim($_POST['sys_id']));
+    } else {
+        $error = 1;
+        $err = "ID Cannot Be Empty";
+    }
+    if (isset($_POST['sys_license']) && !empty($_POST['sys_license'])) {
+        $sys_license = $_POST['sys_license'];
+    } else {
+        $error = 1;
+        $err = "Sys License Cannot Be Empty";
+    }
+    if (isset($_POST['sys_privacy_policy']) && !empty($_POST['sys_privacy_policy'])) {
+        $sys_privacy_policy = $_POST['sys_privacy_policy'];
+    } else {
+        $error = 1;
+        $err = "System Privacy Policy Cannot Be Empty";
+    }
+
+    if (!$error) {
+        $query = "UPDATE lms_sys_setttings  SET sys_license = ?, sys_privacy_policy =? WHERE sys_id =?";
+        $stmt = $mysqli->prepare($query);
+        $rc = $stmt->bind_param('sss', $sys_privacy_policy, $sys_privacy_policy, $sys_id);
+        $stmt->execute();
+        if ($stmt) {
+            $success = "Details Updated" && header("refresh:1; url=settings.php");
+        } else {
+            $info = "Please Try Again Or Try Later";
         }
     }
 }
