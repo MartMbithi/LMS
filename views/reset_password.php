@@ -43,7 +43,11 @@ require_once('../partials/head.php')
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href=""><b>Intergrated </b>LMS</a>
+            <a href="">
+                <img src="../public/sys_data/logo/<?php echo $sys->sys_logo; ?>" class="img-fluid" height="50" width="100">
+                <br>
+                <?php echo $sys->sys_name; ?>
+            </a>
         </div>
         <!-- /.login-logo -->
         <div class="card card-success">
