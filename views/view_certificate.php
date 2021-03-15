@@ -35,7 +35,7 @@ while ($sys = $res->fetch_object()) {
                         <div class="container-fluid">
                             <div class="row mb-2">
                                 <div class="col-sm-6">
-                                    <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Certificate</h1>
+                                    <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Certificate</h1>
                                 </div><!-- /.col -->
                                 <div class="col-sm-6">
                                     <ol class="breadcrumb float-sm-right">
@@ -72,7 +72,11 @@ while ($sys = $res->fetch_object()) {
                                                                                         <br>
                                                                                     </div>
                                                                                     <hr>
-                                                                                    <br><br><br><br><br><br>
+                                                                                    <h1>
+                                                                                        <img src="../public/sys_data/logo/<?php echo $sys->sys_logo; ?>" height="100" width="300" alt="">
+                                                                                    </h1>
+                                                                                    <h1><?php echo $sys->sys_name; ?></h1>
+                                                                                    <br><br><br>
                                                                                     <h2>
                                                                                         This Is To Certifiy That
                                                                                     </h2>
@@ -103,7 +107,7 @@ while ($sys = $res->fetch_object()) {
                                                                                             <p class="cert_instructor_signature">
                                                                                                 <u><?php echo $cert->i_name; ?></u>
                                                                                             </p>
-                                                                                            <h4>Intergrated LMS Instructor </h4>
+                                                                                            <h4><?php echo $sys->sys_name; ?> Instructor </h4>
                                                                                         </div>
                                                                                         <div class="col-md-6">
                                                                                             <p class="cert_instructor_signature">

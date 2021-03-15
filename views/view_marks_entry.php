@@ -71,7 +71,7 @@ while ($sys = $res->fetch_object()) {
                                 <div class="container-fluid">
                                     <div class="row mb-2">
                                         <div class="col-sm-6">
-                                            <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Transcripts</h1>
+                                            <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Transcripts</h1>
                                         </div><!-- /.col -->
                                         <div class="col-sm-6">
                                             <ol class="breadcrumb float-sm-right">
@@ -102,7 +102,10 @@ while ($sys = $res->fetch_object()) {
                                                                             <div class="card-body text-center box-profile">
                                                                                 <div class="col-sm-12">
                                                                                     <address>
-                                                                                        <h1>INTERGRATED LMS</h1>
+                                                                                        <h1>
+                                                                                            <img src="../public/sys_data/logo/<?php echo $sys->sys_logo; ?>" height="100" width="300" alt="">
+                                                                                        </h1>
+                                                                                        <h1><?php echo $sys->sys_name; ?></h1>
                                                                                         <h4>PARTIAL TRANSCRIPT</h4>
                                                                                         <strong>Name : <?php echo $mark->s_name; ?></strong><br>
                                                                                         Reg No : <?php echo $mark->s_regno; ?><br>
@@ -112,6 +115,7 @@ while ($sys = $res->fetch_object()) {
                                                                                     <br>
                                                                                 </div>
                                                                                 <table class="table">
+
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th>CAT 1 Marks</th>
@@ -155,7 +159,7 @@ while ($sys = $res->fetch_object()) {
                                                                                 $imageData = $bobj->getPngData();
                                                                                 $timestamp = time();
                                                                                 file_put_contents($targetPath . $timestamp . '.png', $imageData); ?>
-                                                                                <img src="<?php echo $targetPath . $timestamp; ?>.png" width="218px" height="218px">
+                                                                                <img src=" <?php echo $targetPath . $timestamp; ?>.png" width="218px" height="218px">
                                                                             </div>
                                                                         </div>
                                                                     </div>
