@@ -2,48 +2,60 @@
 session_start();
 include('../config/config.php');
 include('../config/checklogin.php');
-admin();
+instructor();
 
-/* Update Profile */
-if (isset($_POST['update_profile'])) {
+/* Update Instructor */
+if (isset($_POST['update_ins'])) {
     //Error Handling and prevention of posting double entries
     $error = 0;
 
-    if (isset($_SESSION['a_id']) && !empty($_SESSION['a_id'])) {
-        $a_id = mysqli_real_escape_string($mysqli, trim($_SESSION['a_id']));
+    if (isset($_SESSION['i_id']) && !empty($_SESSION['i_id'])) {
+        $i_id = mysqli_real_escape_string($mysqli, trim($_SESSION['i_id']));
     } else {
         $error = 1;
-        $err = "Sessio ID Cannot Be Empty";
+        $err = "Instructor ID Cannot Be Empty";
     }
-    if (isset($_POST['a_name']) && !empty($_POST['a_name'])) {
-        $a_name = mysqli_real_escape_string($mysqli, trim($_POST['a_name']));
+
+    if (isset($_POST['i_number']) && !empty($_POST['i_number'])) {
+        $i_number = mysqli_real_escape_string($mysqli, trim($_POST['i_number']));
+    } else {
+        $error = 1;
+        $err = "Number Cannot Be Empty";
+    }
+
+    if (isset($_POST['i_name']) && !empty($_POST['i_name'])) {
+        $i_name = mysqli_real_escape_string($mysqli, trim($_POST['i_name']));
     } else {
         $error = 1;
         $err = "Name Cannot Be Empty";
     }
-    if (isset($_POST['a_uname']) && !empty($_POST['a_uname'])) {
-        $a_uname = mysqli_real_escape_string($mysqli, trim($_POST['a_uname']));
-    } else {
-        $error = 1;
-        $err = "Username Cannot Be Empty";
-    }
-    if (isset($_POST['a_email']) && !empty($_POST['a_email'])) {
-        $a_email = mysqli_real_escape_string($mysqli, trim($_POST['a_email']));
+
+    if (isset($_POST['i_email']) && !empty($_POST['i_email'])) {
+        $i_email = mysqli_real_escape_string($mysqli, trim($_POST['i_email']));
     } else {
         $error = 1;
         $err = "Email Cannot Be Empty";
     }
 
-    $a_dpic = $_FILES["a_dpic"]["name"];
-    move_uploaded_file($_FILES["a_dpic"]["tmp_name"], "../public/sys_data/uploads/users/" . $_FILES["a_dpic"]["name"]);
+    if (isset($_POST['i_phone']) && !empty($_POST['i_phone'])) {
+        $i_phone = mysqli_real_escape_string($mysqli, trim($_POST['i_phone']));
+    } else {
+        $error = 1;
+        $err = "Phone Cannot Be Empty";
+    }
+
+
+    $i_dpic = $_FILES["i_dpic"]["name"];
+    move_uploaded_file($_FILES["i_dpic"]["tmp_name"], "../public/sys_data/uploads/users/" . $_FILES["i_dpic"]["name"]); //move uploaded image
 
     if (!$error) {
-        $query = "UPDATE lms_admin SET a_name=?, a_uname=?, a_email=?,  a_dpic=? WHERE a_id= '$a_id' ";
+
+        $query = "UPDATE lms_instructor SET i_number =?, i_name =?, i_phone =?, i_email =?, i_dpic =? WHERE i_id = ?";
         $stmt = $mysqli->prepare($query);
-        $rc = $stmt->bind_param('ssss', $a_name, $a_uname, $a_email, $a_dpic);
+        $rc = $stmt->bind_param('ssssss', $i_number, $i_name, $i_phone, $i_email, $i_dpic, $i_id);
         $stmt->execute();
         if ($stmt) {
-            $success = "Updated" && header("refresh:1; url=profile.php");
+            $success = "Updated" && header("refresh:1; url=ins_profile.php");
         } else {
             $info = "Please Try Again Or Try Later";
         }
@@ -54,8 +66,8 @@ if (isset($_POST['update_profile'])) {
 if (isset($_POST['update_password'])) {
     //Change Password
     $error = 0;
-    if (isset($_SESSION['a_id']) && !empty($_SESSION['a_id'])) {
-        $a_id = mysqli_real_escape_string($mysqli, trim((($_SESSION['a_id']))));
+    if (isset($_SESSION['i_id']) && !empty($_SESSION['i_id'])) {
+        $i_id = mysqli_real_escape_string($mysqli, trim((($_SESSION['i_id']))));
     } else {
         $error = 1;
         $err = "Session ID Cannot Be Empty";
@@ -80,21 +92,21 @@ if (isset($_POST['update_password'])) {
     }
 
     if (!$error) {
-        $sql = "SELECT * FROM  lms_admin  WHERE a_id = '$a_id'";
+        $sql = "SELECT * FROM  lms_instructor  WHERE i_id = '$i_id'";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
-            if ($old_password != $row['a_pwd']) {
+            if ($old_password != $row['i_pwd']) {
                 $err =  "Please Enter Correct Old Password";
             } elseif ($new_password != $confirm_password) {
                 $err = "Confirmation Password Does Not Match";
             } else {
-                $query = "UPDATE lms_admin SET a_pwd =? WHERE a_id ='$a_id' ";
+                $query = "UPDATE lms_instructor SET i_pwd =? WHERE i_id ='$i_id' ";
                 $stmt = $mysqli->prepare($query);
                 $rc = $stmt->bind_param('s', $new_password);
                 $stmt->execute();
                 if ($stmt) {
-                    $success = "Password Changes" && header("refresh:1; url=profile.php");
+                    $success = "Password Changes" && header("refresh:1; url=ins_profile.php");
                 } else {
                     $err = "Please Try Again Or Try Later";
                 }
@@ -113,14 +125,14 @@ while ($sys = $res->fetch_object()) {
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            <?php require_once('../partials/navbar.php'); ?>
+            <?php require_once('../partials/ins_navbar.php'); ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
             <?php
-            require_once('../partials/sidebar.php');
-            $a_id = $_SESSION['a_id'];
-            $ret = "SELECT  * FROM  lms_admin  WHERE a_id= '$a_id'";
+            require_once('../partials/ins_sidebar.php');
+            $i_id = $_SESSION['i_id'];
+            $ret = "SELECT  * FROM  lms_instructor  WHERE i_id= '$i_id'";
             $stmt = $mysqli->prepare($ret);
             $stmt->execute(); //ok
             $res = $stmt->get_result();
@@ -159,20 +171,23 @@ while ($sys = $res->fetch_object()) {
                                         <div class="card-body box-profile">
                                             <div class="text-center">
                                                 <?php
-                                                if ($loggedIn->a_dpic == '') {
+                                                if ($loggedIn->i_dpic == '') {
                                                     $dpic = 'Default_user.webp';
                                                 } else {
-                                                    $dpic = $loggedIn->a_dpic;
+                                                    $dpic = $loggedIn->i_dpic;
                                                 } ?>
                                                 <img class="img-fluid img-rectangle" src="../public/sys_data/uploads/users/<?php echo $dpic; ?>" alt="Passport">
                                             </div>
-                                            <h3 class="profile-username text-center"><?php echo $loggedIn->a_uname; ?></h3>
+                                            <h3 class="profile-username text-center"><?php echo $loggedIn->i_number; ?></h3>
                                             <ul class="list-group list-group-unbordered mb-3">
                                                 <li class="list-group-item">
-                                                    <b>Name</b> <a class="float-right"><?php echo $loggedIn->a_name; ?></a>
+                                                    <b>Name: </b> <a class="float-right"><?php echo $loggedIn->i_name; ?></a>
                                                 </li>
                                                 <li class="list-group-item">
-                                                    <b>Email</b> <a class="float-right"><?php echo $loggedIn->a_email; ?></a>
+                                                    <b>Email: </b> <a class="float-right"><?php echo $loggedIn->i_email; ?></a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <b>Contact: </b> <a class="float-right"><?php echo $loggedIn->i_email; ?></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -192,24 +207,32 @@ while ($sys = $res->fetch_object()) {
                                                     <form method="post" enctype="multipart/form-data">
                                                         <div class="row">
                                                             <div class="form-group col-md-6">
-                                                                <label for="exampleInputEmail1"> Name</label>
-                                                                <input type="text" name="a_name" value="<?php echo $loggedIn->a_name; ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                                <label for="exampleInputEmail1">Instructor Number</label>
+                                                                <input type="text" name="i_number" value="<?php echo $loggedIn->i_number ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                                <input type="hidden" name="i_id" value="<?php echo $loggedIn->i_id ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+
                                                             </div>
                                                             <div class="form-group col-md-6">
-                                                                <label for="exampleInputEmail1">Username</label>
-                                                                <input type="text" name="a_uname" value="<?php echo $loggedIn->a_uname; ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                                <label for="exampleInputEmail1">Instructor Full Name</label>
+                                                                <input type="text" name="i_name" value="<?php echo $loggedIn->i_name; ?>" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label for="exampleInputEmail1">Email Address</label>
+                                                                <input type="email" name="i_email" value="<?php echo $loggedIn->i_email; ?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label for="exampleInputEmail1">Phone Number</label>
+                                                                <input type="text" name="i_phone" value="<?php echo $loggedIn->i_phone; ?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="exampleInputEmail1">Email Address</label>
-                                                                <input type="email" name="a_email" value="<?php echo $loggedIn->a_email; ?>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                                            </div>
-                                                            <div class="form-group col-md-6">
-                                                                <label for="exampleInputFile">Administrator Passport</label>
+                                                            <div class="form-group col-md-12">
+                                                                <label for="exampleInputFile">Instructor Passport</label>
                                                                 <div class="input-group">
                                                                     <div class="custom-file">
-                                                                        <input required name="a_dpic" type="file" class="custom-file-input" id="exampleInputFile">
+                                                                        <input required name="i_dpic" accept=".png, .jpg" type="file" class="custom-file-input" id="exampleInputFile">
                                                                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                                     </div>
                                                                 </div>
@@ -217,7 +240,7 @@ while ($sys = $res->fetch_object()) {
                                                         </div>
                                                         <hr>
                                                         <div class="text-right">
-                                                            <button type="submit" name="update_profile" class="btn btn-outline-warning">Update Profile</button>
+                                                            <button type="submit" name="update_ins" class="btn btn-outline-warning">Update Profile</button>
                                                         </div>
                                                     </form>
                                                 </div>
