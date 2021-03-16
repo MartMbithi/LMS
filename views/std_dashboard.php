@@ -15,11 +15,11 @@ while ($sys = $res->fetch_object()) {
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            <?php require_once('../partials/ins_navbar.php'); ?>
+            <?php require_once('../partials/std_navbar.php'); ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <?php require_once('../partials/ins_sidebar.php'); ?>
+            <?php require_once('../partials/std_sidebar.php'); ?>
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
