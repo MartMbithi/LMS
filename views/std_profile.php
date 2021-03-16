@@ -113,7 +113,7 @@ if (isset($_POST['update_password'])) {
     }
 
     if (!$error) {
-        $sql = "SELECT * FROM  lms_student  WHERE i_id = '$i_id'";
+        $sql = "SELECT * FROM  lms_student  WHERE s_id = '$s_id'";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
@@ -122,7 +122,7 @@ if (isset($_POST['update_password'])) {
             } elseif ($new_password != $confirm_password) {
                 $err = "Confirmation Password Does Not Match";
             } else {
-                $query = "UPDATE lms_student SET i_pwd =? WHERE i_id ='$i_id' ";
+                $query = "UPDATE lms_student SET s_pwd =? WHERE s_id ='$s_id' ";
                 $stmt = $mysqli->prepare($query);
                 $rc = $stmt->bind_param('s', $new_password);
                 $stmt->execute();
@@ -146,12 +146,12 @@ while ($sys = $res->fetch_object()) {
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            <?php require_once('../partials/ins_navbar.php'); ?>
+            <?php require_once('../partials/std_navbar.php'); ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
             <?php
-            require_once('../partials/ins_sidebar.php');
+            require_once('../partials/std_sidebar.php');
             $id = $_SESSION['s_id'];
             $ret = "SELECT  * FROM  lms_student  WHERE s_id= '$id'";
             $stmt = $mysqli->prepare($ret);
@@ -268,7 +268,7 @@ while ($sys = $res->fetch_object()) {
                                                         </div>
                                                         <div class="row">
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group col-md-12">
                                                                 <label for="exampleInputFile">Student Passport</label>
                                                                 <div class="input-group">
                                                                     <div class="custom-file">
