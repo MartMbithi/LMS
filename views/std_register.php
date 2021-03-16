@@ -35,9 +35,6 @@ if (isset($_POST['Register'])) {
         $err = "Phone Cannot Be Empty";
     }
 
-
-
-
     if (isset($_POST['s_pwd']) && !empty($_POST['s_pwd'])) {
         $s_pwd = mysqli_real_escape_string($mysqli, trim(sha1(md5($_POST['s_pwd']))));
     } else {
@@ -48,7 +45,7 @@ if (isset($_POST['Register'])) {
 
     if (!$error) {
         //prevent Double entries
-        $sql = "SELECT * FROM  lms_student WHERE  s_regno = '$s_regno' || s_email = '$s_email' || s_phoneno = '$s_phoneno  ";
+        $sql = "SELECT * FROM  lms_student WHERE  s_email = '$s_email' || s_phoneno = '$s_phoneno'  ";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
@@ -104,18 +101,10 @@ while ($sys = $res->fetch_object()) {
                             </div>
                         </div>
                         <div class="input-group mb-3">
-                            <input type="text" required name="s_phone" class="form-control" placeholder="Phone Number">
+                            <input type="text" required name="s_phoneno" class="form-control" placeholder="Phone Number">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-phone"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="email" required name="s_email" class="form-control" placeholder="Email">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
+                                    <span class="fas fa-phone"></span>
                                 </div>
                             </div>
                         </div>
