@@ -78,7 +78,7 @@ while ($sys = $res->fetch_object()) {
                         <a href="std_reset_password.php">Forgot Password</a>
                     </p>
                     <p class="mb-0">
-                        <a href="std_register.php" class="text-center">Register Instructor Account</a>
+                        <a href="std_register.php" class="text-center">Register Student  Account</a>
                     </p>
                 </div>
                 <!-- /.login-card-body -->
