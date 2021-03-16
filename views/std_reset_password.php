@@ -4,28 +4,28 @@ include('../config/config.php');
 if (isset($_POST['Reset'])) {
     //prevent posting blank value for first name
     $error = 0;
-    if (isset($_POST['i_email']) && !empty($_POST['i_email'])) {
-        $i_email = mysqli_real_escape_string($mysqli, trim($_POST['i_email']));
+    if (isset($_POST['s_email']) && !empty($_POST['s_email'])) {
+        $s_email = mysqli_real_escape_string($mysqli, trim($_POST['s_email']));
     } else {
         $error = 1;
         $err = "Enter Your Email";
     }
-    if (!filter_var($_POST['i_email'], FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($_POST['s_email'], FILTER_VALIDATE_EMAIL)) {
         $err = 'Invalid Email';
     }
-    $checkEmail = mysqli_query($mysqli, "SELECT `i_email` FROM `lms_instructor` WHERE `i_email` = '" . $_POST['i_email'] . "'") or exit(mysqli_error($mysqli));
+    $checkEmail = mysqli_query($mysqli, "SELECT `s_email` FROM `lms_student` WHERE `s_email` = '" . $_POST['s_email'] . "'") or exit(mysqli_error($mysqli));
     if (mysqli_num_rows($checkEmail) > 0) {
 
         $n = date('y');
         $new_password = bin2hex(random_bytes($n));
-        $query = "UPDATE lms_instructor SET  i_pwd =? WHERE i_email =?";
+        $query = "UPDATE lms_student SET  s_pwd =? WHERE s_email =?";
         $stmt = $mysqli->prepare($query);
         $rc = $stmt->bind_param('ss', $new_password, $s_email);
         $stmt->execute();
 
         if ($stmt) {
-            $_SESSION['i_email'] = $i_email;
-            $success = "Confim Your Password" && header("refresh:1; url=ins_confirm_password.php");
+            $_SESSION['s_email'] = $s_email;
+            $success = "Confim Your Password" && header("refresh:1; url=std_confirm_password.php");
         } else {
             $err = "Password reset failed";
         }
@@ -58,7 +58,7 @@ while ($sys = $res->fetch_object()) {
                     <p class="login-box-msg">Reset Password</p>
                     <form method="post">
                         <div class="input-group mb-3">
-                            <input type="email" required name="i_email" class="form-control" placeholder="Email">
+                            <input type="email" required name="s_email" class="form-control" placeholder="Email">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
