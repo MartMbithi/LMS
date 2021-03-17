@@ -27,7 +27,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="std_billings.php" class="nav-link">
+                    <a href="std_manage_payments.php" class="nav-link">
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
                             Billings
