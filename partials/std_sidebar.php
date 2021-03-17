@@ -27,14 +27,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="std_study_materials.php" class="nav-link">
-                        <i class="nav-icon fas fa-file"></i>
-                        <p>
-                            Study Materials
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="std_billings.php" class="nav-link">
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>
@@ -42,7 +34,15 @@
                         </p>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="std_study_materials.php" class="nav-link">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>
+                            Study Materials
+                        </p>
+                    </a>
+                </li>
+                
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-laptop-code"></i>

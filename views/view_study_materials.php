@@ -5,6 +5,8 @@ include('../config/checklogin.php');
 student();
 require_once('../config/codeGen.php');
 
+
+
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";
 $stmt = $mysqli->prepare($ret);
@@ -29,7 +31,7 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Enrolled Units Study Materials</h1>
+                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Enrolled Course Study Materials</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
@@ -48,44 +50,63 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12">
-
                                 <div class="card-body">
                                     <table id="dash-1" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                         <thead>
                                             <tr>
+                                                <th>Code</th>
+                                                <th>Course</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
-                                                <th>Course</th>
-                                                <th>Instructor</th>
-                                                <th>Date Enrolled</th>
-                                                <th>Action</th>
+                                                <th>Instructor Name</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $id = $_SESSION['s_id'];
-                                            $ret = "SELECT  * FROM  lms_enrollments  WHERE s_id = '$id'";
+                                            $id = $_GET['view'];
+                                            $ret = "SELECT  *  FROM  lms_study_material WHERE c_id = '$id'  ";
                                             $stmt = $mysqli->prepare($ret);
                                             $stmt->execute(); //ok
                                             $res = $stmt->get_result();
-                                            while ($enrollments = $res->fetch_object()) {
+                                            while ($study_materials = $res->fetch_object()) {
                                             ?>
                                                 <tr>
-
-                                                    <td><?php echo $enrollments->s_unit_code; ?></td>
-                                                    <td><?php echo $enrollments->s_unit_name; ?></td>
-                                                    <td><?php echo $enrollments->s_course; ?></td>
-                                                    <td><?php echo $enrollments->i_name; ?></td>
-                                                    <td><?php echo date('d M Y', strtotime($enrollments->en_date)); ?></td>
+                                                    <td><?php echo $study_materials->sm_number; ?></td>
+                                                    <td><?php echo $study_materials->c_category; ?></td>
+                                                    <td><?php echo $study_materials->c_code; ?></td>
+                                                    <td><?php echo $study_materials->c_name; ?></td>
+                                                    <td><?php echo $study_materials->i_name; ?></td>
                                                     <td>
-                                                        <a class="badge badge-warning" href="view_study_materials.php?view=<?php echo $enrollments->c_id; ?>">
-                                                            <i class="fas fa-external-link-alt"></i>
-                                                            View Study Materials
+                                                        <a class="badge badge-warning" data-toggle="modal" href="#download-<?php echo $study_materials->ls_id; ?>">
+                                                            <i class="fas fa-file-download"></i>
+                                                            Download
                                                         </a>
+                                                        <div class="modal fade" id="download-<?php echo $study_materials->ls_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">CONFIRM DOWNLOAD</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body text-center text-danger">
+                                                                        <h4>Download <?php echo $study_materials->sm_number; ?>?</h4>
+                                                                        <br>
+                                                                        <button type="button" class="text-center btn btn-outline-warning" data-dismiss="modal">No</button>
+                                                                        <a target=" _blank" href="../public/sys_data/uploads/study_materials/<?php echo $study_materials->sm_materials; ?>" class="text-center btn btn-outline-warning"> Download </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </td>
                                                 </tr>
+
                                             <?php
                                             } ?>
+
                                         </tbody>
                                     </table>
                                 </div>
