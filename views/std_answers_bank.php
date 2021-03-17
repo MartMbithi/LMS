@@ -5,6 +5,8 @@ include('../config/checklogin.php');
 student();
 require_once('../config/codeGen.php');
 
+
+
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";
 $stmt = $mysqli->prepare($ret);
@@ -29,14 +31,13 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Test Questions Bank</h1>
+                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Enrolled Units </h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="std_dashboard.php">Home</a></li>
                                     <li class="breadcrumb-item"><a href="std_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item"><a href="#">Test Engine</a></li>
-                                    <li class="breadcrumb-item active">Questions Bank</li>
+                                    <li class="breadcrumb-item active">Answers Bank</li>
                                 </ol>
                             </div>
                         </div>
@@ -47,42 +48,45 @@ while ($sys = $res->fetch_object()) {
                 <!-- Main content -->
                 <section class="content">
                     <div class="container-fluid">
-
                         <div class="row">
                             <div class="col-md-12">
+
                                 <div class="card-body">
                                     <table id="dash-1" class="table table-striped table-bordered display no-wrap" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Question Bank Code</th>
+                                                <th>Student Name</th>
+                                                <th>Student RegNo</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
-                                                <th>Manage Question Bank</th>
+                                                <th>Course</th>
+                                                <th>Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $course = $_GET['course'];
-                                            $ret = "SELECT  *  FROM  lms_questions WHERE cc_id = '$course'  ";
+                                            $id = $_SESSION['s_id'];
+                                            $ret = "SELECT  * FROM  lms_enrollments  WHERE s_id = '$id'";
                                             $stmt = $mysqli->prepare($ret);
                                             $stmt->execute(); //ok
                                             $res = $stmt->get_result();
-                                            while ($questions = $res->fetch_object()) {
+                                            while ($enrollments = $res->fetch_object()) {
                                             ?>
                                                 <tr>
-                                                    <td><?php echo $questions->q_code; ?></td>
-                                                    <td><?php echo $questions->c_code; ?></td>
-                                                    <td><?php echo $questions->c_name; ?></td>
+                                                    <td><?php echo $enrollments->s_regno; ?></td>
+                                                    <td><?php echo $enrollments->s_name; ?></td>
+                                                    <td><?php echo $enrollments->s_unit_code; ?></td>
+                                                    <td><?php echo $enrollments->s_unit_name; ?></td>
+                                                    <td><?php echo $enrollments->s_course; ?></td>
                                                     <td>
-                                                        <a class="badge badge-warning" href="std_view_bank.php?view=<?php echo $questions->q_id; ?>">
+                                                        <a class="badge badge-warning" href="std_view_answers.php?course=<?php echo $enrollments->cc_id; ?>">
                                                             <i class="fas fa-external-link-alt"></i>
-                                                            View Questions
+                                                            View Answers
                                                         </a>
                                                     </td>
                                                 </tr>
                                             <?php
                                             } ?>
-
                                         </tbody>
                                     </table>
                                 </div>
