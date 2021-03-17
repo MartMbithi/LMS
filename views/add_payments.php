@@ -128,13 +128,14 @@ if (isset($_POST['pay_for_reading_material'])) {
             $rc = $stmt->bind_param('sssssssssssssss', $ls_id, $c_id, $cc_id, $i_id, $c_code, $s_name, $s_regno, $s_id, $sm_number, $c_name, $c_category, $i_name, $p_method, $p_code, $p_amt);
             $stmt->execute();
             if ($stmt) {
-                $success = "Added" && header("refresh:1; url=manage_payments.php");
+                $success = "Added" && header("refresh:1; url=std_manage_payments.php");
             } else {
                 $info = "Please Try Again Or Try Later";
             }
         }
     }
 }
+
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";
 $stmt = $mysqli->prepare($ret);
@@ -164,7 +165,9 @@ while ($sys = $res->fetch_object()) {
                 <div class="content-wrapper">
                     <!-- Content Header (Page header) -->
                     <div class="content-header">
+
                         <div class="container-fluid">
+
                             <div class="row mb-2">
                                 <div class="col-sm-6">
                                     <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Study Materials Payments</h1>
@@ -183,6 +186,12 @@ while ($sys = $res->fetch_object()) {
 
                     <!-- Main content -->
                     <section class="content">
+                        <div class="container">
+                            <div class="text-right text-dark">
+                                <a class="btn btn-warning" href="std_manage_payments.php">Manage My Payments</a>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-md-12">
