@@ -5,8 +5,6 @@ include('../config/checklogin.php');
 student();
 require_once('../config/codeGen.php');
 
-
-
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";
 $stmt = $mysqli->prepare($ret);
@@ -31,13 +29,13 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Transcripts</h1>
+                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Certificates</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="std_dashboard.php">Home</a></li>
                                     <li class="breadcrumb-item"><a href="std_dashboard.php">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Transcripts</li>
+                                    <li class="breadcrumb-item active">Certificates</li>
                                 </ol>
                             </div>
                         </div>
@@ -48,42 +46,41 @@ while ($sys = $res->fetch_object()) {
                 <!-- Main content -->
                 <section class="content">
                     <div class="container-fluid">
+
                         <div class="row">
                             <div class="col-md-12">
-
                                 <div class="card-body">
-                                    <table id="dash-2" class="table table-striped table-bordered display" style="width:100%">
+                                    <table id="dash-1" class="table table-striped table-bordered display" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Entry Code</th>
                                                 <th>Unit Code</th>
                                                 <th>Unit Name</th>
-                                                <th>Std Admn</th>
-                                                <th>Std Name</th>
-                                                <th>Date Added</th>
+                                                <th>Instructor Name</th>
+                                                <th>Student Name</th>
+                                                <th>Enroll date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $id = $_SESSION['s_id'];
-                                            $ret = "SELECT  * FROM  lms_results WHERE s_id = '$id' ";
+                                            $s_id = $_SESSION['s_id'];
+                                            $ret = "SELECT  * FROM  lms_certs WHERE s_id = '$s_id' ";
                                             $stmt = $mysqli->prepare($ret);
                                             $stmt->execute(); //ok
                                             $res = $stmt->get_result();
-                                            while ($results = $res->fetch_object()) {
-                                                $mysqlDateTime = $results->c_date_added; ?>
+                                            while ($cert = $res->fetch_object()) {
+                                                $mysqlDateTime = $cert->date_generated; ?>
                                                 <tr>
-                                                    <td><?php echo $results->rs_code; ?></td>
-                                                    <td><?php echo $results->s_unit_code; ?></td>
-                                                    <td><?php echo $results->s_unit_name; ?></td>
-                                                    <td><?php echo $results->s_regno; ?></td>
-                                                    <td><?php echo $results->s_name; ?>
+                                                    <td><?php echo $cert->s_unit_code; ?></td>
+                                                    <td><?php echo $cert->s_unit_name; ?></td>
+                                                    <td><?php echo $cert->i_name; ?></td>
+                                                    <td><?php echo $cert->s_name; ?></td>
                                                     <td><?php echo date("d M Y", strtotime($mysqlDateTime)); ?></td>
                                                     <td>
-                                                        <a class="badge badge-warning" href="std_view_transcript.php?view=<?php echo $results->rs_id; ?>">
+
+                                                        <a class="badge badge-warning" href="std_view_certificate.php?view=<?php echo $cert->cert_id; ?>">
                                                             <i class="fas fa-external-link-alt"></i>
-                                                            View
+                                                            View Certificate
                                                         </a>
 
 
