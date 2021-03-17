@@ -80,7 +80,6 @@ while ($sys = $res->fetch_object()) {
                                                     <td>Ksh <?php echo $payments->p_amt; ?></td>
                                                     <td><?php echo date("d M Y g:ia", strtotime($mysqlDateTime)); ?></td>
                                                     <td>
-
                                                         <a class='badge badge-warning' href='std_get_receipt.php?view=<?php echo $payments->psm_id; ?>'>
                                                             <i class='fas fa-external-link-alt'></i>
                                                             View Payment
