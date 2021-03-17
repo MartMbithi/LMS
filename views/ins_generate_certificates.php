@@ -61,7 +61,7 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="container">
                             <div class="text-right text-dark">
-                                <a href="ins_generate_certificates.php" class="btn btn-outline-warning">Add Certificate</a>
+                                <a href="ins_certificates.php" class="btn btn-outline-warning">Add Certificate</a>
                             </div>
                         </div>
                         <hr>

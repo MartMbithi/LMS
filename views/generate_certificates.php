@@ -42,7 +42,7 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name;?> - Certificates</h1>
+                                <h1 class="m-0 text-dark"><?php echo $sys->sys_name; ?> - Certificates</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
@@ -61,7 +61,7 @@ while ($sys = $res->fetch_object()) {
                     <div class="container-fluid">
                         <div class="container">
                             <div class="text-right text-dark">
-                                <a href="generate_certificates.php" class="btn btn-outline-warning">Add Certificate</a>
+                                <a href="certificates.php" class="btn btn-outline-warning">Add Certificate</a>
                             </div>
                         </div>
                         <hr>
