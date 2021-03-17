@@ -2,7 +2,7 @@
 session_start();
 include('../config/config.php');
 include('../config/checklogin.php');
-admin();
+student();
 require_once('../partials/analytics.php');
 /* Persist System Settings  */
 $ret = "SELECT * FROM `lms_sys_setttings` ";
@@ -15,12 +15,12 @@ while ($sys = $res->fetch_object()) {
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
         <div class="wrapper">
             <!-- Navbar -->
-            <?php require_once('../partials/navbar.php'); ?>
+            <?php require_once('../partials/std_navbar.php'); ?>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
             <?php
-            require_once('../partials/sidebar.php');
+            require_once('../partials/std_sidebar.php');
             $view = $_GET['view'];
             $ret = "SELECT  * FROM  lms_paid_study_materials WHERE psm_id = '$view' ";
             $stmt = $mysqli->prepare($ret);
@@ -46,9 +46,9 @@ while ($sys = $res->fetch_object()) {
                                     </div><!-- /.col -->
                                     <div class="col-sm-6">
                                         <ol class="breadcrumb float-sm-right">
-                                            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-                                            <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                                            <li class="breadcrumb-item"><a href="billings.php">Billings</a></li>
+                                            <li class="breadcrumb-item"><a href="std_dashboard.php">Home</a></li>
+                                            <li class="breadcrumb-item"><a href="std_dashboard.php">Dashboard</a></li>
+                                            <li class="breadcrumb-item"><a href="std_billings.php">Billings</a></li>
                                             <li class="breadcrumb-item active">View Payment</li>
                                         </ol>
                                     </div><!-- /.col -->
@@ -146,6 +146,38 @@ while ($sys = $res->fetch_object()) {
                                                                     </div>
                                                                 </div>
                                                                 <h2 class="text-center">
+                                                                    <u>Student Details </u>
+                                                                </h2>
+                                                                <table class="table table-striped table-bordered display no-wrap" style="width:100%">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Student Regno</th>
+                                                                            <th>Student Name</th>
+                                                                            <th>Student Contacts</th>
+                                                                            <th>Student Email</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <?php
+                                                                        $id = $_SESSION['s_id'];
+                                                                        $ret = "SELECT  * FROM  lms_student WHERE s_id = '$id' ";
+                                                                        $stmt = $mysqli->prepare($ret);
+                                                                        $stmt->execute(); //ok
+                                                                        $res = $stmt->get_result();
+                                                                        while ($student = $res->fetch_object()) {
+                                                                        ?>
+                                                                            <tr>
+                                                                                <td><?php echo $student->s_regno; ?></td>
+                                                                                <td><?php echo $student->s_name; ?></td>
+                                                                                <td><?php echo $student->s_phoneno; ?></td>
+                                                                                <td><?php echo $student->s_email; ?></td>
+                                                                            </tr>
+                                                                        <?php
+                                                                        } ?>
+
+                                                                    </tbody>
+                                                                </table>
+                                                                <h2 class="text-center">
                                                                     <u>Payment Details </u>
                                                                 </h2>
                                                                 <table class="table table-striped table-bordered display no-wrap" style="width:100%">
@@ -176,32 +208,6 @@ while ($sys = $res->fetch_object()) {
 
                                                                     </tbody>
                                                                 </table>
-                                                                <!-- Student Details -->
-                                                                <?php
-                                                                if ($payment->s_id != '') {
-                                                                    echo
-                                                                    "
-                                                                    <h2 class='text-center'>
-                                                                        <u>Student Details </u>
-                                                                    </h2>
-                                                                    <table class='table table-striped table-bordered display no-wrap' style='width:100%'>
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Student RegNo</th>
-                                                                                <th>Student Name</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td>$payment->s_regno</td>
-                                                                                <td>$payment->s_name</td>
-                                                                            </tr>
-
-                                                                        </tbody>
-                                                                    </table>
-                                                                    ";
-                                                                } ?>
-
                                                             </div>
                                                         </div>
                                                         <div class="text-right">

@@ -18,22 +18,21 @@ if (isset($_POST['ConfirmPassword'])) {
     }
 
     if (!$error) {
-        $i_email = $_SESSION['i_email'];
-        $sql = "SELECT * FROM  lms_instructor  WHERE i_email = '$i_email'";
+        $s_email = $_SESSION['s_email'];
+        $sql = "SELECT * FROM  lms_student  WHERE s_email = '$s_email'";
         $res = mysqli_query($mysqli, $sql);
         if (mysqli_num_rows($res) > 0) {
             $row = mysqli_fetch_assoc($res);
             if ($new_password != $confirm_password) {
                 $err = "Password Does Not Match";
             } else {
-                $i_email = $_SESSION['i_email'];
                 $new_password  = sha1(md5($_POST['new_password']));
-                $query = "UPDATE lms_instructor SET  i_pwd =? WHERE i_email =?";
+                $query = "UPDATE lms_student SET  s_pwd =? WHERE s_email =?";
                 $stmt = $mysqli->prepare($query);
                 $rc = $stmt->bind_param('ss', $new_password, $s_email);
                 $stmt->execute();
                 if ($stmt) {
-                    $success = "Password Changed" && header("refresh:1; url=ins_login.php");
+                    $success = "Password Changed" && header("refresh:1; url=std_login.php");
                 } else {
                     $err = "Please Try Again Or Try Later";
                 }
@@ -63,16 +62,16 @@ while ($sys = $res->fetch_object()) {
             <div class="card">
                 <div class="card-body">
                     <?php
-                    $i_email  = $_SESSION['i_email'];
-                    $ret = "SELECT * FROM  lms_instructor  WHERE i_email = '$i_email'";
+                    $s_email  = $_SESSION['s_email'];
+                    $ret = "SELECT * FROM  lms_student  WHERE s_email = '$s_email'";
                     $stmt = $mysqli->prepare($ret);
                     $stmt->execute(); //ok
                     $res = $stmt->get_result();
                     while ($row = $res->fetch_object()) {
                     ?>
                         <p class="login-box-msg">
-                            <span class="badge badge-success">Token : <?php echo $row->i_pwd; ?></span>
-                            <?php echo $row->i_email; ?>
+                            <span class="badge badge-success">Token : <?php echo $row->s_pwd; ?></span>
+                            <?php echo $row->s_email; ?>
                             <br>
                             Confirm Your Password
                         </p>

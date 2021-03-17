@@ -175,6 +175,31 @@ while ($sys = $res->fetch_object()) {
 
                                                                     </tbody>
                                                                 </table>
+                                                                <!-- Student Details -->
+                                                                <?php
+                                                                if ($payment->s_id != '') {
+                                                                    echo
+                                                                    "
+                                                                    <h2 class='text-center'>
+                                                                        <u>Student Details </u>
+                                                                    </h2>
+                                                                    <table class='table table-striped table-bordered display no-wrap' style='width:100%'>
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Student RegNo</th>
+                                                                                <th>Student Name</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>$payment->s_regno</td>
+                                                                                <td>$payment->s_name</td>
+                                                                            </tr>
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                    ";
+                                                                } ?>
                                                             </div>
                                                         </div>
                                                         <div class="text-right">
